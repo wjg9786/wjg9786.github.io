@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="https://www.cnblogs.com/f-ck-need-u/p/7011669.html linux系统用户/组管理用户和组的基本概念用户和组是操作系统中一种身份认证资源。 每个用户都有用户名、用户的唯一编号uid（user id）、所属组及默认的shell,可能还有密码、家目录、附属组、注释信息等。 每个组也有自己的名称、组唯一编号gid（group id）。一般来说，gid和uid">
+<meta name="keywords" content="linux基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux系统用户、组管理">
+<meta property="og:url" content="http://yunjis.cn/2019/07/29/linux系统用户、组管理/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="https://www.cnblogs.com/f-ck-need-u/p/7011669.html linux系统用户/组管理用户和组的基本概念用户和组是操作系统中一种身份认证资源。 每个用户都有用户名、用户的唯一编号uid（user id）、所属组及默认的shell,可能还有密码、家目录、附属组、注释信息等。 每个组也有自己的名称、组唯一编号gid（group id）。一般来说，gid和uid">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-29T05:40:32.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux系统用户、组管理">
+<meta name="twitter:description" content="https://www.cnblogs.com/f-ck-need-u/p/7011669.html linux系统用户/组管理用户和组的基本概念用户和组是操作系统中一种身份认证资源。 每个用户都有用户名、用户的唯一编号uid（user id）、所属组及默认的shell,可能还有密码、家目录、附属组、注释信息等。 每个组也有自己的名称、组唯一编号gid（group id）。一般来说，gid和uid">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/07/29/linux系统用户、组管理/">
+
+
+
+
+
+  <title>linux系统用户、组管理 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/07/29/linux系统用户、组管理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux系统用户、组管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T01:35:13-04:00">
+                2019-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.cnblogs.com/f-ck-need-u/p/7011669.html" target="_blank" rel="noopener">https://www.cnblogs.com/f-ck-need-u/p/7011669.html</a></p>
+<h2 id="linux系统用户-组管理"><a href="#linux系统用户-组管理" class="headerlink" title="linux系统用户/组管理"></a>linux系统用户/组管理</h2><h4 id="用户和组的基本概念"><a href="#用户和组的基本概念" class="headerlink" title="用户和组的基本概念"></a>用户和组的基本概念</h4><p>用户和组是操作系统中一种身份认证资源。</p>
+<p>每个用户都有用户名、用户的唯一编号uid（user id）、所属组及默认的shell,可能还有密码、家目录、附属组、注释信息等。</p>
+<p>每个组也有自己的名称、组唯一编号gid（group id）。一般来说，gid和uid是可以不相同的，但绝大多数都会让它们保持一致，一致属于约定俗成类的概念吧。</p>
+<p>组分为主组(primary group)和辅助组(secondary group)两种，用户一定会属于某个主组，也可以同时加入多个辅助组。</p>
+<p>在linux中，用户分为3类：</p>
+<p>(1).超级管理员</p>
+<p>下级管理员是最高权限者，它的uid=0,默认超级管理员用户名为root,因为uid默认具有唯一性，所以超级管理员默认只能有一个(如何添加额外的超级管理员，见useradd命令)，但这一个超级管理员的名称并非一定要是root，但没人会去改root的名称，在后续非常非常多的程序中，都认为超级管理员名称为root，这里要是一改，牵一发而动全身。</p>
+<p>(2).系统用户</p>
+<p>有时候需要一类具有某些特权但又不需要登录操作系统的用户，这类用户称为系统用户。它们的uid范围从201到999（不包括 1000）有些老版本范围是1到499（centos6），出于安全考虑，它们一般不用来登录，所以它们的shell一般是/sbin/nologin,而且 大多数时候它们是没有家目录的。</p>
+<p>(3). 普通用户 </p>
+<p>普通用户是权限受到限制的用户，默认只能执行/bin、/usr/bin、/usr/local/bin和自身家目录下的命令。它们的uid从500开始。尽管普通用户权限收到限制，但是它对自身家目录下的文件是有所有权限的。 </p>
+<p>超级管理员和其他类型的用户，它们的命令提示符是不一样的。uid=0的超级管理员，命令提示符是”#”，其他的为”$”。</p>
+<p>默认root用户的家目录为/root，其他用户的家目录一般在/home下以用户名命名的目录中，如longshuai这个用户的家目录为/home/longshuai。当然，家目录是可以自定义位置和名称的。</p>
+<h4 id="用户和组管理相关的文件"><a href="#用户和组管理相关的文件" class="headerlink" title="用户和组管理相关的文件"></a>用户和组管理相关的文件</h4><p>用户文件/etc/passwd</p>
+<p>/etc/passwd文件里记录的是操作系统中用户的信息，这里面记录了几行就表示系统中有几个系统用户。它的格式大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash </span><br><span class="line"></span><br><span class="line">bin:x:1:1:bin:/bin:/sbin/nologin </span><br><span class="line"></span><br><span class="line">shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown </span><br><span class="line"></span><br><span class="line">halt:x:7:0:halt:/sbin:/sbin/halt </span><br><span class="line"></span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin </span><br><span class="line"></span><br><span class="line">nobody:x:99:99:Nobody:/:/sbin/nologin </span><br><span class="line"></span><br><span class="line">sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin </span><br><span class="line"></span><br><span class="line">mysql:x:27:27:MySQL Server:/var/lib/mysql:/bin/bash </span><br><span class="line"></span><br><span class="line">nginx:x:498:499:Nginx web server:/var/lib/nginx:/sbin/nologin </span><br><span class="line"></span><br><span class="line">longshuai:x:1000:1000::/home/longshuai:/bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>每一行表示一个用户，每一行的格式都是6个冒号共7列属性，其中有很多用户的某些列属性是留空的。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">用户名:x:uid:gid:用户注释信息:家目录:使用的shell类型 </span><br><span class="line">•第一列：用户名。注意两个个特殊的用户名，root、nobody </span><br><span class="line">•第二列：x。在以前老版本的系统上，第二列是存放用户密码的，但是密码和用户信息放在一起不便于管理(密钥要保证其特殊属性)，所以后来将密码单独放在另一个文件/etc/shadow中，这里就都写成x了</span><br><span class="line">•第三列：uid</span><br><span class="line">•第四列：gid</span><br><span class="line">•第五列：用户注释信息。</span><br><span class="line">•第六列：用户家目录。注意root用户的家目录为/root </span><br><span class="line">•第七列：用户的默认shell，虽然叫shell，但其实可以是任意一个可执行程序或脚本。例如上面的/bin/bash、/sbin/nologin、/sbin/shutdown</span><br></pre></td></tr></table></figure>
+
+<p>用户的默认shell表示的是用户登录(如果允许登录)时的环境或执行的命令。例如shell为/bin/bash时，表示登录时就执行/bin/bash命令进入bash环境；shell为/sbin/nologin表示该用户不能登录，之所以不能登录不是因为指定了这个特殊的程序，而是由/sbin/nologin这个程序的功能实现的，假如修改Linux的源代码，将/sbin/nologin这个程序变成可登录，那么shell为/sbin/nologin时也是可以登录的。</p>
+<h4 id="密码文件-etc-shadow"><a href="#密码文件-etc-shadow" class="headerlink" title="密码文件/etc/shadow"></a>密码文件/etc/shadow</h4><p>/etc/shadow文件中存放的是用户的密码信息。该文件具有特殊属性，除了超级管理员，任何人都不能直接读取和修改该文件，而用户自身之所以能修改密码，则是因为passwd程序的suid属性，使得修改密码时临时提升为root权限。</p>
+<p>该文件的格式大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root:$6$hS4yqJu7WQfGlk0M$Xj/SCS5z4BWSZKN0raNncu6VMuWdUVbDScMYxOgB7mXUj./dXJN0zADAXQUMg0CuWVRyZUu6npPLWoyv8eXPA.::0:99999:7::: ftp:*:16659:0:99999:7::: nobody:*:16659:0:99999:7::: longshuai:$6$8LGe6Eh6$vox9.OF3J9nD0KtOYj2hE9DjfU3iRN.v3up4PbKKGWLOy3k1Up50bbo7Xii/Uti05hlqhktAf/dZFy2RrGp5W/:17323:0:99999:7:::</span><br><span class="line"></span><br><span class="line">每一行表示一个用户密码的属性，有8个冒号共9列属性。该文件更详细的信息看wiki：https://en.wikipedia.org/wiki/Passwd#Shadow_file。</span><br><span class="line">•第一列：用户名。</span><br><span class="line">•第二列：加密后的密码。但是这一列是有玄机的，有些特殊的字符表示特殊的意义。 ◦①.该列留空，即&quot;::&quot;，表示该用户没有密码。</span><br><span class="line">◦②.该列为&quot;!&quot;，即&quot;:!:&quot;，表示该用户被锁，被锁将无法登陆，但是可能其他的登录方式是不受限制的，如ssh key的方式，su的方式。</span><br><span class="line">◦③.该列为&quot;*&quot;，即&quot;:*:&quot;，也表示该用户被锁，和&quot;!&quot;效果是一样的。</span><br><span class="line">◦④.该列以&quot;!&quot;或&quot;!!&quot;开头，则也表示该用户被锁。</span><br><span class="line">◦⑤.该列为&quot;!!&quot;，即&quot;:!!:&quot;，表示该用户从来没设置过密码。</span><br><span class="line">◦⑥.如果格式为&quot;$id$salt$hashed&quot;，则表示该用户密码正常。其中$id$的id表示密码的加密算法，$1$表示使用MD5算法，$2a$表示使用Blowfish算法，&quot;$2y$&quot;是另一算法长度的Blowfish,&quot;$5$&quot;表示SHA-256算法，而&quot;$6$&quot;表示SHA-512算法，可见上面的结果中都是使用sha-512算法的。$5$和$6$这两种算法的破解难度远高于MD5。$salt$是加密时使用的salt，$hashed才是真正的密码部分。</span><br><span class="line"></span><br><span class="line">•第三列：从1970年1月1日到上次密码修改经过的时间(天数)。通过计算现在离1970年1月1日的天数减去这个值，结果就是上次修改密码到现在已经经过了多少天，即现在的密码已经使用了多少天。</span><br><span class="line">•第四列：密码最少使用期限(天数)。省略或者0表示不设置期限。例如，刚修改完密码又想修改，可以限制多久才能再次修改</span><br><span class="line">•第五列：密码最大使用期限(天数)。超过了它不一定密码就失效，可能下一个字段设置了过期后的宽限天数。设置为空时将永不过期，后面设置的提醒和警告将失效。root等一些用户的已经默认设置为了99999，表示永不过期。如果值设置小于最短使用期限，用户将不能修改密码。</span><br><span class="line">•第六列：密码过期前多少天就开始提醒用户密码将要过期。空或0将不提醒。</span><br><span class="line">•第七列：密码过期后宽限的天数，在宽限时间内用户无法使用原密码登录，必须改密码或者联系管理员。设置为空表示没有强制的宽限时间，可以过期后的任意时间内修改密码。</span><br><span class="line">•第八列：帐号过期时间。从1970年1月1日开始计算天数。设置为空帐号将永不过期，不能设置为0。不同于密码过期，密码过期后账户还有效，改密码后还能登录；帐号过期后帐号失效，修改密码重设密码都无法使用该帐号。</span><br><span class="line">•第九列：保留字段。</span><br></pre></td></tr></table></figure>
+
+<h4 id="组文件-etc-group和-etc-gshadow"><a href="#组文件-etc-group和-etc-gshadow" class="headerlink" title="组文件/etc/group和/etc/gshadow"></a>组文件/etc/group和/etc/gshadow</h4><p>大致知道有这么两个文件即可，至于文件中的内容无需关注。</p>
+<p>/etc/group包含了组信息。每行一个组，每一行3个冒号共4列属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root:x:0: longshuai:x:500: xiaofang:x:501:zhangsan,lisi</span><br><span class="line">•第一列：组名。</span><br><span class="line">•第二列：占位符。</span><br><span class="line">•第三列：gid。</span><br><span class="line">•第四列：该组下的user列表，这些user成员以该组做为辅助组，多个成员使用逗号隔开。</span><br></pre></td></tr></table></figure>
+
+<p>/etc/gshadow包含了组密码信息</p>
+<h4 id="骨架目录-etc-skel"><a href="#骨架目录-etc-skel" class="headerlink" title="骨架目录/etc/skel"></a>骨架目录/etc/skel</h4><p>骨架目录中的文件是每次新建用户时，都会复制到新用户家目录里的文件。默认只有3个环境配置文件，可以修改这里面的内容，或者添加几个文件在骨架目录中，以后新建用户时就会自动获取到这些环境和文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ls –l -A /etc/skel</span><br><span class="line">total 12</span><br><span class="line">-rw-r--r--. 1 root root 18 Oct 16 2014 .bash_logout</span><br><span class="line">-rw-r--r--. 1 root root 176 Oct 16 2014 .bash_profile</span><br><span class="line">-rw-r--r--. 1 root root 124 Oct 16 2014 .bashrc</span><br></pre></td></tr></table></figure>
+
+<p>删除家目录下这些文件，会导致某些设置出现问题。例如删除”.bashrc”这个文件，会导致提示符变异的问题,如<br>-bash-4.2$ [linshuai@server2 ~]$<br>要解决这个问题，只需拷贝一个正常的.bashrc文件到其家目录中即可。一般还会修改该文件的所有者和权限。</p>
+<h4 id="etc-login-defs"><a href="#etc-login-defs" class="headerlink" title="/etc/login.defs"></a>/etc/login.defs</h4><p>设置用户帐号限制的文件。该文件里的配置对root用户无效。</p>
+<p>如果/etc/shadow文件里有相同的选项，则以/etc/shadow里的设置为准，也就是说/etc/shadow的配置优先级高于/etc/login.defs。</p>
+<p>该文件有很多配置项，文件的默认内容只给出了一小部分，若想知道全部的配置项以及配个配置项的详细说明，可以”man 5 login.defs”查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi ~]# less /etc/login.defs</span><br><span class="line">#QMAIL_DIR      Maildir              # QMAIL_DIR是Qmail邮件的目录，所以可以不设置它</span><br><span class="line">MAIL_DIR        /var/spool/mail      # 默认邮件根目录，即信箱</span><br><span class="line">#MAIL_FILE      .mail                # mail文件的格式是.mail</span><br><span class="line"></span><br><span class="line"># Password aging controls:</span><br><span class="line">PASS_MAX_DAYS   99999         # 密码最大有效期(天)</span><br><span class="line">PASS_MIN_DAYS   0             # 两次密码修改之间最小时间间隔</span><br><span class="line">PASS_MIN_LEN    5             # 密码最短长度</span><br><span class="line">PASS_WARN_AGE   7             # 密码过期前给警告信息的时间</span><br><span class="line"></span><br><span class="line"># 控制useradd创建用户时自动选择的uid范围</span><br><span class="line"># Min/max values for automatic uid selection in useradd</span><br><span class="line">UID_MIN                  1000</span><br><span class="line">UID_MAX                 60000</span><br><span class="line"># System accounts</span><br><span class="line">SYS_UID_MIN               201</span><br><span class="line">SYS_UID_MAX               999</span><br><span class="line"></span><br><span class="line"># 控制groupadd创建组时自动选择的gid范围</span><br><span class="line"># Min/max values for automatic gid selection in groupadd</span><br><span class="line">GID_MIN                  1000</span><br><span class="line">GID_MAX                 60000</span><br><span class="line"># System accounts</span><br><span class="line">SYS_GID_MIN               201</span><br><span class="line">SYS_GID_MAX               999</span><br><span class="line"></span><br><span class="line"># 设置此项后，在删除用户时，将自动删除用户拥有的at/cron/print等job</span><br><span class="line">#USERDEL_CMD    /usr/sbin/userdel_local</span><br><span class="line"></span><br><span class="line"># 控制useradd添加用户时是否默认创建家目录，useradd -m选项会覆盖此处设置</span><br><span class="line">CREATE_HOME     yes</span><br><span class="line"></span><br><span class="line"># 设置创建家目录时的umask值，若不指定则默认为022</span><br><span class="line">UMASK           077</span><br><span class="line"></span><br><span class="line"># 设置此项表示当组中没有成员时自动删除该组</span><br><span class="line"># 且useradd是否同时创建同用户名的主组。(该文件中并没有此项说明，来自于man useradd中-g选项的说明)</span><br><span class="line">USERGROUPS_ENAB yes</span><br><span class="line"></span><br><span class="line"># 设置用户和组密码的加密算法</span><br><span class="line">ENCRYPT_METHOD SHA512</span><br></pre></td></tr></table></figure>
+
+<p>注意，/etc/login.defs中的设置控制的是shadow-utils包中的组件，也就是说，该组件中的工具执行操作时会读取该文件中的配置。该组件中包含下面的程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/gpasswd      ：administer /etc/group and /etc/gshadow</span><br><span class="line">/usr/bin/newgrp       ：log in to a new group，可用来修改gid，哪怕是正在登陆的会话也可以修改</span><br><span class="line">/usr/bin/sg           ：execute command as different group ID</span><br><span class="line">/usr/sbin/groupadd    ：添加组</span><br><span class="line">/usr/sbin/groupdel    ：删除组</span><br><span class="line">/usr/sbin/groupmems   ：管理当前用户的主组中的成员，root用户则可以指定要管理的组</span><br><span class="line">/usr/sbin/groupmod    ：modify a group definition on the system</span><br><span class="line">/usr/sbin/grpck       ：verify integrity of group files</span><br><span class="line">/usr/sbin/grpconv     ：无视它</span><br><span class="line">/usr/sbin/grpunconv   ：无视它</span><br><span class="line">/usr/sbin/pwconv      ：无视它</span><br><span class="line">/usr/sbin/pwunconv    ：无视它</span><br><span class="line">/usr/sbin/adduser     ：是useradd的一个软链接，添加用户</span><br><span class="line">/usr/sbin/chpasswd    ：update passwords in batch mode</span><br><span class="line">/usr/sbin/newusers    ：update and create new users in batch</span><br><span class="line">/usr/sbin/pwck        ：verify integrity of passsword files</span><br><span class="line">/usr/sbin/useradd     ：添加用户</span><br><span class="line">/usr/sbin/userdel     ：删除用户</span><br><span class="line">/usr/sbin/usermod     ：重定义用户信息</span><br><span class="line">/usr/sbin/vigr        ：edit the group and shadow-group file</span><br><span class="line">/usr/sbin/vipw        ：edit the password and shadow-password file</span><br><span class="line">/usr/bin/lastlog      ：输出所有用户或给定用户最近登录信息</span><br></pre></td></tr></table></figure>
+
+<h4 id="etc-default-useradd"><a href="#etc-default-useradd" class="headerlink" title="/etc/default/useradd"></a>/etc/default/useradd</h4><p>创建用户时的默认配置。useradd -D修改的就是此文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi ~]# cat /etc/default/useradd  </span><br><span class="line"># useradd defaults file</span><br><span class="line">GROUP=100       # 在useradd使用-N或/etc/login.defs中USERGROUPS_ENAB=no时表示创建用户时不创建同用户名的主组(primary group)，</span><br><span class="line">                # 此时新建的用户将默认以此组为主组，网上关于该设置的很多说明都是错的，具体可看man useradd的-g选项或useradd -D的-g选项</span><br><span class="line">HOME=/home      # 把用户的家目录建在/home中</span><br><span class="line">INACTIVE=-1     # 是否启用帐号过期设置(是帐号过期不是密码过期)，-1表示不启用</span><br><span class="line">EXPIRE=         # 帐号过期时间，不设置表示不启用</span><br><span class="line">SHELL=/bin/bash # 新建用户默认的shell类型</span><br><span class="line">SKEL=/etc/skel  # 指定骨架目录，前文的/etc/skel就在这里</span><br><span class="line">CREATE_MAIL_SPOOL=yes  # 是否创建用户mail缓冲</span><br></pre></td></tr></table></figure>
+
+<p>man useradd的useradd -D选项介绍部分说明了这些项的意义</p>
+<h2 id="用户和组管理命令"><a href="#用户和组管理命令" class="headerlink" title="用户和组管理命令"></a>用户和组管理命令</h2><h4 id="useradd和adduser"><a href="#useradd和adduser" class="headerlink" title="useradd和adduser"></a>useradd和adduser</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">adduser是useradd的一个软链接。</span><br><span class="line"></span><br><span class="line">useradd [options] login_name</span><br><span class="line">选项说明：</span><br><span class="line">-b：指定家目录的basedir，默认为/home目录</span><br><span class="line">-d：指定用户家目录，不写时默认为/home/user_name</span><br><span class="line">-m：要创建家目录时，若家目录不存在则自动创建，若不指定该项且/etc/login.defs中的CREATE_HOME未启用时将不会创建家目录</span><br><span class="line">-M：显式指明不要创建家目录，会覆盖/etc/login.defs中的CREATE_HOME设置</span><br><span class="line"> </span><br><span class="line">-g：指定用户主组，要求组已存在</span><br><span class="line">-G：指定用户的辅助组，多个组以逗号分隔</span><br><span class="line">-N：明确指明不要创建和用户名同名的组名</span><br><span class="line">-U：明确指明要创建一个和用户名同名的组，并将用户加入到此组中</span><br><span class="line"></span><br><span class="line">-o：允许创建一个重复UID的用户，只有和-u选项同时使用时才生效</span><br><span class="line">-r：创建一个系统用户。useradd命令不会为此选项的系统用户创建家目录，除非明确使用-m选项</span><br><span class="line">-s：指定用户登录的shell，默认留空。此时将选择/etc/default/useradd中的SHELL变量设置</span><br><span class="line">-u：指定用户uid，默认uid必须唯一，除非使用了-o选项</span><br><span class="line">-c：用户的注释信息 </span><br><span class="line"></span><br><span class="line">-k：指定骨架目录(skeleton)</span><br><span class="line">-K：修改/etc/login.defs文件中有关于用户的配置项，不能修改组相关的配置。设置方式为KEY=VALUE，如-K UID_MIN=100</span><br><span class="line">-D：修改useradd创建用户时的默认选项，就修改/etc/default/useradd文件</span><br><span class="line">-e：帐户过期时间，格式为&quot;YYYY-MM-DD&quot;</span><br><span class="line">-f：密码过期后，该账号还能存活多久才被禁用，设置为0表示密码过期立即禁用帐户，设置为-1表示禁用此功能</span><br><span class="line">-l：不要将用户的信息写入到lastlog和faillog文件中。默认情况下，用户信息会写入到这两个文件中</span><br><span class="line"></span><br><span class="line">useradd -D [options]</span><br><span class="line">修改/etc/default/useradd文件</span><br><span class="line">选项说明：不加任何选项时会列出默认属性</span><br><span class="line">-b, --base-dir BASE_DIR</span><br><span class="line">-e, --expiredate EXPIRE_DATE</span><br><span class="line">-f, --inactive INACTIVE</span><br><span class="line">-g, --gid GROUP</span><br><span class="line">-s, --shell SHELL</span><br></pre></td></tr></table></figure>
+
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi ~]# useradd -D -e &quot;2016-08-20&quot;    # 设置用户2016-08-20过期</span><br><span class="line"></span><br><span class="line">[root@xuexi ~]# useradd -D</span><br><span class="line">GROUP=100</span><br><span class="line">HOME=/home</span><br><span class="line">INACTIVE=-1</span><br><span class="line">EXPIRE=2016-08-20</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">SKEL=/etc/skel</span><br><span class="line">CREATE_MAIL_SPOOL=yes</span><br><span class="line"></span><br><span class="line">[root@xuexi ~]# cat /etc/default/useradd</span><br><span class="line"># useradd defaults file</span><br><span class="line">GROUP=100</span><br><span class="line">HOME=/home</span><br><span class="line">INACTIVE=-1</span><br><span class="line">EXPIRE=2016-08-20</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">SKEL=/etc/skel</span><br><span class="line">CREATE_MAIL_SPOOL=yes</span><br></pre></td></tr></table></figure>
+
+<p>useradd创建用户时，默认会自动创建一个和用户名相同的用户组，这是/etc/login.defs中的USERGROUP_ENAB变量控制的。</p>
+<p>useradd创建普通用户时，不加任何和家目录相关的选项时，是否创建家目录是由/etc/login.defs中的CREATE_HOME变量控制的。</p>
+<h4 id="批量创建用户newusers"><a href="#批量创建用户newusers" class="headerlink" title="批量创建用户newusers"></a>批量创建用户newusers</h4><p>newusers用于批量创建或修改已有用户信息。在创建用户时，它会读取/etc/login.defs文件中的配置项。</p>
+<p>newusers [options] [file]</p>
+<p>newusers命令从file中或标准输入中读取要创建或修改用户的信息，文件中每行格式都一样，一行代表一个用户。格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pw_name:pw_passwd:pw_uid:pw_gid:pw_gecos:pw_dir:pw_shell</span><br><span class="line"></span><br><span class="line">各列的意义如下：</span><br><span class="line">•pw_name：用户名，若不存在则新创建，否则修改已存在用户的信息</span><br><span class="line">•pw_passwd：用户密码，该项使用明文密码，在修改或创建用户时会按照指定的算法自动对其进行加密转换</span><br><span class="line">•pw_uid：指定uid，留空则自动选择uid。如果该项为已存在的用户名，则使用该用户的uid，但不建议这么做，uid应尽量保证唯一性</span><br><span class="line">•pw_gid：用户主组的gid或组名。若给定组不存在，则自动创建组。若留空，则创建同用户名的组，gid将自动选择</span><br><span class="line">•pw_gecos：用户注释信息</span><br><span class="line">•pw_dir：指定用户家目录，若不存在则自动创建。留空则不创建。</span><br><span class="line">：注意，newusers命令不会递归创建父目录，父目录不存在时将会给出信息，但newusers命令仍会继续执行：以完成创建剩下的用户，所以这些错误的用户家目录需要手动去创建。 </span><br><span class="line">•pw_shell：指定用户的默认shell</span><br></pre></td></tr></table></figure>
+
+<p>newusers [options] [file]</p>
+<p>选项说明：</p>
+<p>-c：指定加密方法，可选DES,MD5,NONE,SHA256和SHA512</p>
+<p>-r：创建一个系统用户</p>
+<p>newusers首先尝试创建或修改所有指定的用户，然后将信息写入到user和group的文件中。如果尝试创建或修改用户过程中发生错误，则所有动作都将回滚，但如果在写入过程中发生错误，则写入成功的不会回滚，这将可能导致文件的不一致性。要检查用户、组文件的一致性，可以使用showdow-utils包提供的grpck和pwck命令。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; cat /tmp/userfile</span><br><span class="line">zhangsan:123456:2000:2000::/home/zhangsan:/bin/bash</span><br><span class="line">lisi:123456:::::/bin/bash</span><br><span class="line"></span><br><span class="line">shell&gt; newusers -c SHA512 /tmp/userfile   </span><br><span class="line"></span><br><span class="line">shell&gt; tail -2 /etc/passwd</span><br><span class="line">zhangsan:x:2000:2000::/home/zhangsan:/bin/bash</span><br><span class="line">lisi:x:2001:2001:::/bin/bash</span><br><span class="line"></span><br><span class="line">shell&gt; tail -2 /etc/shadow</span><br><span class="line">zhangsan:$6$aI1Mk/krF$xN0TFOIRibrb/mYngJ/sV3M7g4zOxqOh8CWyDlI0uwmr5qNTzsmwauRFvCpfLtvtiJYZ/5bil.XfJMNB.sqDY1:17323:0:99999:7:::</span><br><span class="line">lisi:$6$bngXo/V6wWW$.TlQCJtEm9krBX0Oiep/iahS59a/BwVYcSc8F9lAnMGF55K6W5YoUZ2nK6WkMta3p7sihkxHm/AuNrrJ6hqNn1:17323:0:99999:7:::</span><br></pre></td></tr></table></figure>
+
+<h4 id="groupadd"><a href="#groupadd" class="headerlink" title="groupadd"></a>groupadd</h4><p>创建一个新组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">groupadd [options] group</span><br><span class="line">选项说明：</span><br><span class="line">-f：如果要创建的组已经存在，默认会错误退出，使用该选项则强制创建且以正确状态退出，只不过gid可能会不受控制。</span><br><span class="line">-g：指定gid，默认gid必须唯一，除非使用了-o选项。</span><br><span class="line">-K：修改/etc/login.defs中关于组相关的配置项。配置方式为KEY=VALUE，例如-K GID_MIN=100 -K GID_MAX=499</span><br><span class="line">-o：允许创建一个非唯一gid的组</span><br><span class="line">-r：创建系统组</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改密码passwd"><a href="#修改密码passwd" class="headerlink" title="修改密码passwd"></a>修改密码passwd</h4><p>修改密码的工具。默认passwd命令不允许为用户创建空密码。</p>
+<p>passwd修改密码前会通过pam认证用户，pam配置文件中与此相关的设置项如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">passwd password requisite pam_cracklib.so retry=3</span><br><span class="line"></span><br><span class="line">passwd password required pam_unix.so use_authtok</span><br></pre></td></tr></table></figure>
+
+<p>命令的用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">passwd options [username]</span><br><span class="line">选项说明：</span><br><span class="line">-l：锁定指定用户的密码，在/etc/shadow的密码列加上前缀&quot;!&quot;或&quot;!!&quot;。这种锁定不是完全锁定，使用ssh公钥还是能登录。要完全锁定，使用chage -E 0来设置帐户过期。</span><br><span class="line">-u：解锁-l锁定的密码，解锁的方式是将/etc/shadow的密码列的前缀&quot;!&quot;或&quot;!!&quot;移除掉。但不能移除只有&quot;!&quot;或&quot;!!&quot;的项。</span><br><span class="line">--stdin：从标准输入中读取密码</span><br><span class="line">-d：删除用户密码，将/etc/shadow的密码列设置为空</span><br><span class="line">-f：指定强制操作</span><br><span class="line">-e：强制密码过期，下次登录将强制要求修改密码</span><br><span class="line">-n：密码最小使用天数</span><br><span class="line">-x：最大密码使用天数</span><br><span class="line">-w：过期前几天开始提示用户密码将要过期</span><br><span class="line">-i：设置密码过期后多少天，用户才过期。用户过期将被禁用，修改密码也无法登陆。</span><br></pre></td></tr></table></figure>
+
+<h4 id="批量修改密码chpasswd"><a href="#批量修改密码chpasswd" class="headerlink" title="批量修改密码chpasswd"></a>批量修改密码chpasswd</h4><p>以批处理模式从标准输入中获取提供的用户和密码来修改用户密码，可以一次修改多个用户密码。也就是说不用交互。适用于一次性创建了多个用户时为他们提供密码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chpasswd [-e -c] &quot;user:passwd&quot;</span><br><span class="line">-c：指定加密算法，可选的算法有DES,MD5,NONE,SHA256和SHA512</span><br><span class="line">user:passwd为用户密码对，其中默认passwd是明文密码，可以指定多对，每行一个用户密码对。前提是用户是已存在的。</span><br><span class="line">-e：passwd默认使用的是明文密码，如果要使用密文，则使用-e选项。参见man chpasswd</span><br></pre></td></tr></table></figure>
+
+<p>chpasswd会读取/etc/login.defs中的相关配置，修改成功后会将密码信息写入到密码文件中。</p>
+<p>该命令的修改密码的处理方式是先在内存中修改，如果所有用户的密码都能设置成功，然后才写入到磁盘密码文件中。在内存中修改过程中出错，则所有修改都回滚，但若在写入密码文件过程中出错，则成功的不会回滚。</p>
+<p>示例：</p>
+<p>修改单个用户密码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; echo &quot;user1:123456&quot; | chpasswd -c SHA512</span><br></pre></td></tr></table></figure>
+
+<p>修改多个用户密码，则提供的每个用户对都要分行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; echo  -e &apos;usertest:123456\nusertest2:123456&apos; | chpasswd</span><br></pre></td></tr></table></figure>
+
+<p>更方便的是写入到文件中，每行一个用户密码对。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; cat /tmp/passwdfile</span><br><span class="line">zhangsan:123456</span><br><span class="line">lisi:123456</span><br><span class="line"></span><br><span class="line">shell&gt; chapasswd -c SHA512 &lt;/tmp/passwdfile</span><br></pre></td></tr></table></figure>
+
+<h4 id="chage"><a href="#chage" class="headerlink" title="chage"></a>chage</h4><p>chage命令主要修改或查看和密码时间相关的内容。具体的看man文档，可能用到的两个选项如下：</p>
+<p>-l：列出指定用户密码相关信息</p>
+<p>-E：指定帐户(不是密码)过期时间，所以是强锁定，如果指定为0，则立即过期，即直接锁定该用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@server2 ~]#  chage -l zhangsan</span><br><span class="line">Last password change                                    : Jun 06, 2017</span><br><span class="line">Password expires                                        : never</span><br><span class="line">Password inactive                                       : never</span><br><span class="line">Account expires                                         : never</span><br><span class="line">Minimum number of days between password change          : 0</span><br><span class="line">Maximum number of days between password change          : 99999</span><br><span class="line">Number of days of warning before password expires       : 7</span><br><span class="line"></span><br><span class="line">[root@server2 ~]# chage -E 0 zhangsan</span><br><span class="line"></span><br><span class="line">[root@server2 ~]# chage -l zhangsan </span><br><span class="line">Last password change                                    : Jun 06, 2017</span><br><span class="line">Password expires                                        : never</span><br><span class="line">Password inactive                                       : never</span><br><span class="line">Account expires                                         : Jan 01, 1970</span><br><span class="line">Minimum number of days between password change          : 0</span><br><span class="line">Maximum number of days between password change          : 99999</span><br><span class="line">Number of days of warning before password expires       : 7</span><br></pre></td></tr></table></figure>
+
+<p>删除用户和组</p>
+<p>userdel命令用于删除用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">userdel [options] login_name</span><br><span class="line">-r：递归删除家目录，默认不删除家目录。</span><br><span class="line">-f：强制删除用户，即使这个用户正处于登录状态。同时也会强制删除家目录。</span><br></pre></td></tr></table></figure>
+
+<p>一般不直接删除家目录，即不用-r，可以vim /etc/passwd，将不需要的用户直接注释掉。</p>
+<p>groupdel命令删除组。如果要删除的组是某用户的主组，需要先删除主组中的用户。</p>
+<h4 id="usermod"><a href="#usermod" class="headerlink" title="usermod"></a>usermod</h4><p>修改帐户属性信息。必须要确保在执行该命令的时候，待修改的用户没有在执行进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">usermod [options] login</span><br><span class="line">选项说明：</span><br><span class="line">-l：修改用户名，仅仅只是改用户名，其他的一切都不会改动(uid、家目录等)</span><br><span class="line">-u：新的uid，新的uid必须唯一，除非同时使用了-o选项</span><br><span class="line">-g：修改用户主组，可以是以gid或组名。对于那些以旧组为所属组的文件(除原家目录)，需要重新手动修改其所属组</span><br><span class="line">-m：移动家目录内容到新的位置，该选项只在和-d选项一起使用时才生效</span><br><span class="line">-d：修改用户的家目录位置，若不存在则自动创建。默认旧的家目录不会删除</span><br><span class="line">    如果同时指定了-m选项，则旧的家目录中的内容会移到新家目录</span><br><span class="line">    如果当前用户家目录不存在或没有家目录，则也不会创建新的家目录</span><br><span class="line">-o：允许用户使用非唯一的UID</span><br><span class="line">-s：修改用的shell，留空则选择默认shell</span><br><span class="line">-c：修改用户注释信息</span><br><span class="line"></span><br><span class="line">-a：将用户以追加的方式加入到辅助组中，只能和-G选项一起使用</span><br><span class="line">-G：将用户加入指定的辅助组中，若此处未列出某组，而此前该用户又是该组成员，则会删除该组中此成员</span><br><span class="line"></span><br><span class="line">-L：锁定用户的密码，将在/etc/shadow的密码列加上前缀&quot;!&quot;或&quot;!!&quot;</span><br><span class="line">-U：解锁用户的密码，解锁的方式是移除shadow文件密码列的前缀&quot;!&quot;或&quot;!!&quot;</span><br><span class="line">-e：帐户过期时间，时间格式为&quot;YYYY-MM-DD&quot;，如果给一个空的参数，则立即禁用该帐户</span><br><span class="line">-f：密码过期后多少天，帐户才过期被禁用，0表示密码过期帐户立即禁用，-1表示禁用该功能</span><br></pre></td></tr></table></figure>
+
+<p>同样，还有groupmod修改组信息，用法非常简单，几乎也用不上，不多说了。</p>
+<h4 id="vipw和vigr"><a href="#vipw和vigr" class="headerlink" title="vipw和vigr"></a>vipw和vigr</h4><p>vipw和vigr是编辑用户和组文件的工具，vipw可以修改/etc/passwd和/etc/shadow，vigr可以修改/etc/group和/etc/gshadow，用这两个工具比较安全，在修改的时候会检查文件的一致性。</p>
+<p>删除用户出错时，提示用户正在被进程占用。可以使用vi编辑/etc/paswd和/etc/shadow文件将该用户对应的行删除掉。也可以使用vipw和vipw -s来分别编辑/etc/paswd和/etc/shadow文件。它们的作用是一样的。</p>
+<h4 id="手动创建用户"><a href="#手动创建用户" class="headerlink" title="手动创建用户"></a>手动创建用户</h4><p>手动创建用户的全过程：需要管理员权限。</p>
+<p>•在/etc/group中添加用户所属组的相关信息。如果用户还有辅助组则在对应组中加入该用户作为成员。</p>
+<p>•在/etc/passwd和/etc/shadow中添加用户相关信息。此时指定的家目录还不存在，密码不存在，所以/etc/shadow的密码位使用”!!”代替。</p>
+<p>•创建家目录，并复制骨架目录中的文件到家目录中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; mkdir /home/user_name</span><br><span class="line">shell&gt; cp -r /etc/skel /home/user_name。</span><br></pre></td></tr></table></figure>
+
+<p>•修改家目录及子目录的所有者和属组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chown -R user_name:user_name /home/user_name</span><br></pre></td></tr></table></figure>
+
+<p>•修改家目录及子目录的权限。例如设置组和其他用户无任何权限但所有者有。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chmod -R 700 /home/user_name</span><br></pre></td></tr></table></figure>
+
+<p>到此为止，用户已经创建完成了，只是没有密码，所以只能su，不能登录。</p>
+<p>•生成密码。 ◦使用openssl passwd生成密码。但openssl passwd生成的密码只能是MD5算法的，很容易被破解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 生成使用md5算法的密码，然后将其复制到/etc/shadow对应的密码位</span><br><span class="line"># 其中-1是指md5，-salt &apos;12345678&apos;是使用8位字符创建密码的杂项</span><br><span class="line">shell&gt; openssl passwd -1 -salt &apos;12345678&apos; &apos;123456&apos;</span><br></pre></td></tr></table></figure>
+
+<p>◦直接使用passwd命令创建密码</p>
+<p>•测试手动创建的用户是否可以正确登录。</p>
+<p>以下是全过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; mkdir /tmp/12;cp /etc/group /etc/passwd /etc/shadow /tmp/12/    # 备份这些文件</span><br><span class="line">shell&gt; echo &quot;userX:x:666&quot; &gt;&gt; /etc/group</span><br><span class="line">shell&gt; echo &quot;userX:x:666:666::/home/userX:/bin/bash&quot; &gt;&gt; /etc/passwd</span><br><span class="line">shell&gt; echo &apos;userX:!!:17121:0:99999::::&apos; &gt;&gt; /etc/shadow</span><br><span class="line">shell&gt; cp -r /etc/skel /home/userX</span><br><span class="line">shell&gt; chown -R userX:userX /home/userX</span><br><span class="line">shell&gt; chmod -R go= /home/userX</span><br><span class="line">shell&gt; passwd --stdin userX &lt;&lt;&lt; &apos;123456&apos;</span><br></pre></td></tr></table></figure>
+
+<p>测试使用userX是否可以登录。</p>
+<p>如果是使用openssl passwd创建的密码。那么使用下面的方法将这部分密码替换到/etc/shadow中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; field=$(tail -1 /etc/shadow | cut -d&quot;:&quot; -f2)</span><br><span class="line">shell&gt; password=$(openssl passwd -1 -salt &apos;abcdefg&apos; 123456)</span><br><span class="line">shell&gt; sed -i &apos;$s%&apos;$field&apos;%&apos;$password&apos;%&apos; /etc/shadow</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他用户相关命令"><a href="#其他用户相关命令" class="headerlink" title="其他用户相关命令"></a>其他用户相关命令</h4><p>2.4.1 finger查看用户信息</p>
+<p>从CentOS 6版本开始就没有该命令了，要先安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; yum -y install finger</span><br><span class="line"></span><br><span class="line">shell&gt; useradd zhangsan</span><br><span class="line"></span><br><span class="line">shell&gt; finger zhangsan</span><br><span class="line">Login: zhangsan                           Name:</span><br><span class="line">Directory: /home/zhangsan                 Shell: /bin/bash</span><br><span class="line">Never logged in.</span><br><span class="line">No mail.</span><br><span class="line">No Plan.</span><br></pre></td></tr></table></figure>
+
+<p>2.4.2 id</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id username</span><br><span class="line">-u：得到uid</span><br><span class="line">-n：得到用户名而不是uid</span><br><span class="line">-z：无任何空白字符输出模式，不能在默认的格式下使用。</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; id root</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line"></span><br><span class="line">shell&gt; id wangwu</span><br><span class="line">uid=500(wangwu) gid=500(wangwu) groups=500(wangwu)</span><br><span class="line"></span><br><span class="line">shell&gt; id -u wangwu</span><br><span class="line">500</span><br><span class="line"></span><br><span class="line">shell&gt; id -u -z wangwu</span><br><span class="line">2002[root@server2 ~]#</span><br></pre></td></tr></table></figure>
+
+<p>2.4.3 users</p>
+<p>查看当前正在登陆的用户名。</p>
+<p>2.4.4 last</p>
+<p>查看最近登录的用户列表，其实last查看的是/var/log/wtmp文件。</p>
+<p>-n 显示行数：列出最近几次登录的用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@xuexi ~]# last -4</span><br><span class="line">root     pts/0        192.168.100.1    Wed Mar 30 15:16   still logged in  </span><br><span class="line">root     pts/1        192.168.100.1    Wed Mar 30 14:21 - 14:21  (00:00)   </span><br><span class="line">root     pts/1        192.168.100.1    Wed Mar 30 14:04 - 14:10  (00:06)   </span><br><span class="line">root     pts/0        192.168.100.1    Wed Mar 30 13:12 - 15:16  (02:04)   </span><br><span class="line"> </span><br><span class="line">wtmp begins Thu Feb 18 20:59:39 2016</span><br></pre></td></tr></table></figure>
+
+<p>2.4.5 lastb</p>
+<p>查看谁尝试登陆过但没有登录成功的。即能够审核和查看谁曾经不断的登录，可能那就是黑客。</p>
+<p>-n:只列出最近的n个尝试对象。</p>
+<p>2.4.6 who和w</p>
+<p>都是查看谁登录过，并干了什么事</p>
+<p>w查看的信息比who多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; who</span><br><span class="line">root     tty1         2017-06-07 00:49</span><br><span class="line">root     pts/0        2017-06-07 02:06 (192.168.100.1)</span><br><span class="line"></span><br><span class="line">shell&gt; w</span><br><span class="line">08:26:38 up 18:48,  2 users,  load average: 0.00, 0.01, 0.05</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      00:49    7:36m  0.24s  0.24s -bash</span><br><span class="line">root     pts/0    192.168.100.1    02:06    6.00s  0.97s  0.02s w</span><br></pre></td></tr></table></figure>
+
+<p>其中w的第一行，分别表示当前时间，已开机时长，当前在线用户，过去1、5、15分钟的平均负载率。这一行和uptime命令获取的信息是完全一致的。</p>
+<p>2.4.7 lastlog</p>
+<p>可以查看登录的来源IP</p>
+<p>-u 指定查看用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; lastlog|head -n 10</span><br><span class="line">Username         Port     From             Latest</span><br><span class="line">root             pts/0    192.168.100.1    Wed Mar 30 15:16:25 +0800 2016</span><br><span class="line">bin                                        **Never logged in**</span><br><span class="line">daemon                                     **Never logged in**</span><br><span class="line">adm                                        **Never logged in**</span><br><span class="line">lp                                         **Never logged in**</span><br><span class="line">sync                                       **Never logged in**</span><br><span class="line">shutdown                                   **Never logged in**</span><br><span class="line">halt                                       **Never logged in**</span><br><span class="line">mail                                       **Never logged in**</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux基础/" rel="tag"># linux基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/28/linux文件类基础命令/" rel="next" title="linux文件类基础命令">
+                <i class="fa fa-chevron-left"></i> linux文件类基础命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/29/系统用户、组管理su和sudo/" rel="prev" title="系统用户、组管理su和sudo">
+                系统用户、组管理su和sudo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux系统用户-组管理"><span class="nav-number">1.</span> <span class="nav-text">linux系统用户/组管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户和组的基本概念"><span class="nav-number">1.0.1.</span> <span class="nav-text">用户和组的基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户和组管理相关的文件"><span class="nav-number">1.0.2.</span> <span class="nav-text">用户和组管理相关的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#密码文件-etc-shadow"><span class="nav-number">1.0.3.</span> <span class="nav-text">密码文件/etc/shadow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组文件-etc-group和-etc-gshadow"><span class="nav-number">1.0.4.</span> <span class="nav-text">组文件/etc/group和/etc/gshadow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#骨架目录-etc-skel"><span class="nav-number">1.0.5.</span> <span class="nav-text">骨架目录/etc/skel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-login-defs"><span class="nav-number">1.0.6.</span> <span class="nav-text">/etc/login.defs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-default-useradd"><span class="nav-number">1.0.7.</span> <span class="nav-text">/etc/default/useradd</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#用户和组管理命令"><span class="nav-number">2.</span> <span class="nav-text">用户和组管理命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#useradd和adduser"><span class="nav-number">2.0.1.</span> <span class="nav-text">useradd和adduser</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#批量创建用户newusers"><span class="nav-number">2.0.2.</span> <span class="nav-text">批量创建用户newusers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#groupadd"><span class="nav-number">2.0.3.</span> <span class="nav-text">groupadd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改密码passwd"><span class="nav-number">2.0.4.</span> <span class="nav-text">修改密码passwd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#批量修改密码chpasswd"><span class="nav-number">2.0.5.</span> <span class="nav-text">批量修改密码chpasswd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chage"><span class="nav-number">2.0.6.</span> <span class="nav-text">chage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#usermod"><span class="nav-number">2.0.7.</span> <span class="nav-text">usermod</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vipw和vigr"><span class="nav-number">2.0.8.</span> <span class="nav-text">vipw和vigr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手动创建用户"><span class="nav-number">2.0.9.</span> <span class="nav-text">手动创建用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他用户相关命令"><span class="nav-number">2.0.10.</span> <span class="nav-text">其他用户相关命令</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

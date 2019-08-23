@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="面向对象学习本节内容： 面向对象编程介绍 为什么要用面向对象进行开发？ 面向对象的特性：封装、继承、多态 类、方法、  引子 你现在是一家游戏公司的开发人员，现在需要你开发一款叫做&amp;lt;人狗大战&amp;gt;的游戏，你就思考呀，人狗作战，那至少需要2个角色，一个是人， 一个是狗，且人和狗都有不同的技能，比如人拿棍打狗， 狗可以咬人，怎么描述这种不同的角色和他们的功能呢？  你搜罗了自己掌握的所有技能，">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python面向对象">
+<meta property="og:url" content="http://yunjis.cn/2019/08/22/python面向对象/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="面向对象学习本节内容： 面向对象编程介绍 为什么要用面向对象进行开发？ 面向对象的特性：封装、继承、多态 类、方法、  引子 你现在是一家游戏公司的开发人员，现在需要你开发一款叫做&amp;lt;人狗大战&amp;gt;的游戏，你就思考呀，人狗作战，那至少需要2个角色，一个是人， 一个是狗，且人和狗都有不同的技能，比如人拿棍打狗， 狗可以咬人，怎么描述这种不同的角色和他们的功能呢？  你搜罗了自己掌握的所有技能，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A14.png">
+<meta property="og:updated_time" content="2019-08-23T11:05:01.829Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python面向对象">
+<meta name="twitter:description" content="面向对象学习本节内容： 面向对象编程介绍 为什么要用面向对象进行开发？ 面向对象的特性：封装、继承、多态 类、方法、  引子 你现在是一家游戏公司的开发人员，现在需要你开发一款叫做&amp;lt;人狗大战&amp;gt;的游戏，你就思考呀，人狗作战，那至少需要2个角色，一个是人， 一个是狗，且人和狗都有不同的技能，比如人拿棍打狗， 狗可以咬人，怎么描述这种不同的角色和他们的功能呢？  你搜罗了自己掌握的所有技能，">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/22/python面向对象/">
+
+
+
+
+
+  <title>python面向对象 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/22/python面向对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python面向对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T14:55:43-04:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="面向对象学习"><a href="#面向对象学习" class="headerlink" title="面向对象学习"></a>面向对象学习</h1><p>本节内容：</p>
+<p>面向对象编程介绍</p>
+<p>为什么要用面向对象进行开发？</p>
+<p>面向对象的特性：封装、继承、多态</p>
+<p>类、方法、</p>
+<p> 引子</p>
+<p>你现在是一家游戏公司的开发人员，现在需要你开发一款叫做&lt;人狗大战&gt;的游戏，你就思考呀，人狗作战，那至少需要2个角色，一个是人， 一个是狗，且人和狗都有不同的技能，比如人拿棍打狗， 狗可以咬人，怎么描述这种不同的角色和他们的功能呢？ </p>
+<p>你搜罗了自己掌握的所有技能，写出了下面的代码来描述这两个角色</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name,age,sex,job)</span>:</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'name'</span>:name,</span><br><span class="line">        <span class="string">'age'</span>:age,</span><br><span class="line">        <span class="string">'sex'</span>:sex,</span><br><span class="line">        <span class="string">'job'</span>:job</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dog</span><span class="params">(name,dog_type)</span>:</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'name'</span>:name,</span><br><span class="line">        <span class="string">'type'</span>:dog_type</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+
+<p>上面两个方法相当于造了两个模子，游戏开始，你得生成一个人和狗的实际对象吧，怎么生成呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d1 = dog(<span class="string">"李磊"</span>,<span class="string">"京巴"</span>)</span><br><span class="line"> </span><br><span class="line">p1 = person(<span class="string">"严帅"</span>,<span class="number">36</span>,<span class="string">"F"</span>,<span class="string">"运维"</span>)</span><br><span class="line"> </span><br><span class="line">p2 = person(<span class="string">"林海峰"</span>,<span class="number">27</span>,<span class="string">"F"</span>,<span class="string">"Teacher"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>两个角色对象生成了，狗和人还有不同的功能呀，狗会咬人，人会打狗，对不对? 怎么实现呢，。。想到了， 可以每个功能再写一个函数，想执行哪个功能，直接 调用 就可以了，对不？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def bark(d):</span><br><span class="line">    print(&quot;dog %s:wang.wang..wang...&quot;%d[&apos;name&apos;])</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def walk(p):</span><br><span class="line">    print(&quot;person %s is walking...&quot; %p[&apos;name&apos;])&lt;br&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d1 = dog(&quot;李磊&quot;,&quot;京巴&quot;)</span><br><span class="line">p1 = person(&quot;严帅&quot;,36,&quot;F&quot;,&quot;运维&quot;)</span><br><span class="line">p2 = person(&quot;林海峰&quot;,27,&quot;F&quot;,&quot;Teacher&quot;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">walk(p1) bark(d1)</span><br></pre></td></tr></table></figure>
+
+<p>上面的功能实现的简直是完美！</p>
+<p>但是仔细玩耍一会，你就不小心干了下面这件事</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p1 = person(&quot;严帅&quot;,36,&quot;F&quot;,&quot;运维&quot;)</span><br><span class="line">bark(p1) #把人的对象传给了狗的方法</span><br></pre></td></tr></table></figure>
+
+<p>事实 上，这并没出错。很显然，人是不能调用狗的功能的，如何在代码级别实现这个限制呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name,age,sex,job)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">walk</span><span class="params">(p)</span>:</span></span><br><span class="line">        print(<span class="string">"person %s is walking..."</span> % p[<span class="string">'name'</span>])</span><br><span class="line"> </span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'name'</span>:name,</span><br><span class="line">        <span class="string">'age'</span>:age,</span><br><span class="line">        <span class="string">'sex'</span>:sex,</span><br><span class="line">        <span class="string">'job'</span>:job,</span><br><span class="line">        <span class="string">'walk'</span>:walk</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dog</span><span class="params">(name,dog_type)</span>:</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bark</span><span class="params">(d)</span>:</span></span><br><span class="line">        print(<span class="string">"dog %s:wang.wang..wang..."</span>%d[<span class="string">'name'</span>])</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'name'</span>:name,</span><br><span class="line">        <span class="string">'type'</span>:dog_type,</span><br><span class="line">        <span class="string">'bark'</span>:bark</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d1 = dog(&quot;李磊&quot;,&quot;京巴&quot;)</span><br><span class="line">p1 = person(&quot;严帅&quot;,36,&quot;F&quot;,&quot;运维&quot;)</span><br><span class="line">p2 = person(&quot;林海峰&quot;,27,&quot;F&quot;,&quot;Teacher&quot;)&lt;br&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d1[&apos;bark&apos;](p1) #把人的对象传给了狗的方法</span><br></pre></td></tr></table></figure>
+
+<p>你是如此的机智，这样就实现了限制人只能用人自己的功能啦。</p>
+<p>但，我的哥，不要高兴太早，刚才你只是阻止了两个完全 不同的角色 之前的功能混用， 但有没有可能 ，同一个种角色，但有些属性是不同的呢？ 比如 ，大家都打过cs吧，cs里有警察和恐怖份子，但因为都 是人， 所以你写一个角色叫 person(), 警察和恐怖份子都 可以 互相射击，但警察不可以杀人质，恐怖分子可以，这怎么实现呢？ 你想了说想，说，简单，只需要在杀人质的功能里加个判断，如果是警察，就不让杀不就ok了么。 没错， 这虽然 解决了杀人质的问题，但其实你会发现，警察和恐怖分子的区别还有很多，同时又有很多共性，如果 在每个区别处都 单独做判断，那得累死。 </p>
+<p>你想了想说， 那就直接写2个角色吧， 反正 这么多区别， 我的哥， 不能写两个角色呀，因为他们还有很多共性 ， 写两个不同的角色，就代表 相同的功能 也要重写了，是不是我的哥？ 。。。</p>
+<p>好了， 话题就给你点到这， 再多说你的智商 也理解不了了！</p>
+<h3 id="面向过程-VS-面向对象"><a href="#面向过程-VS-面向对象" class="headerlink" title="面向过程 VS 面向对象"></a>面向过程 VS 面向对象</h3><h4 id="编程范式"><a href="#编程范式" class="headerlink" title="编程范式"></a><strong>编程范式</strong></h4><p>编程是 程序 员 用特定的语法+数据结构+算法组成的代码来告诉计算机如何执行任务的过程 ， 一个程序是程序员为了得到一个任务结果而编写的一组指令的集合，正所谓条条大路通罗马，实现一个任务的方式有很多种不同的方式， 对这些不同的编程方式的特点进行归纳总结得出来的编程方式类别，即为编程范式。 不同的编程范式本质上代表对各种类型的任务采取的不同的解决问题的思路， 大多数语言只支持一种编程范式，当然也有些语言可以同时支持多种编程范式。 两种最重要的编程范式分别是面向过程编程和面向对象编程。</p>
+<p><strong>面向过程编程(Procedural Programming)</strong><br>Procedural programming uses a list of instructions to tell the computer what to do step-by-step.<br>面向过程编程依赖 - 你猜到了- procedures，一个procedure包含一组要被进行计算的步骤， 面向过程又被称为top-down languages， 就是程序从上到下一步步执行，一步步从上到下，从头到尾的解决问题 。基本设计思路就是程序一开始是要着手解决一个大的问题，然后把一个大问题分解成很多个小问题或子过程，这些子过程再执行的过程再继续分解直到小问题足够简单到可以在一个小步骤范围内解决。</p>
+<p>举个典型的面向过程的例子， 数据库备份， 分三步，连接数据库，备份数据库，测试备份文件可用性。</p>
+<p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def db_conn():</span><br><span class="line">    print(&quot;connecting db...&quot;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def db_backup(dbname):</span><br><span class="line">    print(&quot;导出数据库...&quot;,dbname)</span><br><span class="line">    print(&quot;将备份文件打包，移至相应目录...&quot;)</span><br><span class="line"> </span><br><span class="line">def db_backup_test():</span><br><span class="line">    print(&quot;将备份文件导入测试库，看导入是否成功&quot;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def main():</span><br><span class="line">    db_conn()</span><br><span class="line">    db_backup(&apos;my_db&apos;)</span><br><span class="line">    db_backup_test()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>这样做的问题也是显而易见的，就是如果你要对程序进行修改，对你修改的那部分有依赖的各个部分你都也要跟着修改， 举个例子，如果程序开头你设置了一个变量值 为1 ， 但如果其它子过程依赖这个值 为1的变量才能正常运行，那如果你改了这个变量，那这个子过程你也要修改，假如又有一个其它子程序依赖这个子过程 ， 那就会发生一连串的影响，随着程序越来越大， 这种编程方式的维护难度会越来越高。<br>所以我们一般认为， 如果你只是写一些简单的脚本，去做一些一次性任务，用面向过程的方式是极好的，但如果你要处理的任务是复杂的，且需要不断迭代和维护 的， 那还是用面向对象最方便了。</p>
+<h4 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h4><p>OOP编程是利用“类”和“对象”来创建各种模型来实现对真实世界的描述，使用面向对象编程的原因一方面是因为它可以使程序的维护和扩展变得更简单，并且可以大大提高程序开发效率 ，另外，基于面向对象的程序可以使它人更加容易理解你的代码逻辑，从而使团队开发变得更从容。</p>
+<p>面向对象的几个核心特性如下</p>
+<p><strong>Class 类</strong><br>一个类即是对一类拥有相同属性的对象的抽象、蓝图、原型。在类中定义了这些对象的都具备的属性（variables(data)）、共同的方法</p>
+<p><strong>Object 对象</strong><br>一个对象即是一个类的实例化后实例，一个类必须经过实例化后方可在程序中调用，一个类可以实例化多个对象，每个对象亦可以有不同的属性，就像人类是指所有人，每个人是指具体的对象，人与人之前有共性，亦有不同</p>
+<p><strong>Encapsulation 封装</strong><br>在类中对数据的赋值、内部调用对外部用户是透明的，这使类变成了一个胶囊或容器，里面包含着类的数据和方法</p>
+<p><strong>Inheritance 继承</strong><br>一个类可以派生出子类，在这个父类里定义的属性、方法自动被子类继承</p>
+<p><strong>Polymorphism 多态</strong><br>多态是面向对象的重要特性,简单点说:“一个接口，多种实现”，指一个基类中派生出了不同的子类，且每个子类在继承了同样的方法名的同时又对父类的方法做了不同的实现，这就是同一种事物表现出的多种形态。<br>编程其实就是一个将具体世界进行抽象化的过程，多态就是抽象化的一种体现，把一系列具体事物的共同点抽象出来, 再通过这个抽象的事物, 与不同的具体事物进行对话。<br>对不同类的对象发出相同的消息将会有不同的行为。比如，你的老板让所有员工在九点钟开始工作, 他只要在九点钟的时候说：“开始工作”即可，而不需要对销售人员说：“开始销售工作”，对技术人员说：“开始技术工作”, 因为“员工”是一个抽象的事物, 只要是员工就可以开始工作，他知道这一点就行了。至于每个员工，当然会各司其职，做各自的工作。<br>多态允许将子类的对象当作父类的对象使用，某父类型的引用指向其子类型的对象,调用的方法是该子类型的方法。这里引用和调用方法的代码编译前就已经决定了,而引用所指向的对象可以在运行期间动态绑定</p>
+<h3 id="面向对象编程-Object-Oriented-Programming-介绍"><a href="#面向对象编程-Object-Oriented-Programming-介绍" class="headerlink" title="面向对象编程(Object-Oriented Programming )介绍"></a>面向对象编程(<strong>Object-Oriented Programming</strong> )介绍</h3><p>对于编程语言的初学者来讲，OOP不是一个很容易理解的编程方式，大家虽然都按老师讲的都知道OOP的三大特性是继承、封装、多态，并且大家也都知道了如何定义类、方法等面向对象的常用语法，但是一到真正写程序的时候，还是很多人喜欢用函数式编程来写代码，特别是初学者，很容易陷入一个窘境就是“我知道面向对象，我也会写类，但我依然没发现在使用了面向对象后，对我们的程序开发效率或其它方面带来什么好处，因为我使用函数编程就可以减少重复代码并做到程序可扩展了，为啥子还用面向对象？”。 对于此，我个人觉得原因应该还是因为你没有充分了解到面向对象能带来的好处，今天我就写一篇关于面向对象的入门文章，希望能帮大家更好的理解和使用面向对象编程。  </p>
+<p>无论用什么形式来编程，我们都要明确记住以下原则：</p>
+<ol>
+<li><strong>写重复代码是非常不好的低级行为</strong></li>
+<li><strong>你写的代码需要经常变更</strong> </li>
+</ol>
+<p>开发正规的程序跟那种写个运行一次就扔了的小脚本一个很大不同就是，你的代码总是需要不断的更改，不是修改bug就是添加新功能等，所以为了日后方便程序的修改及扩展，你写的代码一定要遵循易读、易改的原则（专业数据叫可读性好、易扩展）。</p>
+<p>如果你把一段同样的代码复制、粘贴到了程序的多个地方以实现在程序的各个地方调用 这个功能，那日后你再对这个功能进行修改时，就需要把程序里多个地方都改一遍，这种写程序的方式是有问题的，因为如果你不小心漏掉了一个地方没改，那可能会导致整个程序的运行都 出问题。 因此我们知道 在开发中一定要努力避免写重复的代码，否则就相当于给自己再挖坑。</p>
+<p>还好，函数的出现就能帮我们轻松的解决重复代码的问题，对于需要重复调用的功能，只需要把它写成一个函数，然后在程序的各个地方直接调用这个函数名就好了，并且当需要修改这个功能时，只需改函数代码，然后整个程序就都更新了。</p>
+<p>其实OOP编程的主要作用也是使你的代码修改和扩展变的更容易，那么小白要问了，既然函数都能实现这个需求了，还要OOP干毛线用呢？ 呵呵，说这话就像，古时候，人们打仗杀人都用刀，后来出来了枪，它的主要功能跟刀一样，也是杀人，然后小白就问，既然刀能杀人了，那还要枪干毛线，哈哈，显而易见，因为枪能更好更快更容易的杀人。函数编程与OOP的主要区别就是OOP可以使程序更加容易扩展和易更改。</p>
+<p>小白说，我读书少，你别骗我，口说无凭，证明一下，好吧，那我们就下面的例子证明给小白看。 </p>
+<p>相信大家都打过CS游戏吧，我们就自己开发一个简单版的CS来玩一玩。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.png" alt></p>
+<p>暂不考虑开发场地等复杂的东西，我们先从人物角色下手， 角色很简单，就俩个，恐怖份子、警察，他们除了角色不同，其它基本都 一样，每个人都有生命值、武器等。 咱们先用非OOP的方式写出游戏的基本角色 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#role 1</span><br><span class="line">name = &apos;Alex&apos;</span><br><span class="line">role = &apos;terrorist&apos;</span><br><span class="line">weapon = &apos;AK47&apos;</span><br><span class="line">life_value = 100</span><br><span class="line"> </span><br><span class="line">#rolw 2</span><br><span class="line">name2 = &apos;Jack&apos;</span><br><span class="line">role2 = &apos;police&apos;</span><br><span class="line">weapon2 = &apos;B22&apos;</span><br><span class="line">life_value2 = 100</span><br></pre></td></tr></table></figure>
+
+<p>上面定义了一个恐怖份子Alex和一个警察Jack,但只2个人不好玩呀，一干就死了，没意思，那我们再分别一个恐怖分子和警察吧，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#role 1</span><br><span class="line">name = &apos;Alex&apos;</span><br><span class="line">role = &apos;terrorist&apos;</span><br><span class="line">weapon = &apos;AK47&apos;</span><br><span class="line">life_value = 100</span><br><span class="line">money = 10000</span><br><span class="line"> </span><br><span class="line">#rolw 2</span><br><span class="line">name2 = &apos;Jack&apos;</span><br><span class="line">role2 = &apos;police&apos;</span><br><span class="line">weapon2 = &apos;B22&apos;</span><br><span class="line">life_value2 = 100</span><br><span class="line">money2 = 10000</span><br><span class="line"> </span><br><span class="line">#role 3</span><br><span class="line">name3 = &apos;Rain&apos;</span><br><span class="line">role3 = &apos;terrorist&apos;</span><br><span class="line">weapon3 = &apos;C33&apos;</span><br><span class="line">life_value3 = 100</span><br><span class="line">money3 = 10000</span><br><span class="line"> </span><br><span class="line">#rolw 4</span><br><span class="line">name4 = &apos;Eric&apos;</span><br><span class="line">role4 = &apos;police&apos;</span><br><span class="line">weapon4 = &apos;B51&apos;</span><br><span class="line">life_value4 = 100</span><br><span class="line">money4 = 10000</span><br></pre></td></tr></table></figure>
+
+<p>4个角色虽然创建好了，但是有个问题就是，每创建一个角色，我都要单独命名，name1,name2,name3,name4…，后面的调用的时候这个变量名你还都得记着，要是再让多加几个角色，估计调用时就很容易弄混啦，所以我们想一想，能否所有的角色的变量名都是一样的，但调用的时候又能区分开分别是谁？ </p>
+<p>当然可以，我们只需要把上面的变量改成字典的格式就可以啦。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">roles = &#123;</span><br><span class="line">    1:&#123;&apos;name&apos;:&apos;Alex&apos;,</span><br><span class="line">       &apos;role&apos;:&apos;terrorist&apos;,</span><br><span class="line">       &apos;weapon&apos;:&apos;AK47&apos;,</span><br><span class="line">       &apos;life_value&apos;: 100,</span><br><span class="line">       &apos;money&apos;: 15000,</span><br><span class="line">       &#125;,</span><br><span class="line">    2:&#123;&apos;name&apos;:&apos;Jack&apos;,</span><br><span class="line">       &apos;role&apos;:&apos;police&apos;,</span><br><span class="line">       &apos;weapon&apos;:&apos;B22&apos;,</span><br><span class="line">       &apos;life_value&apos;: 100,</span><br><span class="line">        &apos;money&apos;: 15000,</span><br><span class="line">       &#125;,</span><br><span class="line">    3:&#123;&apos;name&apos;:&apos;Rain&apos;,</span><br><span class="line">       &apos;role&apos;:&apos;terrorist&apos;,</span><br><span class="line">       &apos;weapon&apos;:&apos;C33&apos;,</span><br><span class="line">       &apos;life_value&apos;: 100,</span><br><span class="line">       &apos;money&apos;: 15000,</span><br><span class="line">       &#125;,</span><br><span class="line">    4:&#123;&apos;name&apos;:&apos;Eirc&apos;,</span><br><span class="line">       &apos;role&apos;:&apos;police&apos;,</span><br><span class="line">       &apos;weapon&apos;:&apos;B51&apos;,</span><br><span class="line">       &apos;life_value&apos;: 100,</span><br><span class="line">       &apos;money&apos;: 15000,</span><br><span class="line">       &#125;,</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">print(roles[1]) #Alex</span><br><span class="line">print(roles[2]) #Jack</span><br></pre></td></tr></table></figure>
+
+<p>很好，这个以后调用这些角色时只需要roles[1],roles[2]就可以啦，角色的基本属性设计完了后，我们接下来为每个角色开发以下几个功能</p>
+<ol>
+<li>被打中后就会掉血的功能</li>
+<li>开枪功能</li>
+<li>换子弹</li>
+<li>买枪</li>
+<li>跑、走、跳、下蹲等动作</li>
+<li>保护人质（仅适用于警察）</li>
+<li>不能杀同伴</li>
+<li>。。。</li>
+</ol>
+<p>我们可以把每个功能写成一个函数，类似如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def shot(by_who):</span><br><span class="line">    #开了枪后要减子弹数</span><br><span class="line">    pass</span><br><span class="line">def got_shot(who):</span><br><span class="line">    #中枪后要减血</span><br><span class="line">    who[‘life_value’] -= 10</span><br><span class="line">    pass</span><br><span class="line">def buy_gun(who,gun_name):</span><br><span class="line">    #检查钱够不够,买了枪后要扣钱</span><br><span class="line">    pass</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>so far so good, 继续按照这个思路设计，再完善一下代码，游戏的简单版就出来了，但是在往下走之前，我们来看看上面的这种代码写法有没有问题，至少从上面的代码设计中，我看到以下几点缺陷：</p>
+<ol>
+<li>每个角色定义的属性名称是一样的，但这种命名规则是我们自己约定的，从程序上来讲，并没有进行属性合法性检测，也就是说role 1定义的代表武器的属性是weapon, role 2 ,3,4也是一样的，不过如果我在新增一个角色时不小心把weapon 写成了wepon , 这个程序本身是检测 不到的</li>
+<li>terrorist 和police这2个角色有些功能是不同的，比如police是不能杀人质的，但是terrorist可能，随着这个游戏开发的更复杂，我们会发现这2个角色后续有更多的不同之处， 但现在的这种写法，我们是没办法 把这2个角色适用的功能区分开来的，也就是说，每个角色都可以直接调用任意功能，没有任何限制。</li>
+<li>我们在上面定义了got_shot()后要减血，也就是说减血这个动作是应该通过被击中这个事件来引起的,我们调用get_shot()，got_shot（）这个函数再调用每个角色里的life_value变量来减血。 但其实我不通过got_shot()，直接调用角色roles[role_id][‘life_value’] 减血也可以呀，但是如果这样调用的话，那可以就是简单粗暴啦，因为减血之前其它还应该判断此角色是否穿了防弹衣等，如果穿了的话，伤害值肯定要减少，got_shot()函数里就做了这样的检测，你这里直接绕过的话，程序就乱了。 因此这里应该设计 成除了通过got_shot(),其它的方式是没有办法给角色减血的，不过在上面的程序设计里，是没有办法实现的。 </li>
+<li>现在需要给所有角色添加一个可以穿防弹衣的功能，那很显然你得在每个角色里放一个属性来存储此角色是否穿 了防弹衣，那就要更改每个角色的代码，给添加一个新属性，这样太low了，不符合代码可复用的原则</li>
+</ol>
+<p>上面这4点问题如果不解决，以后肯定会引出更大的坑，有同学说了，解决也不复杂呀，直接在每个功能调用时做一下角色判断啥就好了，没错，你要非得这么霸王硬上弓的搞也肯定是可以实现的，那你自己就开发相应的代码来对上面提到的问题进行处理好啦。 但这些问题其实能过OOP就可以很简单的解决。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Role(object):</span><br><span class="line">    def __init__(self,name,role,weapon,life_value=100,money=15000):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.role = role</span><br><span class="line">        self.weapon = weapon</span><br><span class="line">        self.life_value = life_value</span><br><span class="line">        self.money = money</span><br><span class="line"> </span><br><span class="line">    def shot(self):</span><br><span class="line">        print(&quot;shooting...&quot;)</span><br><span class="line"> </span><br><span class="line">    def got_shot(self):</span><br><span class="line">        print(&quot;ah...,I got shot...&quot;)</span><br><span class="line"> </span><br><span class="line">    def buy_gun(self,gun_name):</span><br><span class="line">        print(&quot;just bought %s&quot; %gun_name)</span><br><span class="line"> </span><br><span class="line">r1 = Role(&apos;Alex&apos;,&apos;police&apos;,&apos;AK47’) #生成一个角色</span><br><span class="line">r2 = Role(&apos;Jack&apos;,&apos;terrorist&apos;,&apos;B22’)  #生成一个角色</span><br></pre></td></tr></table></figure>
+
+<p>先不考虑语法细节，相比靠函数拼凑出来的写法，上面用面向对象中的类来写最直接的改进有以下2点：</p>
+<ol>
+<li>代码量少了近一半</li>
+<li>角色和它所具有的功能可以一目了然看出来</li>
+</ol>
+<hr>
+<p>在真正开始分解上面代码含义之之前，我们现来了解一些类的基本定义</p>
+<p><strong>类的语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Dog(object):</span><br><span class="line"> </span><br><span class="line">    print(&quot;hello,I am a dog!&quot;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">d = Dog() #实例化这个类，</span><br><span class="line">#此时的d就是类Dog的实例化对象</span><br><span class="line"> </span><br><span class="line">#实例化，其实就是以Dog类为模版，在内存里开辟一块空间，存上数据，赋值成一个变量名</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码其实有问题，想给狗起名字传不进去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Dog(object):</span><br><span class="line"> </span><br><span class="line">    def __init__(self,name,dog_type):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.type = dog_type</span><br><span class="line"> </span><br><span class="line">    def sayhi(self):</span><br><span class="line"> </span><br><span class="line">        print(&quot;hello,I am a dog, my name is &quot;,self.name)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">d = Dog(&apos;LiChuang&apos;,&quot;京巴&quot;)</span><br><span class="line">d.sayhi()</span><br></pre></td></tr></table></figure>
+
+<p>为什么有__init__? 为什么有self? 此时的你一脸蒙逼，相信不画个图，你的智商是理解不了的！　　</p>
+<p>画图之前， 你先注释掉这两句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># d = Dog(&apos;LiChuang&apos;, &quot;京巴&quot;)</span><br><span class="line"># d.sayhi()</span><br><span class="line"> </span><br><span class="line">print(Dog)</span><br></pre></td></tr></table></figure>
+
+<p>没实例直接打印Dog输出如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &apos;__main__.Dog&apos;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这代表什么?代表 即使不实例化，这个Dog类本身也是已经存在内存里的对不对， yes, cool，那实例化时，会产生什么化学反应呢？</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12.png" alt></p>
+<p> 根据上图我们得知，<strong>其实self,就是实例本身！你实例化时python会自动把这个实例本身通过self参数传进去。</strong></p>
+<p>你说好吧，假装懂了， 但下面这段代码你又不明白了， 为何sayhi(self),要写个self呢？　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Dog(object):</span><br><span class="line">    ...</span><br><span class="line">    def sayhi(self):</span><br><span class="line"> </span><br><span class="line">        print(&quot;hello,I am a dog, my name is &quot;,self.name)</span><br></pre></td></tr></table></figure>
+
+<p>好了，明白 了类的基本定义，接下来我们一起分解一下上面的代码分别 是什么意思 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Role(object): #定义一个类， class是定义类的语法，Role是类名，(object)是新式类的写法，必须这样写，以后再讲为什么</span><br><span class="line">    def __init__(self,name,role,weapon,life_value=100,money=15000): #初始化函数，在生成一个角色时要初始化的一些属性就填写在这里</span><br><span class="line">        self.name = name #__init__中的第一个参数self,和这里的self都 是什么意思？ 看下面解释</span><br><span class="line">        self.role = role</span><br><span class="line">        self.weapon = weapon</span><br><span class="line">        self.life_value = life_value</span><br><span class="line">        self.money = money</span><br></pre></td></tr></table></figure>
+
+<p>上面的这个__init__()叫做初始化方法(或构造方法)， 在类被调用时，这个方法(虽然它是函数形式，但在类中就不叫函数了,叫方法)会自动执行，进行一些初始化的动作，所以我们这里写的__init__(self,name,role,weapon,life_value=100,money=15000)就是要在创建一个角色时给它设置这些属性，那么这第一个参数self是干毛用的呢？ </p>
+<p>初始化一个角色，就需要调用这个类一次： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r1 = Role(&apos;Alex&apos;,&apos;police&apos;,&apos;AK47’) #生成一个角色 , 会自动把参数传给Role下面的__init__(...)方法</span><br><span class="line">r2 = Role(&apos;Jack&apos;,&apos;terrorist&apos;,&apos;B22’)  #生成一个角色</span><br></pre></td></tr></table></figure>
+
+<p>我们看到，上面的创建角色时，我们并没有给__init__传值，程序也没未报错，是因为，类在调用它自己的__init__(…)时自己帮你给self参数赋值了，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r1 = Role(&apos;Alex&apos;,&apos;police&apos;,&apos;AK47’) #此时self 相当于 r1 ,  Role(r1,&apos;Alex&apos;,&apos;police&apos;,&apos;AK47’)</span><br><span class="line">r2 = Role(&apos;Jack&apos;,&apos;terrorist&apos;,&apos;B22’)#此时self 相当于 r2, Role(r2,&apos;Jack&apos;,&apos;terrorist&apos;,&apos;B22’)</span><br></pre></td></tr></table></figure>
+
+<p>为什么这样子？你拉着我说你有些犹豫，怎么会这样子？</p>
+<p>你执行r1 = Role(‘Alex’,’police’,’AK47<strong>’</strong>)时，python的解释器其实干了两件事：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 在内存中开辟一块空间指向r1这个变量名</span><br><span class="line">2. 调用Role这个类并执行其中的__init__(…)方法，相当于Role.__init__(r1,&apos;Alex&apos;,&apos;police&apos;,**’****AK47’),**这么做是为什么呢？ 是为了把&apos;Alex&apos;,&apos;police&apos;,’AK47’这3个值跟刚开辟的r1关联起来，是为了把&apos;Alex&apos;,&apos;police&apos;,’AK47’这3个值跟刚开辟的r1关联起来，是为了把&apos;Alex&apos;,&apos;police&apos;,’AK47’这3个值跟刚开辟的r1关联起来，重要的事情说3次， 因为关联起来后，你就可以直接r1.name, r1.weapon 这样来调用啦。所以，为实现这种关联，在调用__init__方法时，就必须把r1这个变量也传进去，否则__init__不知道要把那3个参数跟谁关联呀。</span><br><span class="line">3. 明白了么哥？所以这个__init__(…)方法里的，self.name = name , self.role = role 等等的意思就是要把这几个值 存到r1的内存空间里。</span><br></pre></td></tr></table></figure>
+
+<p>如果还不明白的话，哥，去测试一下智商吧， 应该不会超过70，哈哈。</p>
+<p>为了暴露自己的智商，此时你假装懂了，但又问， __init__(…)我懂了，但后面的那几个函数，噢 不对，后面那几个方法 为什么也还需要self参数么？ 不是在初始化角色的时候 ，就已经把角色的属性跟r1绑定好了么？ </p>
+<p>good question, 先来看一下上面类中的一个buy_gun的方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def buy_gun(self,gun_name):</span><br><span class="line">    print(“%s has just bought %s” %(self.name,gun_name) )</span><br></pre></td></tr></table></figure>
+
+<p>上面这个方法通过类调用的话要写成如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r1 = Role(&apos;Alex&apos;,&apos;police&apos;,&apos;AK47&apos;)</span><br><span class="line">r1.buy_gun(&quot;B21”) #python 会自动帮你转成 Role.buy_gun(r1,”B21&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>执行结果</p>
+<p>#Alex has just bought B21 </p>
+<p>依然没给self传值 ，但Python还是会自动的帮你把r1 赋值给self这个参数， 为什么呢？ 因为，你在buy_gun(..)方法中可能要访问r1的一些其它属性呀， 比如这里就访问 了r1的名字，怎么访问呢？你得告诉这个方法呀，于是就把r1传给了这个self参数，然后在buy_gun里调用 self.name 就相当于调用r1.name 啦，如果还想知道r1的生命值 有多少，直接写成self.life_value就可以了。 说白了就是在调用类中的一个方法时，你得告诉人家你是谁。</p>
+<p>好啦， 总结一下2点：</p>
+<ol>
+<li>上面的这个r1 = Role(‘Alex’,’police’,’AK47<strong>’</strong>)动作，叫做类的“实例化”， 就是把一个虚拟的抽象的类，通过这个动作，变成了一个具体的对象了， 这个对象就叫做实例</li>
+<li>刚才定义的这个类体现了面向对象的第一个基本特性，封装，<strong>其实就是使用构造方法将内容封装到某个具体对象中，然后通过对象直接或者self间接获取被封装的内容</strong></li>
+</ol>
+<h2 id="面向对象的特性："><a href="#面向对象的特性：" class="headerlink" title="面向对象的特性："></a><strong>面向对象的特性：</strong></h2><h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>封装最好理解了。封装是面向对象的特征之一，是对象和类概念的主要特性。</p>
+<p>封装，也就是把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>面向对象编程 (OOP) 语言的一个主要功能就是“继承”。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。</p>
+<p>通过继承创建的新类称为“子类”或“派生类”。</p>
+<p>被继承的类称为“基类”、“父类”或“超类”。</p>
+<p>继承的过程，就是从一般到特殊的过程。</p>
+<p>要实现继承，可以通过“继承”（Inheritance）和“组合”（Composition）来实现。</p>
+<p>在某些 OOP 语言中，一个子类可以继承多个基类。但是一般情况下，一个子类只能有一个基类，要实现多重继承，可以通过多级继承来实现。</p>
+<p>继承概念的实现方式主要有2类：实现继承、接口继承。</p>
+<p>Ø         实现继承是指使用基类的属性和方法而无需额外编码的能力；</p>
+<p>Ø         接口继承是指仅使用属性和方法的名称、但是子类必须提供实现的能力(子类重构爹类方法)；</p>
+<p>在考虑使用继承时，有一点需要注意，那就是两个类之间的关系应该是“属于”关系。例如，Employee 是一个人，Manager 也是一个人，因此这两个类都可以继承 Person 类。但是 Leg 类却不能继承 Person 类，因为腿并不是一个人。</p>
+<p>抽象类仅定义将由子类创建的一般属性和方法。</p>
+<p>OO开发范式大致为：划分对象→抽象类→将类组织成为层次化结构(继承和合成) →用类与实例进行设计和实现几个阶段。</p>
+<p>继承示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#!_*_coding:utf-8_*_</span><br><span class="line">#__author__:&quot;Alex Li&quot;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">class SchoolMember(object):</span><br><span class="line">    members = 0 #初始学校人数为0</span><br><span class="line">    def __init__(self,name,age):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line">    def  tell(self):</span><br><span class="line">        pass</span><br><span class="line"> </span><br><span class="line">    def enroll(self):</span><br><span class="line">        &apos;&apos;&apos;注册&apos;&apos;&apos;</span><br><span class="line">        SchoolMember.members +=1</span><br><span class="line">        print(&quot;\033[32;1mnew member [%s] is enrolled,now there are [%s] members.\033[0m &quot; %(self.name,SchoolMember.members))</span><br><span class="line">     </span><br><span class="line">    def __del__(self):</span><br><span class="line">        &apos;&apos;&apos;析构方法&apos;&apos;&apos;</span><br><span class="line">        print(&quot;\033[31;1mmember [%s] is dead!\033[0m&quot; %self.name)</span><br><span class="line">class Teacher(SchoolMember):</span><br><span class="line">    def __init__(self,name,age,course,salary):</span><br><span class="line">        super(Teacher,self).__init__(name,age)</span><br><span class="line">        self.course = course</span><br><span class="line">        self.salary = salary</span><br><span class="line">        self.enroll()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    def teaching(self):</span><br><span class="line">        &apos;&apos;&apos;讲课方法&apos;&apos;&apos;</span><br><span class="line">        print(&quot;Teacher [%s] is teaching [%s] for class [%s]&quot; %(self.name,self.course,&apos;s12&apos;))</span><br><span class="line"> </span><br><span class="line">    def tell(self):</span><br><span class="line">        &apos;&apos;&apos;自我介绍方法&apos;&apos;&apos;</span><br><span class="line">        msg = &apos;&apos;&apos;Hi, my name is [%s], works for [%s] as a [%s] teacher !&apos;&apos;&apos; %(self.name,&apos;Oldboy&apos;, self.course)</span><br><span class="line">        print(msg)</span><br><span class="line"> </span><br><span class="line">class Student(SchoolMember):</span><br><span class="line">    def __init__(self, name,age,grade,sid):</span><br><span class="line">        super(Student,self).__init__(name,age)</span><br><span class="line">        self.grade = grade</span><br><span class="line">        self.sid = sid</span><br><span class="line">        self.enroll()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    def tell(self):</span><br><span class="line">        &apos;&apos;&apos;自我介绍方法&apos;&apos;&apos;</span><br><span class="line">        msg = &apos;&apos;&apos;Hi, my name is [%s], I&apos;m studying [%s] in [%s]!&apos;&apos;&apos; %(self.name, self.grade,&apos;Oldboy&apos;)</span><br><span class="line">        print(msg)</span><br><span class="line"> </span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    t1 = Teacher(&quot;Alex&quot;,22,&apos;Python&apos;,20000)</span><br><span class="line">    t2 = Teacher(&quot;TengLan&quot;,29,&apos;Linux&apos;,3000)</span><br><span class="line"> </span><br><span class="line">    s1 = Student(&quot;Qinghua&quot;, 24,&quot;Python S12&quot;,1483)</span><br><span class="line">    s2 = Student(&quot;SanJiang&quot;, 26,&quot;Python S12&quot;,1484)</span><br><span class="line"> </span><br><span class="line">    t1.teaching()</span><br><span class="line">    t2.teaching()</span><br><span class="line">    t1.tell()</span><br></pre></td></tr></table></figure>
+
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a><strong>多态</strong></h3><p>多态性（polymorphisn）是允许你将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说，就是一句话：允许将子类类型的指针赋值给父类类型的指针。</p>
+<p>那么，多态的作用是什么呢？我们知道，封装可以隐藏实现细节，使得代码模块化；继承可以扩展已存在的代码模块（类）；它们的目的都是为了——代码重用。而多态则是为了实现另一个目的——接口重用！多态的作用，就是为了类在继承和派生的时候，保证使用“家谱”中任一类的实例的某一属性时的正确调用。</p>
+<p>Pyhon 很多语法都是支持多态的，比如 len(),sorted(), 你给len传字符串就返回字符串的长度，传列表就返回列表长度。</p>
+<p>Python多态示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#_*_coding:utf-8_*_</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">class Animal(object):</span><br><span class="line">    def __init__(self, name):  # Constructor of the class</span><br><span class="line">        self.name = name</span><br><span class="line"> </span><br><span class="line">    def talk(self):              # Abstract method, defined by convention only</span><br><span class="line">        raise NotImplementedError(&quot;Subclass must implement abstract method&quot;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">class Cat(Animal):</span><br><span class="line">    def talk(self):</span><br><span class="line">        print(&apos;%s: 喵喵喵!&apos; %self.name)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">class Dog(Animal):</span><br><span class="line">    def talk(self):</span><br><span class="line">        print(&apos;%s: 汪！汪！汪！&apos; %self.name)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def func(obj): #一个接口，多种形态</span><br><span class="line">    obj.talk()</span><br><span class="line"> </span><br><span class="line">c1 = Cat(&apos;小晴&apos;)</span><br><span class="line">d1 = Dog(&apos;李磊&apos;)</span><br><span class="line"> </span><br><span class="line">func(c1)</span><br><span class="line">func(d1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="领域模型"><a href="#领域模型" class="headerlink" title="领域模型"></a>领域模型</h3><p>好了，你现在会了面向对象的各种语法了， 那请看下本章最后的作业需求，我相信你可能是蒙蔽的， 很多同学都是学会了面向对象的语法，却依然写不出面向对象的程序，原因是什么呢？原因就是因为你还没掌握一门面向对象设计利器， 你说我读书少别骗我， 什么利器？ </p>
+<p>答案就是:<strong>领域建模</strong>。 从领域模型开始,我们就开始了面向对象的分析和设计过程,可以说,领域模型是完成从需求分析到面向 对象设计的一座桥梁。 </p>
+<p>领域模型,顾名思义,就是需求所涉及的领域的一个建模,更通俗的讲法是业务模型。 参考百度百科(<a href="http://baike.baidu.cn/view/757895.htm" target="_blank" rel="noopener">http://baike.baidu.cn/view/757895.htm</a> ),领域模型定义如下: </p>
+<p>从这个定义我们可以看出,领域模型有两个主要的作用:</p>
+<ol>
+<li><p>发掘重要的业务领域概念</p>
+</li>
+<li><p>建立业务领域概念之间的关系 </p>
+</li>
+</ol>
+<h4 id="领域建模三字经"><a href="#领域建模三字经" class="headerlink" title="领域建模三字经"></a><strong>领域建模三字经</strong></h4><p>领域模型如此重要,很多同学可能会认为领域建模很复杂,需要很高的技巧。然而事实上领域建模非常简 单,简单得有点难以让人相信,领域建模的方法概括一下就是“<strong>找名词</strong>”! 许多同学看到这个方法后估计都会笑出来:太假了吧,这么简单,找个初中生都会啊,那我们公司那些分 析师和设计师还有什么用哦?</p>
+<p>分析师和设计师当然有用,后面我们会看到,即使是简单的找名词这样的操作,也涉及到分析和提炼,而 不是简单的摘取出来就可,这种情况下分析师和设计师的经验和技能就能够派上用场了。但领域模型分析 也确实相对简单,即使没有丰富的经验和高超的技巧,至少也能完成一个能用的领域模型。 </p>
+<p>虽然我们说“找名词”很简单,但一个关键的问题还没有说明:<strong>从哪里找</strong>? 如果你还记得领域模型是“需求到面向对象的桥梁”,那么你肯定一下子就能想到:从需求模型中找,具 体来说就是从用例中找。 </p>
+<p>归纳一下域建模的方法就是“<strong>从用例中找名词</strong>”。 当然,找到名词后,为了能够更加符合面向对象的要求和特点,我们还需要对这些名词进一步完善,这就 是接下来的步骤:<strong>加属性,连关系</strong>! </p>
+<p>最后我们总结出领域建模的三字经方法:<strong>找名词、加属性、连关系</strong>。 </p>
+<p><strong>找名词</strong></p>
+<p>who : 学员、讲师、管理员</p>
+<p>用例：</p>
+<p>\1. <strong>管理员</strong> 创建了 北京 和 上海 两个<strong>校区</strong></p>
+<p>\2. 管理员 创建了 Linux \ Python \ Go 3个<strong>课程</strong> </p>
+<p>\3. 管理员 创建了 北京校区的Python 16期， Go开发第一期，和上海校区的Linux 36期 <strong>班级</strong></p>
+<p>\4. 管理员 创建了 北京校区的 <strong>学员</strong> 小晴 ，并将其 分配 在了 班级  python 16期 </p>
+<p>\5. 管理员 创建了 <strong>讲师</strong> Alex , 并将其分配 给了 班级 python 16期 和全栈脱产5期</p>
+<p>\6. 讲师 Alex 创建 了一条 python 16期的 <strong>上课纪录</strong> Day6 </p>
+<p>\7. 讲师 Alex 为Day6这节课 所有的学员 批了<strong>作业</strong> ，小晴得了A, 李磊得了C-, 严帅得了B</p>
+<p>\8. 学员小晴 在 python 16 的 day6里 提交了作业 </p>
+<p>\9. 学员李磊 查看了自己所报的所有课程 </p>
+<p>10 学员 李磊  在 查看了 自己在 py16期 的 <strong>成绩</strong>列表 ，然后自杀了</p>
+<p>\11. 学员小晴  跟 讲师 Alex 表白了</p>
+<p><strong>名词列表：</strong></p>
+<p>管理员、校区、课程、班级、上课纪录、作业、成绩、讲师、学员</p>
+<p><strong>加属性</strong></p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13.png" alt></p>
+<p><strong>连关系</strong> </p>
+<p>有了类,也有了属性,接下来自然就是找出它们的关系了。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A14.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/21/python字符编码详解/" rel="next" title="python字符编码详解">
+                <i class="fa fa-chevron-left"></i> python字符编码详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/22/ftp服务器快速搭建/" rel="prev" title="ftp服务器快速搭建">
+                ftp服务器快速搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象学习"><span class="nav-number">1.</span> <span class="nav-text">面向对象学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向过程-VS-面向对象"><span class="nav-number">1.0.1.</span> <span class="nav-text">面向过程 VS 面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编程范式"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">编程范式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面向对象编程"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">面向对象编程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象编程-Object-Oriented-Programming-介绍"><span class="nav-number">1.0.2.</span> <span class="nav-text">面向对象编程(Object-Oriented Programming )介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象的特性："><span class="nav-number">1.1.</span> <span class="nav-text">面向对象的特性：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#封装"><span class="nav-number">1.1.1.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">1.1.2.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多态"><span class="nav-number">1.1.3.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#领域模型"><span class="nav-number">1.1.4.</span> <span class="nav-text">领域模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#领域建模三字经"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">领域建模三字经</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

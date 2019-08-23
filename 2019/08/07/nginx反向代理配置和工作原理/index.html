@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="nginx,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="nginx反向代理配置和工作原理nginx是一款面向性能设计的http服务器，其性能相对于其他服务器表现优异。内部使用异步的事件处理模型，比如linux平台的epoll事件模型，unix平台的kqueue事件模型等。在Nginx源码的src/event/modules目录下，其对各个平台不同的异步模型进行了二次封装。此外，Nginx在代码实现的时候，会考虑到众多细节优化。比如：根据CPU亲缘性来分">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx反向代理配置和工作原理">
+<meta property="og:url" content="http://yunjis.cn/2019/08/07/nginx反向代理配置和工作原理/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="nginx反向代理配置和工作原理nginx是一款面向性能设计的http服务器，其性能相对于其他服务器表现优异。内部使用异步的事件处理模型，比如linux平台的epoll事件模型，unix平台的kqueue事件模型等。在Nginx源码的src/event/modules目录下，其对各个平台不同的异步模型进行了二次封装。此外，Nginx在代码实现的时候，会考虑到众多细节优化。比如：根据CPU亲缘性来分">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-07T17:26:46.650Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx反向代理配置和工作原理">
+<meta name="twitter:description" content="nginx反向代理配置和工作原理nginx是一款面向性能设计的http服务器，其性能相对于其他服务器表现优异。内部使用异步的事件处理模型，比如linux平台的epoll事件模型，unix平台的kqueue事件模型等。在Nginx源码的src/event/modules目录下，其对各个平台不同的异步模型进行了二次封装。此外，Nginx在代码实现的时候，会考虑到众多细节优化。比如：根据CPU亲缘性来分">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/07/nginx反向代理配置和工作原理/">
+
+
+
+
+
+  <title>nginx反向代理配置和工作原理 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/07/nginx反向代理配置和工作原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">nginx反向代理配置和工作原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T13:26:04-04:00">
+                2019-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="nginx反向代理配置和工作原理"><a href="#nginx反向代理配置和工作原理" class="headerlink" title="nginx反向代理配置和工作原理"></a>nginx反向代理配置和工作原理</h2><p>nginx是一款面向性能设计的http服务器，其性能相对于其他服务器表现优异。内部使用异步的事件处理模型，比如linux平台的epoll事件模型，unix平台的kqueue事件模型等。在Nginx源码的src/event/modules目录下，其对各个平台不同的异步模型进行了二次封装。此外，Nginx在代码实现的时候，会考虑到众多细节优化。比如：根据CPU亲缘性来分配进程和事件，避免CPU级的缓存失效；比如字符串比较时，四字节转换为整数来进行快速指令级比较，等等。</p>
+<h3 id="nginx反向代理配置说明"><a href="#nginx反向代理配置说明" class="headerlink" title="nginx反向代理配置说明"></a>nginx反向代理配置说明</h3><p>反向代理指以代理服务器来接受internet上的连接请求，它是一种通过在繁忙的web服务器和外部网络之间增加的一个高速web缓冲服务器，用来降低实际的web服务器的负载的一种技术。反向代理是针对web服务提高加速功能，所有外部网络要访问服务器时所有请求都要通过它，这样反向代理服务器负责接收客户端的请求，然后到源服务器上获取内容，把内容返回给用户，已减少后端web服务器的压力，提高响应速度。因此nginx还具有缓存功能。</p>
+<p>nginx反向代理的设置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">upstream cc_001 &#123;</span><br><span class="line">        server 192.168.1.101:80;</span><br><span class="line">        server 192.168.1.102:80;</span><br><span class="line"></span><br><span class="line">        healthcheck_enabled;</span><br><span class="line">        healthcheck_delay 3000;</span><br><span class="line">        healthcheck_timeout 1000;</span><br><span class="line">        healthcheck_failcount 2;</span><br><span class="line">        healthcheck_send &apos;GET /healthcheck.html HTTP/1.0&apos; &apos;Host: local.com&apos; &apos;Connection: close&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line"></span><br><span class="line">        listen       192.168.1.100:80;</span><br><span class="line">        server_name  cc.local.com;</span><br><span class="line"></span><br><span class="line">        proxy_buffers 64 4k;</span><br><span class="line"></span><br><span class="line">        location = / &#123;</span><br><span class="line">            proxy_pass http://cc_001/bm/index.htm;</span><br><span class="line">            proxy_set_header   Host             $host;</span><br><span class="line">            proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://cc_001;</span><br><span class="line">            proxy_set_header   Host             $host;</span><br><span class="line">            proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="upstream配置块"><a href="#upstream配置块" class="headerlink" title="upstream配置块"></a>upstream配置块</h4><p>其中upstream是一个非常重要的配置。nginx所有对于动态请求的处理，基本上都需要用upstream配置模块。nginx的两个重要功能，反向代理和负载均衡，都需要通过配置对应的upstream来完成。</p>
+<blockquote>
+<p>在nginx中，有一个基础模块叫handler，这个模块可以接受来自客户端/用户端的请求，然后处理并产生对应的响应内容返回过去。因此，我们那些静态资源，前端页面什么的，都是使用handler模块来完成响应的。但是，众所知周，一般的核心服务都是后台动态产生的，这些资源就不可以方便使用handler去完成内容的生成和响应动作（当然也是可以使用开发自定义handler来完成的，比如各种xxxcgi之流，但是一般还是用来处理静态资源）。</p>
+<blockquote>
+<p>那么，upstream就出现了。其接收到用户的请求，然后转发到后端服务器拿到对应的响应资源，再返回给请求端。在整个处理过程中，其本身不会产生自己的响应内容，这是和handler模块唯一的区别。</p>
+<blockquote>
+<p>upstream的特性，决定了在其配置块中，设置一些后端服务器的地址和端口，就ok了。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h4 id="配置项说明"><a href="#配置项说明" class="headerlink" title="配置项说明:"></a>配置项说明:</h4><p>upstream中的server项:表明后台的一台服务器和端口。当客户端有请求到nginx服务器的时候，upstream模块根据这里配置的server，该对应的请求转发到这些server服务上，由这些server来处理请求，然后把响应结果告知upstream模块。</p>
+<p>healthcheck_enabled项：healthcheck健康监控功能，并不是原生nginx自带的。所以如果使用这个功能，必须要安装第三方插件：ngx_http_healthcheck_module。healthcheck_enabled表示启动健康检查模块功能。</p>
+<p>healthcheck_delay项：对同一台后端服务器两次检测之间的时间间隔，单位毫秒，默认为1000。</p>
+<p>healthcheck_timeout项：进行一次健康检测的超时时间，单位为毫秒，默认值2000。</p>
+<p>healthcheck_failcount项：对一台后端服务器检测成功或失败多少次之后方才确定其为成功或失败，并实现启用或禁用此服务器。</p>
+<p>healthcheck_send项：为了检测后端服务器的健康状态所发送的检测请求。然后根据各个服务器的响应情况来判断服务器是否存活。上面的配置表面，各个后台服务器上都存在healthcheck.html静态页面，然后nginx会get这个页面，根据是否status为200来判断是否服务器存活。</p>
+<h4 id="server配置块"><a href="#server配置块" class="headerlink" title="server配置块"></a>server配置块</h4><p>在nginx中，不管怎么样的配置，都会有一个server配置块。http服务上支持若干虚拟主机。每个虚拟主机会有一个对应的server配置项，配置项里面包含该虚拟主机相关的配置。在提供mail服务的代理时，也可以建立若干server.每个server通过监听的地址来区分。</p>
+<p>Server其实就是一个虚拟主机。因为在nginx中可以配置多个server，这样就使得nginx可以在一台服务器上配置多个域名</p>
+<p>在nginx的Server虚拟主机中，它只会处理与之对应的域名请求。并且，如果在listen中设置了ip地址，则该虚拟主机只会处理从该服务器的指定ip端口进来的请求，才会去处理。</p>
+<p>配置项说明：</p>
+<p>listen项:监听ip和端口。当nginx服务器的该ip端口有请求访问，则调用该server的配置来处理该请求。</p>
+<p>server_name：域名。nginx对进入该虚拟主机的请求，检查其请求host头是否匹配设置的server_name，如果是，则继续处理该请求。</p>
+<p>location块选项:location在nginx中是一个非常重要的指令。对于http请求，其被用来详细匹配uri和设置的location path。一般这个uri path会是字符串或者正则表达式形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location匹配，语法规则:</span><br><span class="line">location [=|~|~*|^~|@] /uri/ &#123; ... &#125;</span><br><span class="line">   =：表示精确匹配，如果找到，立即停止搜索并立即处理此请求。</span><br><span class="line">   ~：表示区分大小写匹配。</span><br><span class="line">   ~*：表示不区分大小写匹配。</span><br><span class="line">   ^~：表示只匹配字符串不查询正则表达式。</span><br><span class="line">   @：指定一个命名的location，一般只用于内部重定向请求。</span><br></pre></td></tr></table></figure>
+
+<p>location中proxy_pass项:代理转发。配置了该项，当匹配location path请求进来后，会根据upstream设置，请求后台服务器上的proxy_pass的请求。例如，上面的配置，当有请求cc.local.com时，由于精确匹配=/，则根据proxy_pass配置，则会反向代理，请求192.168.1.101:80/bm/index.htm.</p>
+<p>location中的proxy_set_header项:设置代理请求头。由于经过了反向代理服务器，所以后台服务器不能获取真正的客户端请求地址信息，这样，就需要把这些ip地址，设置回请求头部中。然后，我们在后台服务上，可以使用request.get(“X-Real-IP”)或者request.get(“X-Forwarded-For”)获取真实的请求ip地址。获取host也是如此。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/07/nginx之proxy_pass详解/" rel="next" title="nginx之proxy_pass详解">
+                <i class="fa fa-chevron-left"></i> nginx之proxy_pass详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/07/使用nginx反向代理后如何在web应用获取用户ip及原理解释/" rel="prev" title="使用nginx反向代理后如何在web应用获取用户ip及原理解释">
+                使用nginx反向代理后如何在web应用获取用户ip及原理解释 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx反向代理配置和工作原理"><span class="nav-number">1.</span> <span class="nav-text">nginx反向代理配置和工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx反向代理配置说明"><span class="nav-number">1.1.</span> <span class="nav-text">nginx反向代理配置说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#upstream配置块"><span class="nav-number">1.1.1.</span> <span class="nav-text">upstream配置块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置项说明"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置项说明:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#server配置块"><span class="nav-number">1.1.3.</span> <span class="nav-text">server配置块</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

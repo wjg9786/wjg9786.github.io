@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、 Linux→命令模式:Vim filename1.一次移动一个光标 h j k l 左 下 上 右 2.行内移动 0 到行首(d0或d^删除至行首) $ 至行尾(d$删除至行尾) 0=HOME 到行首 $=end 至行尾 G 到文件尾 50G 到50行 gg 到文件首 3.有小d/大D都是剪切(del word) dd 剪掉当前行 5dd 剪掉当前行起共5行 D 剪空当前行 x 删除一个字母">
+<meta name="keywords" content="linux基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim技巧">
+<meta property="og:url" content="http://yunjis.cn/2019/07/24/vim技巧/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="一、 Linux→命令模式:Vim filename1.一次移动一个光标 h j k l 左 下 上 右 2.行内移动 0 到行首(d0或d^删除至行首) $ 至行尾(d$删除至行尾) 0=HOME 到行首 $=end 至行尾 G 到文件尾 50G 到50行 gg 到文件首 3.有小d/大D都是剪切(del word) dd 剪掉当前行 5dd 剪掉当前行起共5行 D 剪空当前行 x 删除一个字母">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-25T03:43:25.732Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vim技巧">
+<meta name="twitter:description" content="一、 Linux→命令模式:Vim filename1.一次移动一个光标 h j k l 左 下 上 右 2.行内移动 0 到行首(d0或d^删除至行首) $ 至行尾(d$删除至行尾) 0=HOME 到行首 $=end 至行尾 G 到文件尾 50G 到50行 gg 到文件首 3.有小d/大D都是剪切(del word) dd 剪掉当前行 5dd 剪掉当前行起共5行 D 剪空当前行 x 删除一个字母">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/07/24/vim技巧/">
+
+
+
+
+
+  <title>vim技巧 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/07/24/vim技巧/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vim技巧</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-24T22:15:01-04:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、-Linux→命令模式-Vim-filename"><a href="#一、-Linux→命令模式-Vim-filename" class="headerlink" title="一、 Linux→命令模式:Vim filename"></a>一、 Linux→命令模式:Vim filename</h2><p>1.一次移动一个光标</p>
+<p>h j k l</p>
+<p>左 下 上 右</p>
+<p>2.行内移动</p>
+<p>0 到行首(d0或d^删除至行首)</p>
+<p>$ 至行尾(d$删除至行尾)</p>
+<p>0=HOME 到行首</p>
+<p>$=end 至行尾</p>
+<p>G 到文件尾</p>
+<p>50G 到50行</p>
+<p>gg 到文件首</p>
+<p>3.有小d/大D都是剪切(del word)</p>
+<p>dd 剪掉当前行</p>
+<p>5dd 剪掉当前行起共5行</p>
+<p>D 剪空当前行</p>
+<p>x 删除一个字母 </p>
+<p>dw 剪除一个单词</p>
+<p>4.undo撤消</p>
+<p>u 一次撤一行中的一个动作(多行时小u比大U管用)</p>
+<p>U 撤消一行中的所有动作 (单行时大U比小u管用) </p>
+<p>5.复制粘贴</p>
+<p>yy 复制当前行</p>
+<p>5yy 复制5行</p>
+<p>p 粘贴(paste)</p>
+<p>ZZ 保存退出</p>
+<p>ZQ 不保存退出</p>
+<p>………………………………….<br>6.vim中大小写转化：~或u或U(高级用法)<br>………………………………….<br>a、整篇文章大写转化为小写：gg→guG</p>
+<p>gg 到文件首</p>
+<p>gu 把选定范围全部小写</p>
+<p>G 到文件结束<br>………………………………..<br>b、整篇文章小写转化为大写:gg→gUG</p>
+<p>gg 到文件首</p>
+<p>gU 把选定范围全部大写</p>
+<p>G 到文件结束</p>
+<p>c、整篇文章反转(大转小小转大)</p>
+<p>ggg~G（spacer.gif ）</p>
+<p>============================================<br>二、 命令模式→输入模式：按ins/a/A/i/I/o/O/r/Ro</p>
+<p>1.插入<br>o 在光标下加一空行并进入插入模式</p>
+<p>O 在光标上开一空行并进入插入模式</p>
+<p>r 替换一个字符 </p>
+<p>R 连续替换多个字符</p>
+<p>2.文件内容查找:</p>
+<p>/word 从上而下在文件中查找字符串“word” </p>
+<p>?word 从下而上在文件中查找字符串“word”</p>
+<p>n 定位下一个匹配的被查找字符串 </p>
+<p>N 定位上一个匹配的被查找字符串</p>
+<p>3.命令模式→Visual Block：(高级用法)</p>
+<p>按ctrl+v,举例：选中多行并添加注释</p>
+<p>#vim→ctrl+v→方向箭头选中→I→#→ESC</p>
+<h1 id="vim→set-nu→-v→-100G-当前行到第100行-→I→-→ESC"><a href="#vim→set-nu→-v→-100G-当前行到第100行-→I→-→ESC" class="headerlink" title="#vim→set nu→^v→(100G:当前行到第100行)→I→#→ESC"></a>#vim→set nu→^v→(100G:当前行到第100行)→I→#→ESC</h1><p>三、命令模式→末行模式</p>
+<p>1.默认情况下Vim的搜索是大小写敏感的,：</p>
+<p>:set ignorecase 忽略大小写</p>
+<p>:set noignorecase 不忽略大小写</p>
+<p>:set nu或:set number 设置显示行号</p>
+<p>:set nonu或:set nonumber 不显示行号</p>
+<p>:999 移动光标到第999行</p>
+<p>2.有彩色或无彩色(高级用法)</p>
+<p>:syntax clear或:set syntax=off 暂时关闭语法高亮</p>
+<p>:syntax enable 当前缓冲区打开语法高亮功能。</p>
+<p>3.保存与退出</p>
+<p>:w 存盘不退出</p>
+<p>:w! 暴力存盘不退出</p>
+<p>:w file1 另存为file1</p>
+<p>:q 无脏数据时正常退出</p>
+<p>:q! 放弃脏数据并退出</p>
+<p>:wq 正常保存并退出</p>
+<p>:wq! 暴力存盘并退出</p>
+<p>4.文件内容替换(高级用法)</p>
+<p>命令 功能<br>:s /old/new 当前行中找到的第一个old 替换为new</p>
+<p>:s /old/new/g 当前行中查找到的所有old 替换为new</p>
+<p>:#,# s/old/new/g 行号“#,#”范围内替换所有的old为new</p>
+<p>:% s/old/new/g 整个文件范围内替换所有的old为new</p>
+<p>:s /old/new/c c命令:将对每个替换动作提示用户进行确认</p>
+<p>5.文件加密与解密(高级用法)</p>
+<p>——加密</p>
+<p>vim t.c 打开文件</p>
+<p>：X 据提示操作//加密</p>
+<p>: set key=password //加密作用同:X</p>
+<p>:wq 保存退出——解密</p>
+<p>——解密</p>
+<p>vim t.c 打开文件</p>
+<p>:set key= 解密</p>
+<p>:wq 保存退出</p>
+<p>=======================================<br>四、典型故障现象一般是非正常关闭VI导致的，解决办法如下：</p>
+<p>#rm .install.log========================</p>
+<p>五、查看vim帮助</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">:help index</span><br><span class="line"></span><br><span class="line">1. Insert mode |insert-index|</span><br><span class="line"></span><br><span class="line">2. Normal mode |normal-index|</span><br><span class="line"></span><br><span class="line">2.1. Text objects |objects|</span><br><span class="line"></span><br><span class="line">2.2. Window commands |CTRL-W|</span><br><span class="line"></span><br><span class="line">2.3. Square bracket commands |[|</span><br><span class="line"></span><br><span class="line">2.4. Commands starting with &apos;g&apos; |g|</span><br><span class="line"></span><br><span class="line">2.5. Commands starting with &apos;z&apos; |z|</span><br><span class="line"></span><br><span class="line">3. Visual mode |visual-index|</span><br><span class="line"></span><br><span class="line">4. Command-line editing |ex-edit-index|</span><br><span class="line"></span><br><span class="line">5. EX commands |ex-cmd-index|</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux基础/" rel="tag"># linux基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/15/类和对象/" rel="next" title="类和对象">
+                <i class="fa fa-chevron-left"></i> 类和对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/24/find命令详解/" rel="prev" title="find命令详解">
+                find命令详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、-Linux→命令模式-Vim-filename"><span class="nav-number">1.</span> <span class="nav-text">一、 Linux→命令模式:Vim filename</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#vim→set-nu→-v→-100G-当前行到第100行-→I→-→ESC"><span class="nav-number"></span> <span class="nav-text">#vim→set nu→^v→(100G:当前行到第100行)→I→#→ESC</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

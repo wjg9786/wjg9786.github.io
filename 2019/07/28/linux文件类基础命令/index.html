@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文原创地址：博客园骏马金龙https://www.cnblogs.com/f-ck-need-u/p/6995195.html linux文件类基础命令1.关于路径和通配符linux中分绝对路径和相对路径，绝对路径一定是从/开始写的，相对路径不从根开始写，还可能使用路径符号。 路径展开符号： 1234567. :一个点表示当前目录.. :两个点表示上一层目录- ：一个短横线表示上一次使用的目录,">
+<meta name="keywords" content="linux基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux文件类基础命令">
+<meta property="og:url" content="http://yunjis.cn/2019/07/28/linux文件类基础命令/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="本文原创地址：博客园骏马金龙https://www.cnblogs.com/f-ck-need-u/p/6995195.html linux文件类基础命令1.关于路径和通配符linux中分绝对路径和相对路径，绝对路径一定是从/开始写的，相对路径不从根开始写，还可能使用路径符号。 路径展开符号： 1234567. :一个点表示当前目录.. :两个点表示上一层目录- ：一个短横线表示上一次使用的目录,">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-29T09:34:15.698Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux文件类基础命令">
+<meta name="twitter:description" content="本文原创地址：博客园骏马金龙https://www.cnblogs.com/f-ck-need-u/p/6995195.html linux文件类基础命令1.关于路径和通配符linux中分绝对路径和相对路径，绝对路径一定是从/开始写的，相对路径不从根开始写，还可能使用路径符号。 路径展开符号： 1234567. :一个点表示当前目录.. :两个点表示上一层目录- ：一个短横线表示上一次使用的目录,">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/07/28/linux文件类基础命令/">
+
+
+
+
+
+  <title>linux文件类基础命令 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/07/28/linux文件类基础命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux文件类基础命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-28T22:41:56-04:00">
+                2019-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文原创地址：博客园骏马金龙<a href="https://www.cnblogs.com/f-ck-need-u/p/6995195.html" target="_blank" rel="noopener">https://www.cnblogs.com/f-ck-need-u/p/6995195.html</a></p>
+<h2 id="linux文件类基础命令"><a href="#linux文件类基础命令" class="headerlink" title="linux文件类基础命令"></a>linux文件类基础命令</h2><h4 id="1-关于路径和通配符"><a href="#1-关于路径和通配符" class="headerlink" title="1.关于路径和通配符"></a>1.关于路径和通配符</h4><p>linux中分绝对路径和相对路径，绝对路径一定是从/开始写的，相对路径不从根开始写，还可能使用路径符号。</p>
+<p>路径展开符号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">. :一个点表示当前目录</span><br><span class="line">.. :两个点表示上一层目录</span><br><span class="line">- ：一个短横线表示上一次使用的目录,例如从/tmp直接切换到/etc下，&quot;-&quot;就表示/tmp</span><br><span class="line">~  ：(波浪符号)表示用户的家目录，例如&quot;~account&quot;表示account用户的家目录</span><br><span class="line">/dir/和/dir：一般都表示dir目录和dir目录中的文件。但在有些地方会严格区分是否加尾</span><br><span class="line">              随斜线，此时对于加了尾随斜线的表示此目录中的文件，不加尾随斜线的表示</span><br><span class="line">              该目录本身和此目录中的文件</span><br></pre></td></tr></table></figure>
+
+<p>切换路径用cd命令； </p>
+<p>显示当前所在目录用pwd命令。若当前所在目录为链接目录，使用pwd显示的将是链接自身，使用-P选项将定位到链接的原始目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible6_node1 ~]# ll ; cd tmp; pwd; pwd -P</span><br><span class="line">total 0</span><br><span class="line">lrwxrwxrwx 1 root root 4 May 30 19:17 tmp -&gt; /tmp</span><br><span class="line">/root/tmp</span><br><span class="line">/tmp</span><br></pre></td></tr></table></figure>
+
+<p>获取文件名使用basename命令，获取文件所在目录使用dirname命令。注意，这两个命令其实不太完善，它不会检查文件或目录是否存在，只要写出来了就会去获取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi tmp]# basename /etc/shadow</span><br><span class="line">shadow</span><br><span class="line">[root@xuexi tmp]# basename /etc/</span><br><span class="line">etc</span><br><span class="line">[root@xuexi tmp]# dirname /etc/shadow</span><br><span class="line">/etc</span><br><span class="line">[root@xuexi tmp]# dirname /etc/    # 对目录使用dirname获取的是上级目录</span><br><span class="line">/</span><br><span class="line">[root@server1 ~]# dirname /kalsldk/kdkskks/djfjdjdjsj   # 获取不存在的目录</span><br><span class="line">/kalsldk/kdkskks</span><br></pre></td></tr></table></figure>
+
+<p>bash shell通配符：</p>
+<p>可以使用”*”、”?”、”[]”等的通配符来扩展路径或文件名。例如， ls *.log 将列出当前路径下所有以”.log”字符结尾的文件名(但不包括”.”开头的隐藏文件)。</p>
+<p>默认情况下，bash提供的通配符规则比较弱，例如”*”无法匹配文件名开头的”.”，无法匹配路径分隔符号(即斜线”/“)，但可以通过set或shopt命令开启额外的通配功能，实现更完善的通配符规则。</p>
+<p>例如，默认情况下，想要匹配目录/path下所有隐藏文件和非隐藏文件，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls  .*  *</span><br></pre></td></tr></table></figure>
+
+<p>开启dotglob功能，”*”就可以匹配以”.”开头的文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shopt -s dotglob</span><br><span class="line">ls *</span><br></pre></td></tr></table></figure>
+
+<p>有时想要递归到目录内部，又想要匹配文件名，例如想要递归找出多层目录/path下所有的”.css”文件，这时可以开启globstar功能，使用”两星连珠”(**)就可以匹配匹配路径斜线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shopt -s globstar       # 开启星号匹配模式</span><br><span class="line">ls /path/**/*.css       # 开启后，使用两个星号**就会匹配斜线</span><br></pre></td></tr></table></figure>
+
+<p>必须要说明的是，对于非bash内置命令，有些可能也提供了自己的通配符匹配方式，它们的通配模式和shell提供的可能并不一样。例如find的”-name”选项就可以采用自己的通配符，它的星号”*”可以匹配以点开头的隐藏文件，如<figure class="highlight plain"><figcaption><span>/var/log -name "*.log"。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#### 2. 查看目录内容(ls和tree)</span><br><span class="line"></span><br><span class="line">ls命令列出目录中的内容，和dir命令完全等价。tree命令按树状结构递归列出目录和子目录中的内容，而ls使用-R选项时才会递归列出。 </span><br><span class="line"></span><br><span class="line">注意：ls的结果中是以制表符分隔多个文件的。</span><br><span class="line"></span><br><span class="line">2.1 ls命令</span><br><span class="line"></span><br><span class="line">ls的各个选项说明如下：</span><br></pre></td></tr></table></figure></p>
+<p>-l：(long)长格式显示，即显示属性等信息(包括mtime)。注意：显示的目录大小是节点所占大小。像win一样计算目录大小时包括文件大小要用du -sh</p>
+<p>-c：列出ctime</p>
+<p>-u：列出atime</p>
+<p>-d：(direcorty)查看目录本身属性信息，不查看目录里面的东西。不加-d会查看里面文件的信息</p>
+<p>-a：会显示所有文件，包括两个相对路径的文件”.”和”..”以及以点开头的隐藏文件</p>
+<p>-A：会列出绝大多数文件，即忽略两个相对路径的文件”.”和”..”</p>
+<p>-h：(human)人类可读的格式，将字节换成k,将K换成M，将M换成G</p>
+<p>-i：(inode)权限属性的前面加上一堆数字</p>
+<p>-p：对目录加上/标识符以作区分</p>
+<p>-F：对不同类型的文件加上不同标识符以作区分，对目录加的文件也是/</p>
+<p>-t：按修改时间排序内容。不加任何改变顺序的选项时，ls默认按照字母顺序排序</p>
+<p>-r：反转排序</p>
+<p>-R：递归显示</p>
+<p>-S：按文件大小排序，默认降序排序</p>
+<p>–color：显示颜色</p>
+<p>-m：使用逗号分隔各文件，当然，只适用于未使用长格式(ls -l)的情况</p>
+<p>-1：(数值一)，以换行符分隔文件，当然，和-m或-l(小写字母)是冲突的</p>
+<p>-I pattern：忽略被pattern匹配到的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">注意，ls以-h显示文件大小时，一般显示的都是不带B的单位，如K/M/G，它们的转换比例是1024，如果显示的都是带了B的，如KB/MB/GB，则它们的转换比例为1000而非1024，一般很少显示带B的大小。 </span><br><span class="line"></span><br><span class="line">不得不说，ls本身不能显示出文件的全路径名是一大缺陷，不过好在使用find命令可以很简单的就获取到。</span><br><span class="line"></span><br><span class="line">以下是使用ls -l显示文件长格式的属性。</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi ~]# ll /tmp<br>drwxr-xr-x  2 root root 4096 Mar 26 16:44 test1</p>
+<p>#分析<br>当为d则是目录，当为-则是文件，当为l则表示为链接文件这是文件的类型<br>rwx，r-x,r-x分别表示所有者权限，所属组权限，其他人权限<br>2表示硬链接数<br>root所有者，root所属组<br>4096文件大小(字节)-h可以转换显示方式<br>Mar 26 16:44:最近一次修改的日期<br>test1:表示文件(目录名)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#### 2.2tree命令</span><br><span class="line">有可能tree命令不存在，需要安装tree包才有(安装：yum -y install tree)。 </span><br><span class="line"></span><br><span class="line">tree命令的选项说明如下： </span><br><span class="line"></span><br><span class="line">【 匹配选项：】</span><br></pre></td></tr></table></figure>
+
+<p>-L：用于指定递归显示的深度，指定的深度必须是大于0的整数。 </p>
+<p>-P：用于显示通配符匹配模式的目录和文件，但是不管是否匹配，目录一定显示。 </p>
+<p>-I：用于显示除被通配符匹配外的所有目录和文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【 显示选项：】</span><br></pre></td></tr></table></figure>
+
+<p>-a：用于显示隐藏文件，默认不显示。 </p>
+<p>-d：指定只显示目录。 </p>
+<p>-f：指定显示全路径。 </p>
+<p>-i：不缩进显示。和-f一起使用很有用。 </p>
+<p>-p：用于显示权限位信息。 </p>
+<p>-h：用于显示大小。 </p>
+<p>-u：显示username或UID(当没有username时只能显示UID了)。 </p>
+<p>-g：显示groupname或GID。 </p>
+<p>-D：显示文件的最后一次Mtime。 </p>
+<p>–inodes：显示inode号。 </p>
+<p>–device：显示文件或目录所属的设备号。 </p>
+<p>-C：显示颜色。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【 输出选项：】</span><br></pre></td></tr></table></figure>
+
+<p>-o filename：指定将tree的结果输出到filename文件中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#### 3. 文件的时间戳(atime/ctime/mtime)</span><br><span class="line">文件的时间属性有三种：atime/ctime/mtime。atime是access time，即上一次的访问时间；mtime是modify time，是文件的修改时间；ctime是change time，也是文件的修改时间，只不过这个修改时间计算的inode修改时间，也就是元数据修改时间。文件还有一个创建时间(create time)，大多数unix系统上都认为这是个无用的属性，一般工具无法获取这个时间，但是对于ext家族文件系统，通过它的底层调试工具debugfs可以获取create time。</span><br><span class="line"></span><br><span class="line">但mtime只有修改文件内容才会改变，更准确的说是修改了它的data block部分；而ctime是修改文件属性时改变的，确切的说是修改了它的元数据部分，例如重命名文件，修改文件所有者，移动文件(移动文件没有改变datablock，只是改变了其inode指针，或文件名)等.当然，修改文件内容也一定会改变ctime(修改文件内容至少已经修改了inode记录上的mtime，这也是元数据)，也就是说mtime的改变一定会引起ctime的改变。 </span><br><span class="line"></span><br><span class="line">对目录而言，考虑目录文件的data block，可知在目录中创建、删除文件以及目录内其他任意文件操作都会改变mtime，因为目录里的任何东西都是目录中的内容；而目录的ctime，除了目录的mtime引起ctime改变之外，对目录本身的元数据修改也会改变ctime。 </span><br><span class="line"></span><br><span class="line">总结下： </span><br><span class="line"></span><br><span class="line">(1).atime只在文件被打开访问时才改变，若不是打开文件编辑内容(如重定向内容到文件中)，则ctime和mtime的改变不会引起atime的改变; </span><br><span class="line"></span><br><span class="line">(2).mtime的改变一定引起ctime的改变，而访问文件时(例如cat)，atime不一定会改变，所以atime&quot;改变&quot;(这个改变是假象，见下文分析)不一定会影响ctime。(见下面的relatime说明)</span><br><span class="line"></span><br><span class="line">#### 3.1 关于relatime</span><br><span class="line">atime/ctime/mtime是Posix标准要求操作系统维护的时间戳信息。但是每次将atime、ctime和mtime写入到硬盘中(这些不会写入缓存，只要修改就是写入磁盘，即使从缓存读取文件内容也如此)效率很低。有多低？下图是写ctime消耗的时间，几乎总要花费零点几秒。</span><br><span class="line"></span><br><span class="line">mtime要被修改，必然是修改了文件内容，这时候将mtime写入到硬盘中是应该的。但是atime和ctime呢？很多情况下根本用不到atime和ctime，在频繁访问文件的时候，都要修改atime和ctime，这样效率会降低很多很多，所以mount有个noatime选项来避免这种负面影响。</span><br><span class="line"></span><br><span class="line">CentOS6引入了一个新的atime维护机制relatime：除非两次修改atime的时间超过1天(默认设置86400秒)，或者修改了mtime，否则访问文件的inode不会引起atime的改变。换句话说，当cat一个文件的时候，它的atime可能会改变，但是你稍后再cat，它不会再改变。</span><br><span class="line"></span><br><span class="line">由于cat文件的时候atime可能不会改变，所以可能也就不会引起ctime的改变。</span><br><span class="line"></span><br><span class="line">relatime维护的atime是可以控制的，详见man mount的relatime和redhat官方手册</span><br><span class="line">#### 4. 文件/目录的创建和删除</span><br><span class="line">##### 4.1 创建目录mkdir</span><br></pre></td></tr></table></figure>
+
+<p>mkdir [-mp] 目录名<br>-m：表示创建目录时直接设置权限<br>-p：表示递归创建多层目录，即上层目录不存在时也会直接将其创建出来(parent)</p>
+<p>[root@xuexi ~]# mkdir /tmp/test1                 # 在tmp目录中创建一个test1目录<br>[root@xuexi ~]# mkdir -m 711 /tmp/test2          # 直接创建test2时就赋予权限711<br>[root@xuexi ~]# mkdir -p /tmp/test3/test4/test5  # 创建test5，此时会将不存在的test3和test4目录也创建好</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">##### 4.2 创建文件touch</span><br></pre></td></tr></table></figure>
+
+<p>touch file_name</p>
+<p>[root@xuexi ~]# touch /tmp/test1/test1.txt<br>[root@xuexi ~]# touch {1..10} # 创建文件名为1-10的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">多个&#123;&#125;还可以交换扩展。类似(a+b)(c+d)=ac+ad+bc+bd。</span><br><span class="line"></span><br><span class="line">[root@xuexi ~]# touch &#123;a,b&#125;_&#123;c,d&#125; # 创建a_c、a_d、b_c、b_d四个文件</span><br><span class="line"></span><br><span class="line">touch主要是修改文件的时间戳信息，当touch的文件不存在时就自动创建该文件。可以使用 touch –c 来取消创建动作。 </span><br><span class="line"></span><br><span class="line">touch可以更改最近一次访问时间(atime)，最近一次修改时间(mtime)，文件属性修改时间(ctime)，这些时间可以通过命令stat file来查看。其中ctime是文件属性上的更改，即元数据的更改，比如修改权限。</span><br></pre></td></tr></table></figure>
+
+<p>touch -a修改atime，-m修改mtime，没有修改ctime的选项。因为使用touch改变atime或mtime，同时也都会改变ctime，虽说atime并不总是会影响ctime(如cat文件时)。 </p>
+<p>-t选项表示使用”[[CC]YY]MMDDhhmm[.ss]”格式的时间替代当前时间。</p>
+<p>shell&gt; touch -a -t 201212211212 file # 将file文件的atime修改为2012年12月21号12点12分</p>
+<p>-d选项表示使用指定的字符串描述时间格式来替代当前时间，如”3 days ago”,”next Sunday”等很多种格式。 </p>
+<p>所以，touch命令选项说明如下： </p>
+<p>-c：强制不创建文件 </p>
+<p>-a：修改文件access time(atime) </p>
+<p>-m：修改文件modification time(mtime) </p>
+<p>-t：使用”[[CC]YY]MMDDhhmm[.ss]”格式的时间替代当前时间 </p>
+<p>-d：使用字符串描述的时间格式替代当前时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 4.3 删除文件/目录</span><br></pre></td></tr></table></figure>
+
+<p>rm [-rfi] file_name</p>
+<p>-r：表示递归删除，删除目录时需要加此参数 </p>
+<p>-i：询问是否删除(yes/no) </p>
+<p>-f：强制删除，不进行询问</p>
+<p>[root@xuexi ~]# rm -rf /tmp/test2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">删除空目录时还可以使用rmdir。 </span><br><span class="line"></span><br><span class="line">在删除文件之前，一定一定要确定是否真的删除。最好使用rm -i(默认已经在~/.bashrc中定义了该别名)，除非在脚本中，否则不要轻易使用-f选项。已经有非常多的人不小心rm -rf *和rm -rf /NNNNN了。例如想删除&quot;rm –rf /abc*&quot;，结果习惯性的多敲了一个空格&quot;rm –rf /abc *&quot;，完了。 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 5. 查看文件类型file命令</span><br><span class="line"></span><br><span class="line">这是一个简单查看文件类型的命令，查看文件是属于二进制文件还是数据文件还是ASCII文件。</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi tmp]# file /etc/aliases.db<br>/etc/aliases.db: Berkeley DB (Hash, version 9, native byte-order)  # 数据文件</p>
+<p>[root@xuexi tmp]# file ~/.bashrc<br>/root/.bashrc: ASCII text    # ASCII文件</p>
+<p>[root@xuexi tmp]# file /bin/ls<br>/bin/ls: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.18, stripped</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">除了基本的查看文件类型的功能外，file还有一个&quot;-s&quot;选项，是一个超强力的选项，可以查看设备的文件系统类型。像有些分区工具如parted在分区时是可以指定文件系统的(虽然不建议这么做，CentOS 7的parted版本中已经取消了该功能)，但在分区后格式化前，一般是比较难查看该分区的文件系统类型的，但使用file可以查看到。</span><br></pre></td></tr></table></figure>
+
+<p>[root@server1 ~]# file -s /dev/sda1<br>/dev/sda1: Linux rev 1.0 ext4 filesystem data (needs journal recovery) (extents) (huge files)</p>
+<p>[root@server1 ~]# file -s /dev/sda<br>/dev/sda: x86 boot sector; GRand Unified Bootloader, stage1 version 0x3, boot drive 0x80, 1st sector stage2 0x7f86, GRUB version 0.94; partition 1: ID=0x83,<br>active, starthead 32, startsector 2048, 512000 sectors; partition 2: ID=0x83, starthead 254, startsector 514048, 37332992 sectors; partition 3: ID=0x82,<br>starthead 254, startsector 37847040, 4096000 sectors, code offset 0x48</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 6. 文件/目录复制和移动</span><br><span class="line">6.1 cp命令</span><br></pre></td></tr></table></figure>
+
+<p>cp [-apdriulfs] src dest # 复制单文件或单目录 </p>
+<p>cp [-apdriuslf] src1 src2 src3……dest_dir # 复制多文件、目录到一个目录下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">选项说明：</span><br></pre></td></tr></table></figure>
+
+<p>-p： 文件的属性(权限、属组、时间戳)也复制过去。如果不指定p选项，谁执行复制动作，文件所有者和组就是谁。 </p>
+<p>-r或-R：递归复制，常用于复制非空目录。 </p>
+<p>-d：复制的源文件如果是链接文件，则复制链接文件而不是指向的文件本身。即保持链接属性，复制快捷方式本身。如果不指定-d，则复制的是链接所指向的文件。 </p>
+<p>-a：a=pdr三个选项。归档拷贝，常用于备份。 </p>
+<p>-i：复制时如果目标文件已经存在，询问是否替换。 </p>
+<p>-u：(update)若目标文件和源文件同名，但属性不一样(如修改时间，大小等)，则覆盖目标文件。 </p>
+<p>-f：强制复制，如果目标存在，不会进行-i选项的询问和-u选项的考虑，直接覆盖。 </p>
+<p>-l：在目标位置建立硬链接，而不是复制文件本身。 </p>
+<p>-s：在目标位置建立软链接，而不是复制文件本身(软链接或符号链接相当于windows的快捷方式)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">一般使用cp -a即可，对于目录加上-r选项即可。</span><br><span class="line"></span><br><span class="line">注意，bash内置命令在进行通配符匹配文件的时候，&quot;*&quot;、&quot;?&quot;、&quot;[]&quot;是无法匹配到以&quot;.&quot;开头的文件的，所以&quot;*&quot;不会匹配隐藏文件。要通配隐藏文件，使用&quot;.&quot;代替上述几种通配元字符即可，它能匹配除了&quot;.&quot;和&quot;..&quot;这两个特殊目录外的所有文件。它并非通配符，而是表示当前目录，显然直接复制目录，是可以将隐藏文件复制走的。</span><br><span class="line"></span><br><span class="line">例如，复制/etc/skel目录下所有文件包括隐藏文件到/tmp目录下。</span><br></pre></td></tr></table></figure>
+
+<p>cp -a /etc/skel/. /tmp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果有重复文件，则即使加上-f选项，也一样会交互式询问。解决方法可以是使用&quot;yes&quot;这个工具，它会不断的生成y字母直到进程被杀掉，当然也可以自行指定要生成的字符串。</span><br></pre></td></tr></table></figure>
+
+<p>yes | cp -a /etc/skel/. /tmp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">6.2 scp命令和执行过程分析</span><br><span class="line"></span><br><span class="line">scp是基于ssh的安全拷贝命令(security copy)，它是从古老的远程复制命令rcp改变而来，实现的是在host与host之间的拷贝，可以是本地到远程的、本地到本地的，甚至可以远程到远程复制。注意，scp可能会询问密码。 </span><br><span class="line"></span><br><span class="line">如果scp拷贝的源文件在目标位置上已经存在时(文件同名)，scp会替换已存在目标文件中的内容，但保持其inode号。 </span><br><span class="line"></span><br><span class="line">如果scp拷贝的源文件在目标位置上不存在，则会在目标位置上创建一个空文件，然后将源文件中的内容填充进去。 </span><br><span class="line"></span><br><span class="line">之所以解释上面的两句，是为了理解scp的机制，scp拷贝本质是只是填充内容的过程，它不会去修改目标文件的很多属性，对于从远程复制到另一远程时，其机制见后文。</span><br></pre></td></tr></table></figure>
+
+<p>scp [-12BCpqrv] [-l limit] [-o ssh_option] [-P port] [[user@]host1:]file1 … [[user@]host2:]file2</p>
+<p>选项说明：</p>
+<p>-1：使用ssh v1版本，这是默认使用协议版本</p>
+<p>-2：使用ssh v2版本</p>
+<p>-C：拷贝时先压缩，节省带宽</p>
+<p>-l limit：限制拷贝速度，Kbit/s.</p>
+<p>-o ssh_option：指定ssh连接时的特殊选项，一般用不上。偶尔在连接过程中等待提示输入密码较慢时，可以设置GSSAPIAuthentication为no</p>
+<p>-P port：指定目标主机上ssh端口，大写的字母P，默认是22端口</p>
+<p>-p：拷贝时保持源文件的mtime,atime,owner,group,privileges</p>
+<p>-r：递归拷贝，用于拷贝目录。注意，scp拷贝遇到链接文件时，会拷贝链接的源文件内容填充到目标文件中(scp的本质就是填充而非拷贝) </p>
+<p>-v：输出详细信息，可以用来调试或查看scp的详细过程，分析scp的机制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br></pre></td></tr></table></figure>
+
+<p>1.把本地文件/home/a.tar.tz拷贝到远程服务器192.168.0.2上的/home/tmp，连接时使用远程的root用户：</p>
+<p>scp /home/a.tar.tz <a href="mailto:root@192.168.0.2" target="_blank" rel="noopener">root@192.168.0.2</a>:/home/tmp/</p>
+<p>2.目标主机不写路径时，表示拷贝到对方的家目录下：</p>
+<p>scp /home/a.tar.tz <a href="mailto:root@192.168.0.2" target="_blank" rel="noopener">root@192.168.0.2</a></p>
+<p>3.把远程文件/home/a.tar.gz拷贝到本机：</p>
+<p>scp <a href="mailto:root@192.168.0.2" target="_blank" rel="noopener">root@192.168.0.2</a>:/home/a.tar.tz # 不接本地目录表示拷贝到当前目录</p>
+<p>scp <a href="mailto:root@192.168.0.2" target="_blank" rel="noopener">root@192.168.0.2</a>:/home/a.tar.tz /tmp # 拷贝到本地/tmp目录下</p>
+<p>4.拷贝远程机器的/home/目录到本地/tmp目录下。</p>
+<p>scp -r <a href="mailto:root@192.168.0.2" target="_blank" rel="noopener">root@192.168.0.2</a>:/home/ /tmp</p>
+<p>5.从远程主机192.168.100.60拷贝文件到另一台远程主机192.168.100.62上。</p>
+<p>scp <a href="mailto:root@192.168.100.60" target="_blank" rel="noopener">root@192.168.100.60</a>:/tmp/copy.txt <a href="mailto:root@192.168.100.62" target="_blank" rel="noopener">root@192.168.100.62</a>:/tmp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在远程复制到远程的过程中，例如在本地执行scp命令将A主机(192.168.100.60)上的/tmp/copy.txt复制到B主机(192.168.100.62)上的/tmp目录下，如果使用-v选项查看调试信息的话，会发现它的步骤类似是这样的。</span><br></pre></td></tr></table></figure>
+
+<h1 id="以下是从结果中提取的过程"><a href="#以下是从结果中提取的过程" class="headerlink" title="以下是从结果中提取的过程"></a>以下是从结果中提取的过程</h1><h1 id="首先输出本地要执行的命令"><a href="#首先输出本地要执行的命令" class="headerlink" title="首先输出本地要执行的命令"></a>首先输出本地要执行的命令</h1><p>Executing: /usr/bin/ssh -v -x -oClearAllForwardings yes -t -l root 192.168.100.60 scp -v /tmp/copy.txt <a href="mailto:root@192.168.100.62" target="_blank" rel="noopener">root@192.168.100.62</a>:/tmp</p>
+<h1 id="从本地连接到A主机"><a href="#从本地连接到A主机" class="headerlink" title="从本地连接到A主机"></a>从本地连接到A主机</h1><p>debug1: Connecting to 192.168.100.60 [192.168.100.60] port 22.</p>
+<p>debug1: Connection established. </p>
+<h1 id="要求验证本地和A主机之间的连接"><a href="#要求验证本地和A主机之间的连接" class="headerlink" title="要求验证本地和A主机之间的连接"></a>要求验证本地和A主机之间的连接</h1><p>debug1: Next authentication method: password</p>
+<p><a href="mailto:root@192.168.100.60" target="_blank" rel="noopener">root@192.168.100.60</a>‘s password:</p>
+<h1 id="将scp命令行修改后发送到A主机上"><a href="#将scp命令行修改后发送到A主机上" class="headerlink" title="将scp命令行修改后发送到A主机上"></a>将scp命令行修改后发送到A主机上</h1><p>debug1: Sending command: scp -v /tmp/copy.txt <a href="mailto:root@192.168.100.62" target="_blank" rel="noopener">root@192.168.100.62</a>:/tmp</p>
+<h1 id="在A主机上执行scp命令"><a href="#在A主机上执行scp命令" class="headerlink" title="在A主机上执行scp命令"></a>在A主机上执行scp命令</h1><p>Executing: program /usr/bin/ssh host 192.168.100.62, user root, command scp -v -t /tmp</p>
+<h1 id="验证A主机和B主机之间的连接"><a href="#验证A主机和B主机之间的连接" class="headerlink" title="验证A主机和B主机之间的连接"></a>验证A主机和B主机之间的连接</h1><p>debug1: Next authentication method: password</p>
+<p><a href="mailto:root@192.168.100.62" target="_blank" rel="noopener">root@192.168.100.62</a>‘s password:</p>
+<h1 id="从A主机上拷贝源文件到最终的B主机上"><a href="#从A主机上拷贝源文件到最终的B主机上" class="headerlink" title="从A主机上拷贝源文件到最终的B主机上"></a>从A主机上拷贝源文件到最终的B主机上</h1><p>debug1: Sending command: scp -v -t /tmp</p>
+<p>Sending file modes: C0770 24 copy.txt</p>
+<p>Sink: C0770 24 copy.txt</p>
+<p>copy.txt 100% 24 0.0KB/s </p>
+<h1 id="关闭本地主机和A主机的连接"><a href="#关闭本地主机和A主机的连接" class="headerlink" title="关闭本地主机和A主机的连接"></a>关闭本地主机和A主机的连接</h1><p>Connection to 192.168.100.60 closed.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">也就是说，远程主机A到远程主机B的复制，实际上是将scp命令行从本地传递到主机A上，由A自己去执行scp命令。也就是说，本地主机不会和主机B有任何交互行为，本地主机就像是一个代理执行者一样，只是帮助传送scp命令行以及帮助显示信息。</span><br><span class="line"></span><br><span class="line">其实从本地主机和主机A上的~/.ssh/know_hosts文件中可以看出，本地主机只是添加了主机A的信息，并没有添加主机B的信息，而在主机A上则添加了主机B的信息。</span><br><span class="line">#### 6.3 mv命令</span><br><span class="line">mv命令移动文件和目录，还可以用于重命名文件或目录。</span><br></pre></td></tr></table></figure>
+
+<p>mv [-iuf] src dest # 移动单个文件或目录</p>
+<p>mv [-iuf] src1 src2 src3 dest_dir # 移动多个文件或目录</p>
+<p>选项说明：</p>
+<p>–backup[=CONTROL]：如果目标文件已存在，则对该文件做一个备份，默认备份文件是在文件名后加上波浪线，如/b.txt~</p>
+<p>-b：类似于–backup，但不接受参数, 默认备份文件是在文件名后加上波浪线，如/b.txt~</p>
+<p>-f：如果目标文件已存在，则强制覆盖文件</p>
+<p>-i：如果目标文件已存在，则提示是否要覆盖，这是alias mv的默认选项</p>
+<p>-n：如果目标文件已存在，则不覆盖已存在的文件</p>
+<pre><code>如果同时指定了-f/-i/-n，则后指定的生效</code></pre><p>-u：(update)如果源文件和目标文件不同，则移动，否则不移动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mv默认已经是递归移动,不需要-r参数。</span><br><span class="line">#### 6.4 mv的一个经典问题(mv的本质)</span><br><span class="line">该问题涉及文件系统操作文件的机制，若不理解，请先深入学习文件系统。</span><br><span class="line"></span><br><span class="line">mv不能实现里层同名目录覆盖外层同名目录。如/tmp下有a目录，a目录里还有a目录，将不能实现/tmp/a/a移动到/tmp。</span><br></pre></td></tr></table></figure>
+
+<p>[root@toystory tmp]# tree -L 3 a -fC</p>
+<p>a<br>└── a/a<br>├── a/a/a<br>2 directories, 1 file</p>
+<p>[root@toystory tmp]# mv a/* .<br>mv: overwrite <code>./a&#39;? y
+mv: cannot move</code>a/a’ to `./a’: Directory not empty</p>
+<p>[root@toystory tmp]# mv -f /tmp/a/* /tmp<br>mv: cannot move <code>/tmp/a/a&#39; to</code>/tmp/a’: Directory not empty</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">复制代码</span><br><span class="line">要解释为何会如此，先说明移动和覆盖动作的本质。</span><br><span class="line"></span><br><span class="line">同文件系统下移动文件实际上是修改目标文件所在目录的data block，向其中添加一行指向inode table中待移动文件的inode的指针，如果目标路径下有同名文件，则会提示是否覆盖，实际上是覆盖指向该同名文件的inode指针，由于同名文件的inode记录指针被覆盖，就无法再找到该文件的data block，所以该文件被标记为删除。</span><br><span class="line"></span><br><span class="line">跨文件系统移动文件的本质：如果目标路径下没有同名文件，则先为此文件分配一个inode号，并在目标目录的data block中添加一条指向该inode号的新记录(是全新的)，然后将文件复制到目标位置，复制成功则删除源文件，复制失败则保留源文件；如果目标路径下有同名文件，则提示是否要覆盖，如果选择覆盖，则将该同名文件的inode指针指向新分配的inode号，然后将文件复制到目标位置，复制成功则删除源文件，复制失败则保留源文件。</span><br><span class="line"></span><br><span class="line">也就是说，同文件系统下移动文件时，inode记录不变(如inode号)，当然，时间戳是一定会改变的，因为移动过程中修改了inode指向data block的指针。而跨文件系统下移动文件时，inode记录完全改变，它是新添加的记录。</span><br><span class="line"></span><br><span class="line">再考虑上面的问题，同文件系统下移动文件时先在目标位置/tmp的data block中添加一条记录，如果同名则提示覆盖，覆盖时会先删除/tmp的data block中的a对应的记录，再添加将要移动文件的记录。从上面的结果也可以看出是先提示覆盖再提示目录非空的错误。</span><br><span class="line"></span><br><span class="line">设想下，如果/tmp/a/a移动到/tmp下并重命名为b，则其动作是直接向/tmp的data block中添加b的记录，如果此时正好/tmp下已有b目录，则先删除/tmp的data block中b目录对应的记录，再添加移动后的b记录。</span><br><span class="line"></span><br><span class="line">但是现在不是重命名为b，而是覆盖/tmp/a，此时的动作按原理应该是先提示是否覆盖，如果是，则删除/tmp的data block中a对应的记录，但由于此时/tmp/a目录中还有文件，该记录无法删除(因为如果要删除了该记录，代表删除了/tmp/a整个目录，而删除整个/tmp/a目录需要删除里面所有的文件，在删除它们之前的一个动作是把/tmp/a中的所有目录和文件的inode号标记为未使用，但此刻要移动的源目录/tmp/a/a是在使用当中的)，所以提示目录非空而无法删除，这里所指的非空目录指的是/tmp/a，而非是/tmp/a/a非空。</span><br><span class="line"></span><br><span class="line">但是在Windows操作系统下，里层目录是可以直接覆盖外层同名目录的，这和文件系统的行为有关。</span><br><span class="line">#### 7. 查看文件内容</span><br><span class="line">7.1 cat命令</span><br><span class="line"></span><br><span class="line">输出一个或多个文件的内容。</span><br><span class="line"></span><br><span class="line">cat [OPTION]... [FILE]...</span><br><span class="line"></span><br><span class="line">选项说明</span><br></pre></td></tr></table></figure>
+
+<p>-n：显示所有行的行号</p>
+<p>-b：显示非空行的行号</p>
+<p>-E：在每行行尾加上$符号</p>
+<p>-T：将TAB符号输出为”^I”</p>
+<p>-s：压缩连续空行为单个空行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat还有一个重要功能，允许将分行键入的内容输入到一个文件中去。</span><br><span class="line"></span><br><span class="line">首先测试&lt;&lt;eof，这表示将键入的内容追加到标准输入stdin中(不是从标准输入中读取)， eof可以随便使用其他符号代替。</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi tmp]# cat &lt;&lt;eof</p>
+<blockquote>
+<p>abc.com<br>eof<br>abc.com</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">再测试&lt;eof，发现没有输入的机会，并且此时只能使用eof作为符号，EOF或其他任何都不可以。因为&lt;eof是读取标准输入，会将eof当成输入文件处理。所以一定要使用&lt;&lt;eof，这表示here document，而两个eof正是document的起始和结束标志。</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi tmp]# cat &lt;eof</p>
+<p>[root@xuexi tmp]# cat &lt;eox<br>-bash: eox: No such file or directory</p>
+<p>[root@xuexi tmp]# cat &lt;EOF<br>-bash: EOF: No such file or directory</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">再进一步测试&lt;&lt;eof的功能，将键入的内容重定向到文件而非标准输入中。这时有两种书写方案：</span><br><span class="line"></span><br><span class="line">第一种方案：&gt;&gt;filename&lt;&lt;eof或&gt;filename&lt;&lt;eof</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi ~]# cat &gt;&gt;/tmp/test.txt&lt;&lt;EOF # 输入到这里按回车键继续输入下一行</p>
+<blockquote>
+<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx # 按回车输入下一行<br>yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy # 按回车输入下一行<br>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz # 按回车输入下一行<br>EOF # 顶格写EOF结束输入</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第二种方案：&lt;&lt;eof&gt;filename或&lt;&lt;eof&gt;&gt;filename</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi tmp]# cat &lt;<eof>log.txt</eof></p>
+<blockquote>
+<p>abc.com<br>eof</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">两种方案结果是一样的，且总是使用&lt;&lt;eof，只不过所写的位置不同而已，不管写在哪个位置，它都表示将键入的内容追加到标准输入。然后再使用&gt;filename或&gt;&gt;filename控制重定向的方式，将标准输入中的内容重定向到filename文件中。</span><br><span class="line"></span><br><span class="line">7.2 tac</span><br><span class="line"></span><br><span class="line">tac和cat字母正好是相反的，其作用也是和cat相反的，它会反向输出行，将最后一行放在第一行的位置输出，依此类推。但是，tac没有显示行号的参数。</span><br></pre></td></tr></table></figure>
+
+<p>shell&gt; echo -e ‘1\n2\n3\n4\n5’ | tac<br>5<br>4<br>3<br>2<br>1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">7.3 head</span><br><span class="line"></span><br><span class="line">head打印前面的几行。</span><br><span class="line"></span><br><span class="line">head [-n num] | [-num] [-v] filename</span><br></pre></td></tr></table></figure>
+
+<p>-n：显示前num行；如果num是负数，则显示除了最后|num|(绝对值)行的其余所有行，即显示前”总行数 - |num|”</p>
+<p>-v：会显示出文件名</p>
+<p>-n num是显示文件的前num行，num可以是+/-或不加正负号的整数，如果是正整数或不写+号，则显示前num行。如果是负整数，则从后向前数num行，并打印除了这些行的前面所有的行，即打印除了最后num行的所有行，也即总行数减num的前正数行。不写-n时默认是前10行。正整数时”-n num”可以直接简写”-num”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">不管怎么样，它取的都是前几行，哪怕是负整数也是前几行。</span><br><span class="line"></span><br><span class="line">示例：</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi ~]# echo -e ‘1\n2\n3\n4\n5’ | head     # 取出默认前10行，但总共才有5行。<br>1<br>2<br>3<br>4<br>5</p>
+<p>[root@xuexi ~]# echo -e ‘1\n2\n3\n4\n5’ | head -2     # 取出前2行<br>1<br>2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或者</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi ~]# echo -e ‘1\n2\n3\n4\n5’ | head -n 2 # 取出前2行<br>1<br>2</p>
+<p>[root@xuexi ~]# echo -e ‘1\n2\n3\n4\n5’ | head -n -1 # 取出前5-1=4行<br>1<br>2<br>3<br>4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">7.4 tail</span><br><span class="line"></span><br><span class="line">tail和head相反，是显示后面的行，默认是后10行。</span><br></pre></td></tr></table></figure>
+
+<p>tail [OPTION]… [FILE]…</p>
+<p>选项说明：</p>
+<p>-n：输出最后num行，如果使用-n +num则表示输出从第num行开始的所有行</p>
+<p>-f：监控文件变化</p>
+<p>–pid=PID：和-f一起使用，在给定PID的进程死亡后，终止文件监控</p>
+<p>-v：显示文件名</p>
+<p>“-n -num”或”-num”或”-n num”(num为正整数)表示输出最后的num行。使用”-n +num”(num为正整数)则表示输出从第num行开始的所有行。</p>
+<p>[root@xuexi ~]# echo -e ‘1\n2\n3\n4\n5’ | tail -3         # 等价于 tail -n 3和tail -n -3<br>3<br>4<br>5</p>
+<p>[root@xuexi tmp]# seq 6 | tail -n +3       # 打印除了前3-1=2行的所有行<br>3<br>4<br>5<br>6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">tail还有一个重要的参数-f，监控文件的内容变化。当一个用户不断修改某个文件的尾部，另一个用户就可以通过这个命令来刷新并显示这些修改后的内容。</span><br><span class="line"></span><br><span class="line">7.5 nl</span><br><span class="line"></span><br><span class="line">以行号的方式查看内容。</span><br><span class="line"></span><br><span class="line">常用&quot;-b a&quot;，表示不论是否空行都显示行号，等价于cat -n；不写选项时，默认&quot;-b t&quot;，表示空行不显示行号，等价于cat -b。</span><br></pre></td></tr></table></figure>
+
+<p>[root@xuexi ~]# nl /etc/issue # 默认空行不显示行号<br>1 CentOS release 6.6 (Final)<br>2 Kernel \r on an \m</p>
+<p>[root@xuexi ~]# nl -b a /etc/issue<br>1 CentOS release 6.6 (Final)<br>2 Kernel \r on an \m<br>3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">7.6 more和less</span><br><span class="line"></span><br><span class="line">按页显示文件内容。使用more时，使用/搜索字符串，按下n或N键表示向下或向上继续搜索。使用less时，还多了一个搜索功能，使用?搜索字符串，同样，使用n或N键可以向上或向下继续搜索。</span><br><span class="line"></span><br><span class="line">7.7 比较文件内容</span><br><span class="line"></span><br><span class="line">shell&gt; diff file1 file2</span><br><span class="line"></span><br><span class="line">shell&gt; vimdiff file1 file2</span><br><span class="line"></span><br><span class="line">8. 文件查找类命令</span><br><span class="line"></span><br><span class="line">搜索文件的路径在何处以及文件的名称为何。</span><br><span class="line"></span><br><span class="line">8.1 which</span><br><span class="line"></span><br><span class="line">显示命令或脚本的全路径，默认也会将命令的别名显示出来。</span><br></pre></td></tr></table></figure>
+
+<p>shell&gt; which mv</p>
+<p>alias mv=’mv -i’<br>       /bin/mv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">8.2 whereis</span><br><span class="line"></span><br><span class="line">找出二进制文件、源文件和man文档文件。</span><br></pre></td></tr></table></figure>
+
+<p>shell&gt; whereis cd</p>
+<p>cd: /usr/bin/cd /usr/share/man/man1/cd.1.gz /usr/share/man/man1p/cd.1p.gz /usr/share/man/mann/cd.n.gz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">8.3 whatis</span><br><span class="line"></span><br><span class="line">列出给定命令(并非一定是命令)的man文档信息。</span><br></pre></td></tr></table></figure>
+
+<p>shell&gt; whatis passwd</p>
+<p>sslpasswd (1ssl) - compute password hashes<br>passwd (1) - update user’s authentication tokens<br>passwd (5) - password file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">根据上面的结果，执行：</span><br></pre></td></tr></table></figure>
+
+<p>man 1 passwd # 获取passwd命令的man文档</p>
+<p>man 5 passwd # 获取password文件的man文档，文件类的man文档说明的是该文件中各配置项意义</p>
+<p>man sslpasswd # 获取sslpasswd命令的man文档，实际上是openssl passwd的man文档</p>
+<pre><code></code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux基础/" rel="tag"># linux基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/26/透明代理-正向代理-反向代理区别/" rel="next" title="透明代理,正向代理,反向代理区别">
+                <i class="fa fa-chevron-left"></i> 透明代理,正向代理,反向代理区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/29/linux系统用户、组管理/" rel="prev" title="linux系统用户、组管理">
+                linux系统用户、组管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux文件类基础命令"><span class="nav-number">1.</span> <span class="nav-text">linux文件类基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-关于路径和通配符"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.关于路径和通配符</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#以下是从结果中提取的过程"><span class="nav-number"></span> <span class="nav-text">以下是从结果中提取的过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#首先输出本地要执行的命令"><span class="nav-number"></span> <span class="nav-text">首先输出本地要执行的命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从本地连接到A主机"><span class="nav-number"></span> <span class="nav-text">从本地连接到A主机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#要求验证本地和A主机之间的连接"><span class="nav-number"></span> <span class="nav-text">要求验证本地和A主机之间的连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将scp命令行修改后发送到A主机上"><span class="nav-number"></span> <span class="nav-text">将scp命令行修改后发送到A主机上</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在A主机上执行scp命令"><span class="nav-number"></span> <span class="nav-text">在A主机上执行scp命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#验证A主机和B主机之间的连接"><span class="nav-number"></span> <span class="nav-text">验证A主机和B主机之间的连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从A主机上拷贝源文件到最终的B主机上"><span class="nav-number"></span> <span class="nav-text">从A主机上拷贝源文件到最终的B主机上</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关闭本地主机和A主机的连接"><span class="nav-number"></span> <span class="nav-text">关闭本地主机和A主机的连接</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

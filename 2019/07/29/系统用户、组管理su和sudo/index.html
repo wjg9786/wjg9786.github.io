@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="https://www.cnblogs.com/f-ck-need-u/p/7011669.html 系统用户、组管理su和sudosu切换或以指定用户运行命令。 使用su可以指定运行命令的身份(user/group/uid/gid) 为了向后兼容，su默认不会改变当着目录，且仅设置HOMW和SHELL这两个环境变量(若目标用户非root,则还设置USER和LOGNAME环境变量)。推荐使用–lo">
+<meta name="keywords" content="linux基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统用户、组管理su和sudo">
+<meta property="og:url" content="http://yunjis.cn/2019/07/29/系统用户、组管理su和sudo/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="https://www.cnblogs.com/f-ck-need-u/p/7011669.html 系统用户、组管理su和sudosu切换或以指定用户运行命令。 使用su可以指定运行命令的身份(user/group/uid/gid) 为了向后兼容，su默认不会改变当着目录，且仅设置HOMW和SHELL这两个环境变量(若目标用户非root,则还设置USER和LOGNAME环境变量)。推荐使用–lo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-29T09:18:35.129Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="系统用户、组管理su和sudo">
+<meta name="twitter:description" content="https://www.cnblogs.com/f-ck-need-u/p/7011669.html 系统用户、组管理su和sudosu切换或以指定用户运行命令。 使用su可以指定运行命令的身份(user/group/uid/gid) 为了向后兼容，su默认不会改变当着目录，且仅设置HOMW和SHELL这两个环境变量(若目标用户非root,则还设置USER和LOGNAME环境变量)。推荐使用–lo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/07/29/系统用户、组管理su和sudo/">
+
+
+
+
+
+  <title>系统用户、组管理su和sudo | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/07/29/系统用户、组管理su和sudo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">系统用户、组管理su和sudo</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T02:23:04-04:00">
+                2019-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.cnblogs.com/f-ck-need-u/p/7011669.html" target="_blank" rel="noopener">https://www.cnblogs.com/f-ck-need-u/p/7011669.html</a></p>
+<h4 id="系统用户、组管理su和sudo"><a href="#系统用户、组管理su和sudo" class="headerlink" title="系统用户、组管理su和sudo"></a>系统用户、组管理su和sudo</h4><h2 id="su"><a href="#su" class="headerlink" title="su"></a>su</h2><p>切换或以指定用户运行命令。</p>
+<p>使用su可以指定运行命令的身份(user/group/uid/gid)</p>
+<p>为了向后兼容，su默认不会改变当着目录，且仅设置HOMW和SHELL这两个环境变量(若目标用户非root,则还设置USER和LOGNAME环境变量)。推荐使用–login选项(即-选项)避免环境变量混乱。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">su [options...] [-] [user [args...]]</span><br><span class="line">选项说明：</span><br><span class="line">-c command：使用-c选项传递要指定的命令到shell上执行。使用-c执行命令会为每个su都分配新的会话环境</span><br><span class="line">-, -l, --login：启动shell作为登录的shell，模拟真正的登录环境。它会做下面几件事：</span><br><span class="line">                1.清除除了TERM外的所有环境变量</span><br><span class="line">                2.初始化HOME,SHELL,USER,LOGNAME,PATH环境变量</span><br><span class="line">                3.进入目标用户的家目录</span><br><span class="line">                4.设置argv[0]为&quot;-&quot;以便设置shell作为登录的shell</span><br><span class="line">                  使用--login的su是交互式登录。不使用--login的su是非交互式登录(除不带任何参数的su外</span><br><span class="line">-m, -p, --preserve-environment：保留整个环境变量(不会重新设置HOME,SHELL,USER和LOGNAME)，</span><br><span class="line">                                保留环境的方法是新用户shell上执行原用户的各配置文件，如~/.bashrc。</span><br><span class="line">                                当设置了--login时，将忽略该选项</span><br><span class="line">-s SHELL：运行指定的shell而非默认shell，选择shell的顺序优先级如下：</span><br><span class="line">                1.--shell指定的shell</span><br><span class="line">                2.如果使用了--preserve-environment，选择SHELL环境变量的shell</span><br><span class="line">                3.选项目标用户在passwd文件中指定的shell</span><br><span class="line">                4./bin/sh</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>(1). 若su没有给定任何参数，将默认以root身份运行交互式的shell(交互式，所以需要输入密码)，即切换到root用户，但只改变HOME和SHELL环境变量。</p>
+<p>(2). su - username是交互式登录，要求密码，会重置整个环境变量，它实际上是在模拟真实的登录环境。</p>
+<p>(3). su username是非交互登录，不会重置除HOME/SHELL外的环境变量。</p>
+<p>例如：用户wangwu家目录为/home/wangwu，其shell为/bin/csh。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; head -1 /etc/passwd ; tail -1 /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">wangwu:x:2002:2002::/home/wangwu:/bin/csh</span><br></pre></td></tr></table></figure>
+
+<p>首先su到wangwu上，再执行一个完全不带参数的su。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; su - wangwu        # 使用su - username后，以登录shell的方式模拟登录，会重新设置各环境变量。su - username是交互式登录</span><br><span class="line"></span><br><span class="line">shell&gt; env | egrep -i &apos;^home|^shell|^path|^logname|^user&apos;</span><br><span class="line">HOME=/home/wangwu</span><br><span class="line">SHELL=/bin/csh</span><br><span class="line">USER=wangwu</span><br><span class="line">LOGNAME=wangwu</span><br><span class="line">PATH=/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin</span><br><span class="line">PWD=/home/wangwu</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; su        # 不带任何参数的su，是交互式登录切换回root，但只会改变HOME和SHELL环境变量</span><br><span class="line"></span><br><span class="line">shell&gt; env | egrep -i &apos;^home|^shell|^path|^logname|^user|^pwd&apos;</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">USER=wangwu</span><br><span class="line">PATH=/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin</span><br><span class="line">PWD=/home/wangwu</span><br><span class="line">HOME=/root</span><br><span class="line">LOGNAME=wangwu</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; su  -              #  su - 的方式切换回root</span><br><span class="line">Password:</span><br><span class="line"></span><br><span class="line">shell&gt; env | egrep -i &apos;^home|^shell|^path|^logname|^user|^pwd&apos;</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">USER=root</span><br><span class="line">PATH=/usr/lib64/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line">PWD=/root</span><br><span class="line">HOME=/root</span><br><span class="line">LOGNAME=root</span><br><span class="line">shell&gt; su wangwu  # 再直接su username，它只会重置SHELL和HOME两个环境变量，其他环境变量保持不变</span><br><span class="line">shell&gt; env | egrep -i &apos;^home|^shell|^path|^logname|^user|^pwd&apos;</span><br><span class="line">SHELL=/bin/csh</span><br><span class="line">USER=wangwu</span><br><span class="line">PATH=/usr/lib64/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin</span><br><span class="line">PWD=/root</span><br><span class="line">HOME=/home/wangwu</span><br><span class="line">LOGNAME=wangwu</span><br></pre></td></tr></table></figure>
+
+<p>在某些环境下或脚本中，可能需要临时切换身份执行命令，注意这时候的环境变量是否会改变，否则很可能报错提示命令找不到。</p>
+<h2 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h2><p>sudo可以让一个用户以某个身份(如root或其他用户)执行某些命令，它隐含的执行方式是切换到指定用户再执行命令，因为涉及到了用户的切换，所以环境变量是否重置是需要设置的。</p>
+<p>sudo支持插件实现安全策略。默认的安全策略插件是sudoers，它是通过/etc/sudoers或LDAP来配置的。</p>
+<p>安全策略是控制用户使用sudo命令时具有什么权限，但要注意，安全策略可能需要用户进行身份认证，如密码认证的机制或其他认证机制，如果开启了认证要求，则在指定时间内未完成认证时sudo会退出，默认超时时间为5分钟。</p>
+<p>安全策略支持对认证进行缓存，使得在一定时间内该用户无需再次认证就可以执行sudo命令，默认缓存时间为5分钟，sudo -v可以更新认证缓存。</p>
+<p>sudo支持日志审核，可以记录下成功或失败的sudo。</p>
+<h4 id="etc-sudoers文件"><a href="#etc-sudoers文件" class="headerlink" title="/etc/sudoers文件"></a>/etc/sudoers文件</h4><p>该文件里主要配置sudo命令时指定的用户和对应的权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; visudo     # 以下选取的是部分行</span><br><span class="line">## hostname or IP addresses instead.   # 主机别名Host_Alias</span><br><span class="line"># Host_Alias     FILESERVERS = fs1, fs2</span><br><span class="line"># Host_Alias     MAILSERVERS = smtp, smtp2</span><br><span class="line"></span><br><span class="line">## User Aliases           # 用户别名User_Alias</span><br><span class="line"># User_Alias ADMINS = jsmith, mikem</span><br><span class="line"></span><br><span class="line">## Command Aliases        # 命令别名</span><br><span class="line"># Cmnd_Alias SERVICES = /sbin/service, /sbin/chkconfig</span><br><span class="line"># Cmnd_Alias LOCATE = /usr/bin/updatedb</span><br><span class="line"> </span><br><span class="line">root    ALL=(ALL)       ALL   # sudo权限的配置</span><br><span class="line"># %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS</span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line"># %wheel        ALL=(ALL)       ALL</span><br><span class="line">## Same thing without a password</span><br><span class="line"># %wheel        ALL=(ALL)       NOPASSWD: ALL</span><br><span class="line">在这个文件里，主要有别名(用户别名，主机别名，命令别名)的配置和sudo权限的配置。</span><br><span class="line"></span><br><span class="line">安全策略配置格式为：</span><br></pre></td></tr></table></figure>
+
+<p>用户名  主机名=(可切换到的用户身份)  权限和命令</p>
+<p>①           ②                 ③              ④</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">①用户名：可以用组，只需在组名前加个百分号%表示。</span><br><span class="line"></span><br><span class="line">②主机名：表示该用户可以在哪些主机上运行sudo，可以用hostname也可以用ip指定。</span><br><span class="line"></span><br><span class="line">③可切换的用户身份，即指定执行命令的用户，也可以用组。</span><br><span class="line"></span><br><span class="line">④权限和命令：允许执行和不允许执行的命令(多个命令间用逗号分隔)和特殊权限，命令可以带其选项及参数。命令要写绝对路径。不允许执行的命令需要在命令前加上&quot;!&quot;来表示。可以使用标签，如NOPASSWD标签表示切换或以指定用户执行该标签后的命令时不需要输入密码。一行写不下时可使用&quot;\&quot;续行。</span><br><span class="line"></span><br><span class="line">标签使用方法：</span><br></pre></td></tr></table></figure>
+
+<p>NOPASSWD:/usr/sbin/useradd,PASSWD:/usr/sbin/userdel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">它表示useradd命令不需要输入密码，而userdel需要输入密码。</span><br><span class="line"></span><br><span class="line">对于别名，相当于用户对于用户组。权限配置处都可以使用别名，即①②③④处都能使用别名来配置。</span><br><span class="line"></span><br><span class="line">例如，主机别名里设置多个主机，以后在②位置处直接使用主机别名。</span><br></pre></td></tr></table></figure>
+
+<p>FILESERVERS = fs1, fs2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以下是某设置示例：</span><br><span class="line"></span><br><span class="line">DEFAULT=/bin/*,/sbin/ldconfig,/sbin/ifconfig,/usr/sbin/useradd,/usr/sbin/userdel,/bin/rpm,/usr/bin/yum,/sbin/service,/sbin/chkconfig,sudoedit /etc/rc.local,sudoedit /etc/hosts,sudoedit /etc/ld.so.conf,/bin/mount,sudoedit /etc/exports,/usr/bin/passwd [!-]*,!/usr/bin/passwd root,/bin/su - [!-]*,!/bin/su - root,!/bin/su root, /bin/bash, /usr/sbin/dmidecode, /usr/sbin/lsof, /usr/bin/du, /usr/bin/python, /usr/sbin/xm,sudoedit /etc/profile,sudoedit /etc/bashrc,/usr/bin/make,sudoedit /etc/security/limits.conf,/etc/init.d/*,/usr/bin/ruby</span><br><span class="line"></span><br><span class="line">ABC ALL=(ALL)NOPASSWD:DEFAULT</span><br></pre></td></tr></table></figure>
+
+<p>其中上面的”/usr/bin/passwd [!-]*”表示允许修改加参数的密码。”/bin/su - [!-]*”表示允许”su -“到某用户下，但必须给参数。</p>
+<h4 id="sudo和sudoedit命令"><a href="#sudo和sudoedit命令" class="headerlink" title="sudo和sudoedit命令"></a>sudo和sudoedit命令</h4><p>当sudo执行指定的command时，它会调用fork函数，并设置命令的执行环境(如某些环境变量)，然后在子进程中执行command，sudo的主进程等待命令执行完毕，然后传递命令的退出状态码给安全策略并退出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">sudoedit等价于sudo -e，它是以sudo的方式执行文件编辑动作。</span><br><span class="line"></span><br><span class="line">sudo [options] [command]</span><br><span class="line">选项说明：</span><br><span class="line">-b             ：(background)该选项告诉sudo在后台执行指定的命令。</span><br><span class="line">                   注意，如果使用该选项，将无法使用任务计划(job)来控制维护这些后台进程，</span><br><span class="line">                   需要交互的命令应该考虑是否真的要后台，因为可能会失败</span><br><span class="line">-l[l] [command]：当单独使用-l选项时，将列出(list)用户可执行和被禁止的命令。</span><br><span class="line">                          当配合command时，且该command是被允许执行的命令，将列出命令的全路径及该命令参数。</span><br><span class="line">                          如果command是不被允许执行的，则sudo直接以状态码-1退出。</span><br><span class="line">                          可以指定多个字母&quot;l&quot;来显示更详细的格式</span><br><span class="line">-n             ：使得sudo变成非交互模式，但如果安全策略是要求输入密码的，则sudo将报错</span><br><span class="line">-S             ：(stdin)该选项使得sudo从标准输入而非终端设备上读取密码，给定的密码必须在尾部加上换行符</span><br><span class="line">-s [command]   ：(shell)指定要切换到的shell，如果给定command，则在此shell上执行该命令</span><br><span class="line">-U user        ：(other user)配合-l选项来指定要列出哪个用户的权限信息</span><br><span class="line">-u user        ：(user)该选项明确指定要以此处指定的用户而非root来运行command。</span><br><span class="line">                     若使用uid的方式指定用户，则需要使用&quot;#uid&quot;，但很多时候可能需要对&quot;#&quot;使用&quot;\&quot;转义，即使用&quot;\#uid&quot;</span><br><span class="line">-E               ：(environment)该选项告诉sudo在执行命令时保留自己的环境变量，保留环境变量的方式是执行环境配置文件。</span><br><span class="line">                     但因为跨了用户，所以很可能某些家目录下的环境配置文件会因为无权限而执行失败，此时sudo将报错   </span><br><span class="line">-k [command]   ：当单独使用-k选项时，sudo将使得用户的认证缓存失效。下次执行sudo命令需要输入密码。</span><br><span class="line">                           当配合command时，-k选项将忽略用户的缓存，所以sudo将要求用户输入密码，但这次输入密码不会更新认证缓存</span><br><span class="line">                           但执行-k选项本身，不需要密码</span><br><span class="line">-K             ：(sure kill)类似于-k选项，但它会完全移除用户的认证缓存，且不会配合command，执行-K本身不需要密码</span><br><span class="line">-v             ：(validate)该选项使得sudo更新用户认证缓存</span><br><span class="line">--             ：暗示sudo命令行参数到此结束</span><br></pre></td></tr></table></figure>
+
+<p>在sudo上可以直接设置环境变量，它会传递为command的环境。设置的方式为var=value，如LD_LIBRARY_PATH=/usr/local/pkg/lib</p>
+<p>由于sudo默认的安全策略插件是sudoers，所以当用户执行sudo时，系统会自动去寻找/etc/sudoers文件(该文件里被root配置了用户对应的权限，也即安全策略)，查看sudo要使用的用户是否有对应的权限，如果有则执行，如果没有权限就失败退出sudo。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux基础/" rel="tag"># linux基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/29/linux系统用户、组管理/" rel="next" title="linux系统用户、组管理">
+                <i class="fa fa-chevron-left"></i> linux系统用户、组管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/29/linux文件权限管理/" rel="prev" title="linux文件权限管理">
+                linux文件权限管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#系统用户、组管理su和sudo"><span class="nav-number">1.</span> <span class="nav-text">系统用户、组管理su和sudo</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#su"><span class="nav-number"></span> <span class="nav-text">su</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number"></span> <span class="nav-text">sudo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-sudoers文件"><span class="nav-number">1.</span> <span class="nav-text">/etc/sudoers文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sudo和sudoedit命令"><span class="nav-number">2.</span> <span class="nav-text">sudo和sudoedit命令</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

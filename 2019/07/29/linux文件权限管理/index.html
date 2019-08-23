@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="https://www.cnblogs.com/f-ck-need-u/p/7011971.html 文件/目录的权限文件的权限每个文件都有其所有者(u:user)、所属组(g:group)和其他人(o:other)对它的操作权限，a:all则同时代表这3者。权限包括读(r:read)、写(w:write)、执行(x:execute)。在不同类型的文件上读、写、执行权限的体现有所不同，所以目录权限">
+<meta name="keywords" content="linux基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux文件权限管理">
+<meta property="og:url" content="http://yunjis.cn/2019/07/29/linux文件权限管理/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="https://www.cnblogs.com/f-ck-need-u/p/7011971.html 文件/目录的权限文件的权限每个文件都有其所有者(u:user)、所属组(g:group)和其他人(o:other)对它的操作权限，a:all则同时代表这3者。权限包括读(r:read)、写(w:write)、执行(x:execute)。在不同类型的文件上读、写、执行权限的体现有所不同，所以目录权限">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-30T02:41:57.285Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux文件权限管理">
+<meta name="twitter:description" content="https://www.cnblogs.com/f-ck-need-u/p/7011971.html 文件/目录的权限文件的权限每个文件都有其所有者(u:user)、所属组(g:group)和其他人(o:other)对它的操作权限，a:all则同时代表这3者。权限包括读(r:read)、写(w:write)、执行(x:execute)。在不同类型的文件上读、写、执行权限的体现有所不同，所以目录权限">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/07/29/linux文件权限管理/">
+
+
+
+
+
+  <title>linux文件权限管理 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/07/29/linux文件权限管理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux文件权限管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T22:40:41-04:00">
+                2019-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.cnblogs.com/f-ck-need-u/p/7011971.html" target="_blank" rel="noopener">https://www.cnblogs.com/f-ck-need-u/p/7011971.html</a></p>
+<h2 id="文件-目录的权限"><a href="#文件-目录的权限" class="headerlink" title="文件/目录的权限"></a>文件/目录的权限</h2><h4 id="文件的权限"><a href="#文件的权限" class="headerlink" title="文件的权限"></a>文件的权限</h4><p>每个文件都有其所有者(u:user)、所属组(g:group)和其他人(o:other)对它的操作权限，a:all则同时代表这3者。权限包括读(r:read)、写(w:write)、执行(x:execute)。在不同类型的文件上读、写、执行权限的体现有所不同，所以目录权限和普通文件权限要区分开来。</p>
+<h4 id="在普通文件上："><a href="#在普通文件上：" class="headerlink" title="在普通文件上："></a>在普通文件上：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r：可读，可以使用类似cat等命令查看文件内容；读是文件的最基本权限，没有读权限，普通文件的一切操作行为都被限制。</span><br><span class="line"></span><br><span class="line">w：可写，可以编辑此文件；</span><br><span class="line"></span><br><span class="line">x：可执行，表示文件可由特定的解释器解释并运行。可以理解为windows中的可执行程序或批处理脚本，双击就能运行起来的文件。</span><br></pre></td></tr></table></figure>
+
+<h4 id="在目录上："><a href="#在目录上：" class="headerlink" title="在目录上："></a>在目录上：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r：可以对目录执行ls以列出目录内的所有文件；读是文件的最基本权限，没有读权限，目录的一切操作行为都被限制。</span><br><span class="line"></span><br><span class="line">w：可以在此目录创建或删除文件/子目录；</span><br><span class="line"></span><br><span class="line">x：可进入此目录，可使用ls -l查看文件的详细信息。可以理解为windows中双击就进入目录的动作。</span><br></pre></td></tr></table></figure>
+
+<p>如果目录没有x权限，其他人将无法查看目录内文件属性(只能查看到文件类型和文件名，至于为什么，见后文)，所以一般目录都要有x权限。而如果只有执行却没有读权限，则权限拒绝。</p>
+<p>一般来说，普通文件的默认权限是644(没有执行权限)，目录的默认权限是755(必须有执行权限，否则进不去)，链接文件的权限是777。当然，默认文件的权限设置方法是可以通过umask值来改变的。</p>
+<h4 id="权限的表示方式"><a href="#权限的表示方式" class="headerlink" title="权限的表示方式"></a>权限的表示方式</h4><p>权限的模式有两种体现：数字体现方式和字符体现方式。</p>
+<p>权限的数字表示：”-“代表没有权限,用0表示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r-----4</span><br><span class="line"></span><br><span class="line">w-----2</span><br><span class="line"></span><br><span class="line">x-----1</span><br></pre></td></tr></table></figure>
+
+<p>例如：rwx rw- r–对应的数字权限是764，732代表的权限数值表示为rwx -wx -w-。</p>
+<h4 id="chmod修改权限"><a href="#chmod修改权限" class="headerlink" title="chmod修改权限"></a>chmod修改权限</h4><p>能够修改权限的人只有文件所有者和超级管理员。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod [OPTION]... MODE[,MODE]... FILE...</span><br><span class="line">chmod [OPTION]... num_mode FILE...</span><br><span class="line">chmod [OPTION]... --reference=RFILE FILE...</span><br></pre></td></tr></table></figure>
+
+<p>选项说明：<br>–reference=RFILE：引用某文件的权限作为权限值<br>-R：递归修改，只对当前已存在的文件有效<br>(1). 使用数值方式修改权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chmod 755 /tmp/a.txt</span><br></pre></td></tr></table></figure>
+
+<p>(2). 使用字符方式修改权限</p>
+<p>由于权限属性附在文件所有者、所属组和其它上，它们三者都有独立的权限位，所有者使用字母”u”表示，所属组使用”g”来表示，其他使用”o”来表示，而字母”a”同时表示它们三者。所以使用字符方式修改权限时，需要指定操作谁的权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod [ugoa][+ - =] [权限字符] 文件/目录名</span><br><span class="line"></span><br><span class="line">&quot;+&quot;是加上权限，&quot;-&quot;是减去权限，&quot;=&quot;是直接设置权限</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi tmp]# chmod u-x,g-x,o-x test        # 将ugo都去掉x权限，等价于chmod -x test</span><br><span class="line">[root@xuexi tmp]# chmod a+x test                # 为ugo都加上x权限，等价于chmod +x test</span><br></pre></td></tr></table></figure>
+
+<h4 id="chgrp"><a href="#chgrp" class="headerlink" title="chgrp"></a>chgrp</h4><p>更改文件和目录的所属组，要求组已经存在。</p>
+<p>注意，对于链接文件而言，修改组的作用对象是链接的源文件，而非链接文件本身。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chgrp [OPTION]... GROUP FILE...</span><br><span class="line">chgrp [OPTION]... --reference=RFILE FILE..</span><br><span class="line"></span><br><span class="line">选项说明：</span><br><span class="line">-R：递归修改</span><br><span class="line">--reference=dest_file  file_list：引用某文件的group作为文件列表的组,即将file文件列表的组改为dest_file的组</span><br></pre></td></tr></table></figure>
+
+<h4 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h4><p>chown可以修改文件所有者和所属组。</p>
+<p>注意，对于链接文件而言，默认不会穿过链接修改源文件，而是直接修改链接文件本身，这和chgrp的默认是不一样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown [OPTION]... [OWNER][:[GROUP]] FILE...</span><br><span class="line">chown [OPTION]... [OWNER][.[GROUP]] FILE...</span><br><span class="line">chown [OPTION]... --reference=RFILE FILE...</span><br></pre></td></tr></table></figure>
+
+<p>选项说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">--from=CURRENT_OWNER:CURRENT_GROUP：只修改当前所有者或所属组为此处指定的值的文件</span><br><span class="line">--reference=RFILE：引用某文件的所有者和所属组的值作为新的所有者和所属组</span><br><span class="line">-R：递归修改。注意，当指定-R时，且同时指定下面某一个选项时对链接文件有不同的行为</span><br><span class="line">       -H：如果chown的文件参数是一个链接到目录的链接文件，则穿过此链接文件修改其源目录的所有者和所属组</span><br><span class="line">       -L：目录中遇到的所有链接文件都穿越过去，修改它们的源文件的所有者和所属组</span><br><span class="line">       -P：不进行任何穿越，只修改链接文件本身的所有者和所属组。(这是默认值)</span><br><span class="line">       这3项若同时指定多项时，则最后一项生效</span><br><span class="line">chown指定所有者和所属组的方式有两种，使用冒号和点。</span><br><span class="line"></span><br><span class="line">shell&gt; chown root.root test</span><br><span class="line">shell&gt; chown root:root test</span><br><span class="line">shell&gt; chown root test     # 只修改所有者</span><br><span class="line">shell&gt; chown :root test    # 自修改组</span><br><span class="line">shell&gt; chown .root test</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-实现权限的本质"><a href="#2-实现权限的本质" class="headerlink" title="2 实现权限的本质"></a>2 实现权限的本质</h4><p>涉及文件系统的知识点，若不理解，可以先看看文件系统的内容。此处是以ext4文件系统为例的，在其他文件系统上结果可能会有些不一样(centos 7上使用xfs文件系统时结果可能就不一样)，但本质是一样的。</p>
+<p>不同的权限表示对文件具有不同能力，如读写执行(rwx)权限，但是它是怎么实现的呢？描述文件权限的数据放在哪里呢？</p>
+<p>首先，权限的元数据放在inode中，严格地说是放在inode table中，因为每个块组的所有inode组成一个inode table。在inode table中使用一列来存放数字型的权限，比如某文件的权限为644。每次用户要对文件进行操作时系统都会先查看权限，确认该用户是否有对应的权限来执行操作。当然，inode table一般都已经加载到内存中，所以每次查询权限的资源消耗是非常小的。</p>
+<p>无论是读、写还是执行权限，所体现出来的能力究其本质都是因为它作用在对应文件的data block上。</p>
+<h4 id="读权限-r"><a href="#读权限-r" class="headerlink" title="读权限(r)"></a>读权限(r)</h4><p>对普通文件具有读权限表示的是具有读取该文件内容的能力，对目录具有读权限表示具有浏览该目录中文件或子目录的能力。其本质都是具有读取其data block的能力。</p>
+<p>对于普通文件而言，能够读取文件的data block，而普通文件的data block存储的直接就是数据本身， 所以对普通文件具有读权限表示能够读取文件内容。</p>
+<p>对于目录文件而言，能够读取目录的data block，而目录文件的data block存储的内容包括但不限于：目录中文件的inode号(并非直接存储，而是存储指向inode table中该inode号的指针)以及这些文件的文件类型、文件名。所以能够读取目录的data block表示仅能获取到这些信息。</p>
+<p>目录的data block内容示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">例如：</span><br><span class="line"></span><br><span class="line">shell&gt; mkdir -p /mydata/data/testdir/subdir     # 创建testdir测试目录和其子目录subdir</span><br><span class="line">shell&gt; touch /mydata/data/testdir/a.log        # 再在testdir下创建一个普通文件</span><br><span class="line">shell&gt; chmod 754 /mydata/data/testdir        # 将testdir设置为对其他人只有读权限</span><br><span class="line">然后切换到普通用户查看testdir目录的内容。</span><br><span class="line"></span><br><span class="line">shell&gt; su - wangwu</span><br><span class="line"></span><br><span class="line">shell&gt; ll -ai /mydata/data/testdir/</span><br><span class="line">ls: cannot access /mydata/data/testdir/..: Permission denied</span><br><span class="line">ls: cannot access /mydata/data/testdir/a.log: Permission denied</span><br><span class="line">ls: cannot access /mydata/data/testdir/subdir: Permission denied</span><br><span class="line">ls: cannot access /mydata/data/testdir/.: Permission denied</span><br><span class="line">total 0</span><br><span class="line">? d????????? ? ? ? ?            ? .</span><br><span class="line">? d????????? ? ? ? ?            ? ..</span><br><span class="line">? -????????? ? ? ? ?            ? a.log</span><br><span class="line">? d????????? ? ? ? ?            ? subdir</span><br></pre></td></tr></table></figure>
+
+<p>从结果中看出，testdir下的文件名和文件类型是能够读取的，但是其他属性都不能读取到。而且也读取不到inode号，因为它并没有直接存储inode号，而是存储了指向Inode号的指针，要定位到指针的指向需要执行权限。</p>
+<h4 id="执行权限-x"><a href="#执行权限-x" class="headerlink" title="执行权限(x)"></a>执行权限(x)</h4><p>执行权限表示的是能够执行。如何执行？执行这个词不是很好解释，可以简单的类比Windows中的双击行为。例如对目录双击就能进入到目录，对批处理文件双击就能运行(有专门的解释器解释)，对可执行程序双击就能运行等。</p>
+<p>当然，读权限是文件的最基本权限，执行权限能正常运行必须得配有读权限。</p>
+<p>对目录有执行权限，表示可以通过目录的data block中指向文件inode号的指针定位到inode table中该文件的inode信息，所以可以显示出这些文件的全部属性信息。</p>
+<h4 id="写权限-w"><a href="#写权限-w" class="headerlink" title="写权限(w)"></a>写权限(w)</h4><p>写权限很简单，就是能够将数据写入分配到的data block。</p>
+<p>对目录文件具有写权限，表示能够创建和删除文件。目录的写操作实质是能够在目录的data block中创建或删除关于待操作文件的记录。它要求对目录具有执行权限，因为无论是创建还是删除其内文件，都需要将其data block中inode号和inode table中的inode信息关联或删除。</p>
+<p>对普通文件具有写权限，实质是能够改写该文件的data block。</p>
+<p>还是要说明的是，对文件有写权限不代表能够删除该文件，因为删除文件是要在目录的data block中删除该文件的记录，也就是说删除权限是在目录中定义的。</p>
+<h4 id="umask说明"><a href="#umask说明" class="headerlink" title="umask说明"></a>umask说明</h4><p>umask值用于设置用户在创建文件时的默认权限。对于root用户(实际上是UID小于200的user)，系统默认的umask值是022；对于普通用户和系统用户，系统默认的umask值是002。</p>
+<p>默认它们的设置是写在/etc/profile和/etc/bashrc两个环境配置文件中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; grep -C 5 -R &apos;umask 002&apos;  /etc | grep &apos;umask 022&apos;  </span><br><span class="line">/etc/bashrc-       umask 022</span><br><span class="line">/etc/csh.cshrc-    umask 022</span><br><span class="line">/etc/profile-      umask 022</span><br></pre></td></tr></table></figure>
+
+<p>相关设置项如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [ $UID -gt 199 ] &amp;&amp; [ &quot;`id -gn`&quot; = &quot;`id -un`&quot; ]; then</span><br><span class="line">   umask 002</span><br><span class="line">else</span><br><span class="line">   umask 022</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>执行umask命令可以查看当前用户的umask值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi tmp]# umask</span><br><span class="line">0022</span><br><span class="line">[longshuai@xuexi tmp]$ umask</span><br><span class="line">0002</span><br></pre></td></tr></table></figure>
+
+<p>执行umask num可以临时修改umask值为num，但这是临时的，要永久有效，需要写入到环境配置文件中，至于写入到/etc/profile、/etc/bashrc、<del>/.bashrc还是</del>/.bash_profile中，看你自己的需求了。不过一般来说，不会去永久修改umask值，只会在特殊条件下临时修改下umask值。</p>
+<p>umask是如何决定创建文件的默认权限的呢？</p>
+<p>如果创建的是目录，则使用777-umask值，如root的umask=022，则root创建目录时该目录的默认权限为777-022=755，而普通用户创建目录时，权限为777-002=775.</p>
+<p>如果创建的是普通文件，在Linux中，深入贯彻了一点：文件默认不应该有执行权限，否则是危险的。所以在计算时，可能会和想象中的结果不一样。如果umask的三位都为偶数，则直接使用666去减掉umask值，因为6减去一个偶数还是偶数，任何位都不可能会有执行权限。如root创建普通文件时默认权限为666-022=644，而普通用户创建普通文件时默认权限为666-002=664。</p>
+<p>如果umask值某一位为奇数，则666减去umask值后再在奇数位上加1。如umask=021时，创建文件时默认权限为666-021=645，在奇数位上加1，则为646。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[longshuai@xuexi tmp]$ umask 021</span><br><span class="line">[longshuai@xuexi tmp]$ touch b.txt</span><br><span class="line">[longshuai@xuexi tmp]$ ls -l b.txt</span><br><span class="line">-rw-r--rw- 1 longshuai longshuai 0 Jun  7 12:02 b.txt</span><br></pre></td></tr></table></figure>
+
+<p>总之计算出后默认都是没有执行权限的。</p>
+<h4 id="文件的扩展ACL权限"><a href="#文件的扩展ACL权限" class="headerlink" title="文件的扩展ACL权限"></a>文件的扩展ACL权限</h4><p>在计算机相关领域，所有的ACL(access control list)都表示访问控制列表。</p>
+<p>文件的owner/group/others的权限就是一种ACL，它们是基本的ACL。很多时候，只通过这3个权限位是无法完全合理设置权限问题的，例如如何仅设置某单个用户具有什么权限。这时候需要使用扩展ACL。</p>
+<p>扩展ACL是一种特殊权限，它是文件系统上功能，用于解决所有者、所属组和其他这三个权限位无法合理设置单个用户权限的问题。所以，扩展ACL可以针对单一使用者，单一档案或目录里的默认权限进行r,w,x的权限规范。</p>
+<p>需要明确的是，扩展ACL是文件系统上的功能，且工作在内核，默认在ext4/xfs上都已开启。</p>
+<p>在下文中，都直接以ACL来表示代替扩展ACL的称呼。</p>
+<h4 id="查看文件系统是否开启ACL功能"><a href="#查看文件系统是否开启ACL功能" class="headerlink" title="查看文件系统是否开启ACL功能"></a>查看文件系统是否开启ACL功能</h4><p>对于ext家族的文件系统来说，要查看是否开启acl功能，使用dumpe2fs导出文件系统属性即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; dumpe2fs -h /dev/sda2 | grep -i acl</span><br><span class="line">dumpe2fs 1.41.12 (17-May-2010)</span><br><span class="line">Default mount options:    user_xattr acl</span><br></pre></td></tr></table></figure>
+
+<p>对于xfs文件系统，则没有直接的命令可以输出它的相关信息，需要使用dmesg来查看。其实无需关注它，因为默认xfs会开启acl功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; dmesg | grep -i acl</span><br><span class="line">[    1.465903] systemd[1]: systemd 219 running in system mode. (+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ -LZ4 -SECCOMP +BLKID +ELFUTILS +KMOD +IDN)</span><br><span class="line">[    2.517705] SGI XFS with ACLs, security attributes, no debug enabled</span><br></pre></td></tr></table></figure>
+
+<p>开启ACL功能后，不代表就使用ACL功能。是否使用该功能，不同文件系统控制方法不一样，对于ext家族来说，通过mount挂载选项来控制，而对于xfs文件系统，mount命令根本不支持acl参数(xfs文件系统如何关闭或启用的方法本人也不知道)。</p>
+<h4 id="设置和查看ACL"><a href="#设置和查看ACL" class="headerlink" title="设置和查看ACL"></a>设置和查看ACL</h4><p>设置使用setfacl命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setfacl [options] u:[用户列表]:[rwx] 目录/文件名    # 对用户设置使用u</span><br><span class="line">setfacl [options] g:[组列表]:[rwx]   目录/文件名    # 对组设置使用g</span><br><span class="line"></span><br><span class="line">选项说明：</span><br><span class="line">-m：设定ACL权限(modify)</span><br><span class="line">-x：删除指定的ACL权限，可以指定用户、组和文件来删除(remove)</span><br><span class="line">-M：写了ACL条目的文件，将从此文件中读取ACL条目，需要配合-m，所以-M指定的是modify file</span><br><span class="line">-X：写了ACL条目的文件，将从此文件中读取ACL条目，需要配合-x，所以-X指定的是remove file</span><br><span class="line">-n：不重置mask</span><br><span class="line">-b：删除所有的ACL权限</span><br><span class="line">-d：设定默认ACL权限，只对目录有效，设置后子目录(文件)继承默认ACL，只对未来文件 有效</span><br><span class="line">-k：删除默认ACL权限</span><br><span class="line">-R：递归设定ACL权限，只对目录有效，只对已有文件有效</span><br></pre></td></tr></table></figure>
+
+<p>查看使用getfacl命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getfacl filename</span><br></pre></td></tr></table></figure>
+
+<p>案例：假设现有目录/data/videos专门存放视频，其中有一个a.avi的介绍性视频。该目录的权限是750。现在有一个新用户加入，但要求该用户对该目录只有查看的权限，且只能看其中一部视频a.avi，另外还要求该用户在此目录下没有创建和删除文件的权限。</p>
+<p>1.准备相关环境。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; mkdir -p /data/videos</span><br><span class="line">shell&gt; chmod 750 /data/videos</span><br><span class="line">shell&gt; touch /data/videos/&#123;a,b&#125;.avi</span><br><span class="line">shell&gt; echo &quot;xxx&quot; &gt;/data/videos/a.avi</span><br><span class="line">shell&gt; echo &quot;xxx&quot; &gt;/data/videos/b.avi</span><br><span class="line">shell&gt; chown -R root.root /data/videos</span><br></pre></td></tr></table></figure>
+
+<p>2.首先设置用户longshuai对/data/videos目录有读和执行权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; setfacl -m u:longshuai:rx /data/videos</span><br></pre></td></tr></table></figure>
+
+<p>3.现在longshuai对/data/videos目录下的所有文件都有读权限，因为默认文件的权限为644。要设置longshuai只对a.avi有读权限，先设置所有文件的权限都为不可读。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chmod 640 /data/videos/*</span><br></pre></td></tr></table></figure>
+
+<p>4.然后再单独设置a.avi的读权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; setfacl -m u:longshuai:r /data/videos/a.avi</span><br></pre></td></tr></table></figure>
+
+<p>到此就设置完成了。查看/data/videos/和/data/videos/a.avi上的ACL信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; getfacl /data/videos/</span><br><span class="line">getfacl: Removing leading &apos;/&apos; from absolute path names</span><br><span class="line"># file: data/videos/</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rwx</span><br><span class="line">user:longshuai:r-x         # 用户longshuai在此文件上的权限是r-x</span><br><span class="line">group::r-x</span><br><span class="line">mask::r-x</span><br><span class="line">other::---</span><br><span class="line">shell&gt; getfacl /data/videos/a.avi</span><br><span class="line">getfacl: Removing leading &apos;/&apos; from absolute path names</span><br><span class="line"># file: data/videos/a.avi</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rw-</span><br><span class="line">user:longshuai:r--         # 用户longshuai在此文件上的权限是r--</span><br><span class="line">group::r--</span><br><span class="line">mask::r--</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<h4 id="ACL-mask"><a href="#ACL-mask" class="headerlink" title="ACL:mask"></a>ACL:mask</h4><p>设置mask后会将mask权限与已有的acl权限进行与计算，计算后的结果会成为新的ACL权限。</p>
+<p>设定mask的方式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m m:[rwx] 目录/文件名</span><br></pre></td></tr></table></figure>
+
+<p>注意：默认每次设置文件的acl都会重置mask为此次给定的用户的值。既然如此，要如何控制文件上的acl呢？如果一个文件上要设置多个用户的acl，重置mask后就会对已有用户的acl重新计算，而使得acl权限得不到有效的控制。使用setfacl的”-n”选项，它表示此次设置不会重置mask值。</p>
+<p>例如：</p>
+<p>当前的acl权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; getfacl /data/videos                     </span><br><span class="line">getfacl: Removing leading &apos;/&apos; from absolute path names</span><br><span class="line"># file: data/videos</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rwx</span><br><span class="line">user:longshuai:rwx</span><br><span class="line">group::r-x</span><br><span class="line">mask::rwx</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<p>设置mask值为rx。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; setfacl -m m:rx /data/videos</span><br><span class="line"></span><br><span class="line">shell&gt; getfacl /data/videos       </span><br><span class="line">getfacl: Removing leading &apos;/&apos; from absolute path names</span><br><span class="line"># file: data/videos</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rwx</span><br><span class="line">user:longshuai:rwx              #effective:r-x</span><br><span class="line">group::r-x</span><br><span class="line">mask::r-x</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<p>设置mask后，它提示有效权限是r-x。这是rwx和r-x做与运算之后的结果。</p>
+<p>再设置longshuai的acl为rwx，然后查看mask，会发现mask也被重置为rwx。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; setfacl -m u:longshuai:rwx /data/videos</span><br><span class="line"></span><br><span class="line">shell&gt; getfacl  /data/videos</span><br><span class="line">getfacl: Removing leading &apos;/&apos; from absolute path names</span><br><span class="line"># file: data/videos</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rwx</span><br><span class="line">user:longshuai:rwx</span><br><span class="line">group::r-x</span><br><span class="line">mask::rwx</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<p>所以，在设置文件的acl时，要使用-n选项来禁止重置mask。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; setfacl -m m:rx /data/videos</span><br><span class="line"></span><br><span class="line">shell&gt; setfacl -n -m u:longshuai:rwx /data/videos</span><br><span class="line"></span><br><span class="line">shell&gt; getfacl  /data/videos</span><br><span class="line">getfacl: Removing leading &apos;/&apos; from absolute path names</span><br><span class="line"># file: data/videos</span><br><span class="line"># owner: root</span><br><span class="line"># group: root</span><br><span class="line">user::rwx</span><br><span class="line">user:longshuai:rwx              #effective:r-x</span><br><span class="line">group::r-x</span><br><span class="line">mask::r-x</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置递归和默认ACL权限"><a href="#设置递归和默认ACL权限" class="headerlink" title="设置递归和默认ACL权限"></a>设置递归和默认ACL权限</h4><p>递归ACL权限只对目录里已有文件有效，默认权限只对未来目录里的文件有效。</p>
+<p>设置递归ACL权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m u:username:[rwx] -R 目录名</span><br></pre></td></tr></table></figure>
+
+<p>设置默认ACL权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m d:u:username:[rwx] 目录名</span><br></pre></td></tr></table></figure>
+
+<p>删除ACL权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setfacl -x u:用户名 文件名       # 删除指定用户ACL</span><br><span class="line">setfacl -x g:组名 文件名         # 删除指定组名ACL</span><br><span class="line">setfacl -b 文件名                # 指定文件删除ACL，会删除所有ACL</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件隐藏属性"><a href="#文件隐藏属性" class="headerlink" title="文件隐藏属性"></a>文件隐藏属性</h4><p>chattr：change file attributes</p>
+<p>lsattr：list file attributes</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chattr [+ - =] [ai] 文件或目录名</span><br></pre></td></tr></table></figure>
+
+<p>常用的参数是a(append，追加)和i(immutable，不可更改)，其他参数略。</p>
+<p>设置了a参数时，文件中将只能增加内容，不能删除数据，且不能打开文件进行任何编辑，哪怕是追加内容也不可以，所以像sed等需要打开文件的再写入数据的工具也无法操作成功。文件也不能被删除。只有root才能设置。</p>
+<p>设置了i参数时，文件将被锁定，不能向其中增删改内容，也不能删除修改文件等各种动作。只有root才能设置。可以将其理解为设置了i后，文件将是永恒不变的了，谁都不能动它。</p>
+<p>例如，对/etc/shadow文件设置i属性，任何用户包括root将不能修改密码，而且也不能创建用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chattr +i /etc/shadow</span><br></pre></td></tr></table></figure>
+
+<p>此时如果新建一个用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; useradd newlongsuai</span><br><span class="line">shell&gt; useradd: cannot open /etc/shadow        # 提示文件不能打开，被锁定了</span><br></pre></td></tr></table></figure>
+
+<p>lsattr查看文件设置的隐藏属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; lsattr /etc/shadow</span><br><span class="line">----i--------e- /etc/shadow         # i属性说明被锁定了，e是另一种文件属性，忽略它</span><br></pre></td></tr></table></figure>
+
+<p>删除隐藏属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chattr -i /etc/shadow</span><br><span class="line">shell&gt; lsattr /etc/shadow</span><br><span class="line">-------------e- /etc/shadow</span><br></pre></td></tr></table></figure>
+
+<p>再来一例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; chattr +a test1.txt        # 对test1.txt设置a隐藏属性</span><br><span class="line">shell&gt; echo 1234&gt;&gt;test1.txt     # 追加内容是允许的行为</span><br><span class="line">shell&gt; cat /dev/null &gt;test1.txt    # 但是清空文件内容是不允许的</span><br><span class="line">-bash: test1.txt: Operation not permitted</span><br></pre></td></tr></table></figure>
+
+<h4 id="suid-sgid-sbit"><a href="#suid-sgid-sbit" class="headerlink" title="suid/sgid/sbit"></a>suid/sgid/sbit</h4><p>3.6.1 suid<br>suid只针对可执行文件，即二进制文件。它的作用是对某个命令(可执行文件)授予所有者的权限，命令执行完成权限就消失。一般是提权为root权限。</p>
+<p>例如/etc/shadow文件所有人都没有权限(root除外)，其他用户连看都不允许。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ls -l /etc/shadow</span><br><span class="line">----------. 1 root root 752 Apr  8 12:42 /etc/shadow</span><br></pre></td></tr></table></figure>
+
+<p>但是他们却能修改自己的密码，说明他们一定有一定的权限。这个权限就是suid控制的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ls -l /usr/bin/passwd</span><br><span class="line">-rwsr-xr-x. 1 root root 30768 Feb 22  2012 /usr/bin/passwd</span><br></pre></td></tr></table></figure>
+
+<p>其中的”s”权限就是suid，它出现在所有者位置上(是root)，其他用户执行passwd命令时，会暂时拥有所有者位的rwx权限，也就是root的权限，所以能向/etc/shadow写入数据。</p>
+<p>suid必须和x配合，如果没有x配合，则该suid是空suid，仍然没有执行命令的权限，所有者都没有了x权限，suid依赖于它所以更不可能有x权限。空的suid权限使用大写的”S”表示。</p>
+<p>数字4代表suid，如4755。</p>
+<h4 id="sgid"><a href="#sgid" class="headerlink" title="sgid"></a>sgid</h4><p>针对二进制文件和目录。</p>
+<p>针对二进制文件时，权限升级为命令的所属组权限。</p>
+<p>针对目录时，目录中所建立的文件或子目录的组将继承默认父目录组，其本质还是提升为目录所属组的权限。此时目录应该要有rx权限，普通用户才能进入目录，如果普通用户有w权限，新建的文件和目录则以父目录组为默认组。</p>
+<p>以2代表sgid，如2755，和suid组合如6755。</p>
+<h4 id="sbit"><a href="#sbit" class="headerlink" title="sbit"></a>sbit</h4><p>只对目录有效。对目录设置sbit，将使得目录里的文件只有所有者能删除，即使其他用户在此目录上有rwx权限，即使是root用户。</p>
+<p>以1代表sbit。</p>
+<p>补充：suid/sgid/sbit的标志位都作用在x位，当原来的x位有x权限时，这些权限位则为s/s/t，如果没有x权限，则变为S/S/T。例如，/tmp目录的权限有个t位，使得该目录里的文件只有其所有者本身能删除。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux基础/" rel="tag"># linux基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/29/系统用户、组管理su和sudo/" rel="next" title="系统用户、组管理su和sudo">
+                <i class="fa fa-chevron-left"></i> 系统用户、组管理su和sudo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/31/进程与信号分析/" rel="prev" title="进程与信号分析">
+                进程与信号分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件-目录的权限"><span class="nav-number">1.</span> <span class="nav-text">文件/目录的权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件的权限"><span class="nav-number">1.0.1.</span> <span class="nav-text">文件的权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在普通文件上："><span class="nav-number">1.0.2.</span> <span class="nav-text">在普通文件上：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在目录上："><span class="nav-number">1.0.3.</span> <span class="nav-text">在目录上：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#权限的表示方式"><span class="nav-number">1.0.4.</span> <span class="nav-text">权限的表示方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chmod修改权限"><span class="nav-number">1.0.5.</span> <span class="nav-text">chmod修改权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chgrp"><span class="nav-number">1.0.6.</span> <span class="nav-text">chgrp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chown"><span class="nav-number">1.0.7.</span> <span class="nav-text">chown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-实现权限的本质"><span class="nav-number">1.0.8.</span> <span class="nav-text">2 实现权限的本质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读权限-r"><span class="nav-number">1.0.9.</span> <span class="nav-text">读权限(r)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行权限-x"><span class="nav-number">1.0.10.</span> <span class="nav-text">执行权限(x)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写权限-w"><span class="nav-number">1.0.11.</span> <span class="nav-text">写权限(w)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#umask说明"><span class="nav-number">1.0.12.</span> <span class="nav-text">umask说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件的扩展ACL权限"><span class="nav-number">1.0.13.</span> <span class="nav-text">文件的扩展ACL权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看文件系统是否开启ACL功能"><span class="nav-number">1.0.14.</span> <span class="nav-text">查看文件系统是否开启ACL功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置和查看ACL"><span class="nav-number">1.0.15.</span> <span class="nav-text">设置和查看ACL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACL-mask"><span class="nav-number">1.0.16.</span> <span class="nav-text">ACL:mask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置递归和默认ACL权限"><span class="nav-number">1.0.17.</span> <span class="nav-text">设置递归和默认ACL权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件隐藏属性"><span class="nav-number">1.0.18.</span> <span class="nav-text">文件隐藏属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#suid-sgid-sbit"><span class="nav-number">1.0.19.</span> <span class="nav-text">suid/sgid/sbit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sgid"><span class="nav-number">1.0.20.</span> <span class="nav-text">sgid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sbit"><span class="nav-number">1.0.21.</span> <span class="nav-text">sbit</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

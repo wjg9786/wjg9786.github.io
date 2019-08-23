@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python字符编码编码种类：  ASCII 占1个字节，只支持英文 GB2312 占2个字节，支持6700+汉字 GBK GB2312的升级版，支持21000+汉字 Shift-JIS 日本字符 ks_c_5601-1987 韩国编码 TIS-620 泰国编码  由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python字符编码详解">
+<meta property="og:url" content="http://yunjis.cn/2019/08/21/python字符编码详解/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="python字符编码编码种类：  ASCII 占1个字节，只支持英文 GB2312 占2个字节，支持6700+汉字 GBK GB2312的升级版，支持21000+汉字 Shift-JIS 日本字符 ks_c_5601-1987 韩国编码 TIS-620 泰国编码  由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesunicode%E6%B1%89%E5%AD%97%E8%A1%A8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%81.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%811.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%813.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%814.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%815.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%816.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%817.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%818.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%819.png">
+<meta property="og:updated_time" content="2019-08-21T18:37:28.962Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python字符编码详解">
+<meta name="twitter:description" content="python字符编码编码种类：  ASCII 占1个字节，只支持英文 GB2312 占2个字节，支持6700+汉字 GBK GB2312的升级版，支持21000+汉字 Shift-JIS 日本字符 ks_c_5601-1987 韩国编码 TIS-620 泰国编码  由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesunicode%E6%B1%89%E5%AD%97%E8%A1%A8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/21/python字符编码详解/">
+
+
+
+
+
+  <title>python字符编码详解 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/21/python字符编码详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python字符编码详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-21T14:32:24-04:00">
+                2019-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="python字符编码"><a href="#python字符编码" class="headerlink" title="python字符编码"></a>python字符编码</h2><p>编码种类：</p>
+<ol>
+<li>ASCII 占1个字节，只支持英文</li>
+<li>GB2312 占2个字节，支持6700+汉字</li>
+<li>GBK GB2312的升级版，支持21000+汉字</li>
+<li>Shift-JIS 日本字符</li>
+<li>ks_c_5601-1987 韩国编码</li>
+<li>TIS-620 泰国编码</li>
+</ol>
+<p>由于每个国家都有自己的字符，所以其对应关系也涵盖了自己国家的字符，但是以上编码都存在局限性，即：仅涵盖本国字符，无其他国家字符的对应关系。应运而生出现了万国码，他涵盖了全球所有的文字和二进制的对应关系，</p>
+<ul>
+<li>Unicode 2-4字节 已经收录136690个字符，并还在一直不断扩张中…</li>
+<li>Unicode 起到了2个作用：<ol>
+<li>直接支持全球所有语言，每个国家都可以不用再使用自己之前的旧编码了，用unicode就可以了。(就跟英语是全球统一语言一样)</li>
+<li>unicode包含了跟全球所有国家编码的映射关系，为什么呢？后面再讲</li>
+</ol>
+</li>
+</ul>
+<p>Unicode解决了字符和二进制的对应关系，但是使用unicode表示一个字符，太浪费空间。例如：利用unicode表示“Python”需要12个字节才能表示，比原来ASCII表示增加了1倍。</p>
+<p>由于计算机的内存比较大，并且字符串在内容中表示时也不会特别大，所以内容可以使用unicode来处理，但是存储和网络传输时一般数据都会非常多，那么增加1倍将是无法容忍的！！！</p>
+<p>为了解决存储和网络传输的问题，出现了Unicode Transformation Format，学术名UTF，即：对unicode中的进行转换，以便于在存储和网络传输时可以节省空间!</p>
+<ul>
+<li>UTF-8： 使用1、2、3、4个字节表示所有字符；优先使用1个字符、无法满足则使增加一个字节，最多4个字节。英文占1个字节、欧洲语系占2个、东亚占3个，其它及特殊字符占4个</li>
+<li>UTF-16： 使用2、4个字节表示所有字符；优先使用2个字节，否则使用4个字节表示。</li>
+<li>UTF-32： 使用4个字节表示所有字符；</li>
+</ul>
+<p>总结：<strong>UTF 是为unicode编码 设计 的一种 在存储 和传输时节省空间的编码方案。</strong></p>
+<h3 id="字符在硬盘上的存储"><a href="#字符在硬盘上的存储" class="headerlink" title="字符在硬盘上的存储"></a><strong>字符在硬盘上的存储</strong></h3><p>无论以什么编码在内存里显示字符，存到硬盘上都是2进制。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`ascii编码(美国)：``    ``l   ``<span class="number">0b1101100</span>``    ``o   ``<span class="number">0b1101111</span>``    ``v   ``<span class="number">0b1110110</span>``    ``e   ``<span class="number">0b1100101</span>``GBK编码(中国)：``    ``老   ``<span class="number">0b11000000</span>` `<span class="number">0b11001111</span>``    ``男   ``<span class="number">0b11000100</span>` `<span class="number">0b11010000</span>``    ``孩   ``<span class="number">0b10111010</span>` `<span class="number">0b10100010</span>` `Shift_JIS编码(日本)：``    ``私   ``<span class="number">0b10001110</span>` `<span class="number">0b10000100</span>``    ``は   ``<span class="number">0b10000010</span>` `<span class="number">0b11001101</span>` `ks_c_5601``-``<span class="number">1987</span>``编码(韩国)：``    ``나   ``<span class="number">0b10110011</span>` `<span class="number">0b10101010</span>``    ``는   ``<span class="number">0b10110100</span>` `<span class="number">0b11000010</span>``    ` `TIS``-``<span class="number">620</span>``编码(泰国)：``    ``ฉัน  ``<span class="number">0b10101001</span>` `<span class="number">0b11010001</span>` `<span class="number">0b10111001</span>``...`</span><br></pre></td></tr></table></figure>
+
+<h2 id="编码的转换"><a href="#编码的转换" class="headerlink" title="编码的转换"></a>编码的转换</h2><p>虽然国际语言是英语 ，但大家在自己的国家依然说自已的语言，不过出了国， 你就得会英语<br>编码也一样，虽然有了unicode and utf-8 ， 但是由于历史问题，各个国家依然在大量使用自己的编码，比如中国的windows,默认编码依然是gbk,而不是utf-8</p>
+<p>基于此，如果中国的软件出口到美国，在美国人的电脑上就会显示乱码，因为他们没有gbk编码。<br>若想让中国的软件可以正常的在 美国人的电脑上显示，只有以下2条路可走：</p>
+<ol>
+<li>让美国人的电脑上都装上gbk编码</li>
+<li>把你的软件编码以utf-8编码</li>
+</ol>
+<p>第1种方法几乎不可能实现，第2种方法比较简单。 但是也只能是针对新开发的软件。 如果你之前开发的软件就是以gbk编码的，上百万行代码可能已经写出去了，重新编码成utf-8格式也会费很大力气。</p>
+<p>so , 针对已经用gbk开发完毕的项目，以上2种方案都不能轻松的让项目在美国人电脑上正常显示，难道没有别的办法了么？<br>有， 还记得我们讲unicode其中一个功能是其包含了跟全球所有国家编码的映射关系，意思就是，你写的是gbk的“路飞学城”,但是unicode能自动知道它在unicode中的“路飞学城”的编码是什么，如果这样的话，那是不是意味着，无论你以什么编码存储的数据 ，只要你的软件在把数据从硬盘读到内存里，转成unicode来显示，就可以了。<br>由于所有的系统、编程语言都默认支持unicode，那你的gbk软件放到美国电脑 上，加载到内存里，变成了unicode,中文就可以正常展示啦。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesunicode%E6%B1%89%E5%AD%97%E8%A1%A8.png" alt></p>
+<p> 这个表你自己也可以下载下来 </p>
+<p>unicode与gbk的映射表 <a href="http://www.unicode.org/charts/" target="_blank" rel="noopener">http://www.unicode.org/charts/</a> </p>
+<h3 id="Python3的执行过程"><a href="#Python3的执行过程" class="headerlink" title="Python3的执行过程"></a>Python3的执行过程</h3><p>在看实际代码的例子前，我们来聊聊，python3 执行代码的过程</p>
+<ol>
+<li>解释器找到代码文件，把代码字符串按文件头定义的编码加载到内存，转成unicode</li>
+<li>把代码字符串按照语法规则进行解释，</li>
+<li>所有的变量字符都会以unicode编码声明</li>
+</ol>
+<h3 id="编码转换过程"><a href="#编码转换过程" class="headerlink" title="编码转换过程"></a>编码转换过程</h3><p>实际代码演示，在py3上 把你的代码以utf-8编写， 保存，然后在windows上执行，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`s ``=` `<span class="string">'路飞学城'</span>``<span class="keyword">print</span>``(s)`</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%81.png" alt></p>
+<p>so ,一切都很美好，到这里，我们关于编码的学习按说就可以结束了。</p>
+<p>但是，如生活一样，美好的表面下，总是隐藏着不尽如人意，上面的utf-8编码之所以能在windows gbk的终端下显示正常，是因为到了内存里python解释器把utf-8转成了unicode , 但是这只是python3, 并不是所有的编程语言在内存里默认编码都是unicode,比如 万恶的python2 就不是， 它的默认编码是ASCII，想写中文，就必须声明文件头的coding为gbk or utf-8, 声明之后，python2解释器仅以文件头声明的编码去解释你的代码，加载到内存后，并不会主动帮你转为unicode,也就是说，你的文件编码是utf-8,加载到内存里，你的变量字符串就也是utf-8, 这意味着什么你知道么？。。。意味着，你以utf-8编码的文件，在windows是乱码。 </p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%811.png" alt></p>
+<p>乱是正常的，不乱才不正常，因为只有2种情况 ，你的windows上显示才不会乱</p>
+<ol>
+<li>字符串以GBK格式显示</li>
+<li>字符串是unicode编码</li>
+</ol>
+<p>既然Python2并不会自动的把文件编码转为unicode存在内存里， 那就只能使出最后一招了，你自己人肉转。Py3 自动把文件编码转为unicode必定是调用了什么方法，这个方法就是，decode(解码) 和encode(编码)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`UTF``-``8` `-``-``&gt; decode 解码 ``-``-``&gt; ``Unicode``Unicode` `-``-``&gt; encode 编码 ``-``-``&gt; GBK ``/` `UTF``-``8` `..`</span><br></pre></td></tr></table></figure>
+
+<p> decode示例</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%813.png" alt></p>
+<h4 id="encode-示例"><a href="#encode-示例" class="headerlink" title="encode 示例"></a>encode 示例</h4><p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%814.png" alt></p>
+<p>记住下图规则</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%815.png" alt></p>
+<h3 id="如何验证编码转对了呢？"><a href="#如何验证编码转对了呢？" class="headerlink" title="如何验证编码转对了呢？"></a>如何验证编码转对了呢？</h3><ol>
+<li>查看数据类型，python 2 里有专门的unicode 类型</li>
+<li>查看unicode编码映射表</li>
+</ol>
+<p>　　unicode字符是有专门的unicode类型来判断的，但是utf-8,gbk编码的字符都是str,你如果分辨出来的当前的字符串数据是何种编码的呢？ 有人说可以通过字节长度判断，因为utf-8一个中文占3字节，gbk一个占2字节</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%816.png" alt></p>
+<p>靠上面字节个数，虽然也能大体判断是什么类型，但总觉得不是很专业。</p>
+<p>怎么才能精确的验证一个字符的编码呢，就是拿这些16进制的数跟编码表里去匹配。</p>
+<p>“路飞学城”的unicode编码的映射位置是    u’\u8def\u98de\u5b66\u57ce’ ，‘\u8def’ 就是‘路’，到表里搜一下。<br>“路飞学城”对应的GBK编码是’\xc2\xb7\xb7\xc9\xd1\xa7\xb3\xc7’ ，2个字节一个中文，”路” 的二进制 “\xc2\xb7”是4个16进制，正好2字节，拿它到unicode映射表里对一下， 发现是G0-4237，并不是\xc2\xb7呀。。。擦。演砸了吧。。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%817.png" alt></p>
+<p>再查下“飞” \u98de ，对应的是G0-3749， 跟\xb7\xc9也对不上。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%818.png" alt></p>
+<p>虽然对不上， 但好\xc2\xb7 和G0-4237中的第2位的2和第4位的7对上了，“飞”字也是一样，莫非巧合？ </p>
+<p>把他们都转成2进制显示试试 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">路</span><br><span class="line">C               2</span><br><span class="line">8   4   2   1   8   4   2   1</span><br><span class="line">&lt;strong&gt;1   1   0   0   0   0   1   0&lt;/strong&gt;</span><br><span class="line"> </span><br><span class="line">B               7</span><br><span class="line">8   4   2   1   8   4   2   1</span><br><span class="line">&lt;strong&gt;1   0   1   1   0   1   1   1&lt;/strong&gt;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">飞</span><br><span class="line">B               7</span><br><span class="line">8   4   2   1   8   4   2   1</span><br><span class="line">1   0   1   1   0   1   1   1</span><br><span class="line"> </span><br><span class="line">C               9</span><br><span class="line">8   4   2   1   8   4   2   1</span><br><span class="line">1   1   0   0   1   0   0   1</span><br></pre></td></tr></table></figure>
+
+<p>这个“路”还是跟G0-4237对不上呀，没错， 但如果你把路\xc2\xb7的每个二进制字节的左边第一个bit变成0试试呢， 我擦，加起来就真的是4237了呀。。难道又是巧合？？？ 　</p>
+<p>必然不是，是因为，GBK的编码表示形式决定的。。因为GBK编码在设计初期就考虑到了要兼容ASCII,即如果是英文，就用一个字节表示，2个字节就是中文，但如何区别连在一起的2个字节是代表2个英文字母，还是一个中文汉字呢？ 中国人如此聪明，决定，2个字节连在一起，如果每个字节的第1位(也就是相当于128的那个2进制位)如果是1，就代表这是个中文，这个首位是128的字节被称为高字节。 也就是2个高字节连在一起，必然就是一个中文。 你怎么如此笃定？因为0-127已经表示了英文的绝大部分字符，128-255是ASCII的扩展表，表示的都是极特殊的字符，一般没什么用。所以中国人就直接拿来用了。 </p>
+<p>问：那为什么上面 “\xc2\xb7”的2进制要把128所在的位去掉才能与unicode编码表里的G0-4237匹配上呢？</p>
+<p>这只能说是unicode在映射表的表达上直接忽略了高字节，但真正映射的时候 ，肯定还是需要用高字节的哈。</p>
+<h2 id="Python-bytes类型"><a href="#Python-bytes类型" class="headerlink" title="Python bytes类型"></a>Python bytes类型</h2><p>在python 2 上写字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = &quot;路飞&quot;</span><br><span class="line">&gt;&gt;&gt; print s</span><br><span class="line">路飞</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">&apos;\xe8\xb7\xaf\xe9\xa3\x9e&apos;</span><br></pre></td></tr></table></figure>
+
+<p>虽说打印的是路飞，但直接调用变量s，看到的却是一个个的16进制表示的二进制字节，我们怎么称呼这样的数据呢？直接叫二进制么？也可以， 但相比于010101，这个数据串在表示形式上又把2进制转成了16进制来表示，这是为什么呢？ 哈，为的就是让人们看起来更可读。我们称之为bytes类型，即字节类型， 它把8个二进制一组称为一个byte,用16进制来表示。 </p>
+<p>说这个有什么意思呢？</p>
+<p>想告诉你一个事实， 就是，python2的字符串其实更应该称为字节串。 通过存储方式就能看出来， 但python2里还有一个类型是bytes呀，难道又叫bytes又叫字符串？ 嗯 ，是的，在python2里，bytes == str ， 其实就是一回事　</p>
+<p>除此之外呢， python2里还有个单独的类型是unicode , 把字符串解码后，就会变成unicode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s</span><br><span class="line">&apos;\xe8\xb7\xaf\xe9\xa3\x9e&apos; #utf-8</span><br><span class="line">&gt;&gt;&gt; s.decode(&apos;utf-8&apos;)</span><br><span class="line">u&apos;\u8def\u98de&apos; #unicode 在unicode编码表里对应的位置</span><br><span class="line">&gt;&gt;&gt; print(s.decode(&apos;utf-8&apos;))</span><br><span class="line">路飞 #unicode 格式的字符</span><br></pre></td></tr></table></figure>
+
+<p>由于Python创始人在开发初期认知的局限性，其并未预料到python能发展成一个全球流行的语言，导致其开发初期并没有把支持全球各国语言当做重要的事情来做，所以就轻佻的把ASCII当做了默认编码。 当后来大家对支持汉字、日文、法语等语言的呼声越来越高时，Python于是准备引入unicode,但若直接把默认编码改成unicode的话是不现实的， 因为很多软件就是基于之前的默认编码ASCII开发的，编码一换，那些软件的编码就都乱了。所以Python 2 就直接 搞了一个新的字符类型，就叫unicode类型，比如你想让你的中文在全球所有电脑上正常显示，在内存里就得把字符串存成unicode类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = &quot;路飞&quot;</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">&apos;\xe8\xb7\xaf\xe9\xa3\x9e&apos;</span><br><span class="line">&gt;&gt;&gt; s2 = s.decode(&quot;utf-8&quot;)</span><br><span class="line">&gt;&gt;&gt; s2</span><br><span class="line">u&apos;\u8def\u98de&apos;</span><br><span class="line">&gt;&gt;&gt; type(s2)</span><br><span class="line">&lt;type &apos;unicode&apos;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>时间来到2008年，python发展已近20年，创始人龟叔越来越觉得python里的好多东西已发展的不像他的初衷那样，开始变得臃肿、不简洁、且有些设计让人摸不到头脑，比如unicode 与str类型，str 与bytes类型的关系，这给很多python程序员造成了困扰。<br>龟叔再也忍不了，像之前一样的修修补补已不能让Python变的更好，于是来了个大变革，Python3横空出世，不兼容python2,python3比python2做了非常多的改进，其中一个就是终于把字符串变成了unicode,文件默认编码变成了utf-8,这意味着，只要用python3,无论你的程序是以哪种编码开发的，都可以在全球各国电脑上正常显示，真是太棒啦！</p>
+<p>PY3 除了把字符串的编码改成了unicode, 还把str 和bytes 做了明确区分， str 就是unicode格式的字符， bytes就是单纯二进制啦.</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E7%BC%96%E7%A0%819.png" alt></p>
+<p>最后一个问题，为什么在py3里，把unicode编码后，字符串就变成了bytes格式？ 你直接给我直接打印成gbk的字符展示不好么？我想其实py3的设计真是煞费苦心，就是想通过这样的方式明确的告诉你，想在py3里看字符，必须得是unicode编码，其它编码一律按bytes格式展示。 </p>
+<p>最后提示一下，Python只要出现各种编码问题，无非是哪里的编码设置出错了<br>常见编码错误的原因有：</p>
+<ul>
+<li>Python解释器的默认编码</li>
+<li>Python源文件文件编码</li>
+<li>Terminal使用的编码</li>
+<li>操作系统的语言设置</li>
+</ul>
+<p>掌握了编码之前的关系后，挨个排错就好啦　　</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/21/PicGo+GitHub图床，自己生成图片链接/" rel="next" title="PicGo+GitHub图床，自己生成图片链接">
+                <i class="fa fa-chevron-left"></i> PicGo+GitHub图床，自己生成图片链接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/22/python面向对象/" rel="prev" title="python面向对象">
+                python面向对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python字符编码"><span class="nav-number">1.</span> <span class="nav-text">python字符编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符在硬盘上的存储"><span class="nav-number">1.1.</span> <span class="nav-text">字符在硬盘上的存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码的转换"><span class="nav-number">2.</span> <span class="nav-text">编码的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python3的执行过程"><span class="nav-number">2.1.</span> <span class="nav-text">Python3的执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码转换过程"><span class="nav-number">2.2.</span> <span class="nav-text">编码转换过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#encode-示例"><span class="nav-number">2.2.1.</span> <span class="nav-text">encode 示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何验证编码转对了呢？"><span class="nav-number">2.3.</span> <span class="nav-text">如何验证编码转对了呢？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-bytes类型"><span class="nav-number">3.</span> <span class="nav-text">Python bytes类型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

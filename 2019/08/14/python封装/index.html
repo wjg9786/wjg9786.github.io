@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python基础之封装一、什么是封装在程序设计中，封装是对具体对象的一种抽象，即将某些部分隐藏起来，在程序外部看不到，其含义是其他程序无法调用。 要了解封装，离不开“私有化”，就是将类或者是函数中的某些属性限制在某个区域之内，外部无法调用。 二、为什么要封装封装数据的主要原因是：保护隐私（把不想别人知道的东西封装起来） 封装方法的主要原因是：隔离复杂度（比如：电视机，我们看见的就是一个黑匣子，其实">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python封装">
+<meta property="og:url" content="http://yunjis.cn/2019/08/14/python封装/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="python基础之封装一、什么是封装在程序设计中，封装是对具体对象的一种抽象，即将某些部分隐藏起来，在程序外部看不到，其含义是其他程序无法调用。 要了解封装，离不开“私有化”，就是将类或者是函数中的某些属性限制在某个区域之内，外部无法调用。 二、为什么要封装封装数据的主要原因是：保护隐私（把不想别人知道的东西封装起来） 封装方法的主要原因是：隔离复杂度（比如：电视机，我们看见的就是一个黑匣子，其实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-14T18:24:46.585Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python封装">
+<meta name="twitter:description" content="python基础之封装一、什么是封装在程序设计中，封装是对具体对象的一种抽象，即将某些部分隐藏起来，在程序外部看不到，其含义是其他程序无法调用。 要了解封装，离不开“私有化”，就是将类或者是函数中的某些属性限制在某个区域之内，外部无法调用。 二、为什么要封装封装数据的主要原因是：保护隐私（把不想别人知道的东西封装起来） 封装方法的主要原因是：隔离复杂度（比如：电视机，我们看见的就是一个黑匣子，其实">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/14/python封装/">
+
+
+
+
+
+  <title>python封装 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/14/python封装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python封装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T14:23:32-04:00">
+                2019-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="python基础之封装"><a href="#python基础之封装" class="headerlink" title="python基础之封装"></a>python基础之封装</h2><h4 id="一、什么是封装"><a href="#一、什么是封装" class="headerlink" title="一、什么是封装"></a>一、什么是封装</h4><p>在程序设计中，封装是对具体对象的一种抽象，即将某些部分隐藏起来，在程序外部看不到，其含义是其他程序无法调用。</p>
+<p>要了解封装，离不开“私有化”，就是将类或者是函数中的某些属性限制在某个区域之内，外部无法调用。</p>
+<h4 id="二、为什么要封装"><a href="#二、为什么要封装" class="headerlink" title="二、为什么要封装"></a>二、为什么要封装</h4><p>封装数据的主要原因是：保护隐私（把不想别人知道的东西封装起来）</p>
+<p>封装方法的主要原因是：隔离复杂度（比如：电视机，我们看见的就是一个黑匣子，其实里面有很多电器元件，对于用户来说，我们不需要清楚里面都有些元件，电视机把那些电器元件封装在黑匣子里，提供给用户的只是几个按钮接口，通过按钮就对实现对电视机的操作。）</p>
+<p>提示：在编程语言里，对外提供的接口（接口可理解为一个入口），就是函数，称为接口函数，这与接口的概念还一样，接口代表一组接口函数的集合体。</p>
+<h4 id="三、封装分为两个层面"><a href="#三、封装分为两个层面" class="headerlink" title="三、封装分为两个层面"></a>三、封装分为两个层面</h4><p>封装其实分为两个层面，但无论哪种层面的封装，都要对外界提供好访问你内部隐藏内容的接口（接口可以理解为入口，有了这个入口，使用者无需且不能够直接访问到内部隐藏的细节，只能走接口，并且我们可以在接口的实现上附加更多的处理逻辑，从而严格控制使用者的访问）</p>
+<p>第一个层面的封装（什么都不用做）：创建类和对象会分别创建二者的名称空间，我们只能用类名.或者obj.的方式去访问里面的名字，这本身就是一种封装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(m1.brand) #实例化对象（m1.）</span><br><span class="line">print(motor_vehicle.tag) #类名（motor_vehicle.）</span><br><span class="line">-------------输出结果--------------</span><br><span class="line">春风</span><br><span class="line">fuel oil</span><br></pre></td></tr></table></figure>
+
+<p>注意:对于这一层面的封装(隐藏),类名.和实例名.就是访问隐藏属性的接口</p>
+<p>第二个层面的封装：类中把某些属性和方法隐藏起来(或者说定义成私有的)，只在类的内部使用、外部无法访问，或者留下少量接口（函数）供外部访问。</p>
+<p>Python中私有化的方法也比较简单，即在准备私有化的属性（包括方法、数据）名字前面加两个下划线即可。</p>
+<p>类中所有双下划线开头的名称如<strong>x都会自动变形成：_类名</strong>x的形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class A:</span><br><span class="line">    __N=0 #类的数据属性就应该是共享的,但是语法上是可以把类的数据属性设置成私有的如__N,会变形为_A__N</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.__X=10 #变形为self._A__X</span><br><span class="line">    def __foo(self): #变形为_A__foo</span><br><span class="line">        print(&apos;from A&apos;)</span><br><span class="line">    def bar(self):</span><br><span class="line">        self.__foo() #只有在类内部才可以通过__foo的形式访问到.</span><br></pre></td></tr></table></figure>
+
+<p>这种自动变形的特点：</p>
+<p>　　　　1、类中定义的<strong>x只能在内部使用，如self.</strong>x，引用的就是变形的结果。</p>
+<p>　　　　2、这种变形其实正是针对外部的变形，在外部是无法通过__x这个名字访问到的。</p>
+<p>　　　　3、在子类定义的<strong>x不会覆盖在父类定义的</strong>x，因为子类中变形成了：_子类名<strong>x,而父类中变形成了：_父类名</strong>x，即双下滑线开头的属性在继承给子类时，子类是无法覆盖的。</p>
+<p>　注意：对于这一层面的封装（隐藏），我们需要在类中定义一个函数（接口函数）在它内部访问被隐藏的属性，然后外部就可以使用了</p>
+<p>这种变形需要注意的问题是：</p>
+<p>1、这种机制也并没有真正意义上限制我们从外部直接访问属性，知道了类名和属性名就可以拼出名字：_类名<strong>属性，然后就可以访问了，如a._A</strong>N</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = A()</span><br><span class="line">print(a._A__N)</span><br><span class="line">print(a._A__X)</span><br><span class="line">print(A._A__N)</span><br><span class="line">--------输出结果--------</span><br><span class="line">0</span><br><span class="line">10</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<p>2、变形的过程只在类的定义是发生一次,在定义后的赋值操作，不会变形</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = A() #实例化对象a</span><br><span class="line">print(a.__dict__) #打印变形的内容</span><br><span class="line">a.__Y = 20 #新增Y的值，此时加__不会变形</span><br><span class="line">print(a.__dict__) #打印变形的内容</span><br><span class="line">---------输出结果----------</span><br><span class="line">&#123;&apos;_A__X&apos;: 10&#125;</span><br><span class="line">&#123;&apos;_A__X&apos;: 10, &apos;__Y&apos;: 20&#125; #发现后面的Y并没有变形</span><br></pre></td></tr></table></figure>
+
+<p>3、在继承中，父类如果不想让子类覆盖自己的方法，可以将方法定义为私有的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class A: #这是正常情况</span><br><span class="line">    def fa(self):</span><br><span class="line">        print(&quot;from A&quot;)</span><br><span class="line">    def test(self):</span><br><span class="line">        self.fa()</span><br><span class="line"> </span><br><span class="line">class B(A):</span><br><span class="line">    def fa(self):</span><br><span class="line">        print(&quot;from B&quot;)</span><br><span class="line"> </span><br><span class="line">b = B()</span><br><span class="line">b.test()</span><br><span class="line">--------输出结果----------</span><br><span class="line">from B</span><br></pre></td></tr></table></figure>
+
+<p>看一下把fa被定义成私有的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class A: #把fa定义成私有的，即__fa</span><br><span class="line">    def __fa(self): #在定义时就变形为_A__fa</span><br><span class="line">        print(&quot;from A&quot;)</span><br><span class="line">    def test(self):</span><br><span class="line">        self.__fa() #只会与自己所在的类为准,即调用_A__fa</span><br><span class="line"> </span><br><span class="line">class B(A):</span><br><span class="line">    def __fa(self): #b调用的是test，跟这个没关系</span><br><span class="line">        print(&quot;from B&quot;)</span><br><span class="line"> </span><br><span class="line">b = B()</span><br><span class="line">b.test()</span><br><span class="line">-------输出结果---------</span><br><span class="line">from A</span><br></pre></td></tr></table></figure>
+
+<h4 id="特性-property"><a href="#特性-property" class="headerlink" title="特性(property)"></a>特性(property)</h4><p>1、什么是特性property</p>
+<p>　　property是一种特殊的属性，访问它时会执行一段功能（函数）然后返回值（就是一个装饰器）</p>
+<p>　　注意：被property装饰的属性会优先于对象的属性被使用，而被propery装饰的属性,分成三种：property、被装饰的函数名.setter、被装饰的函数名.deleter（都是以装饰器的形式）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class room: #定义一个房间的类</span><br><span class="line">    def __init__(self,length,width,high):</span><br><span class="line">        self.length = length #房间的长</span><br><span class="line">        self.width = width #房间的宽</span><br><span class="line">        self.high = high #房间的高</span><br><span class="line">    @property</span><br><span class="line">    def area(self): #求房间的平方的功能</span><br><span class="line">        return self.length * self.width #房间的面积就是：长x宽</span><br><span class="line">    @property</span><br><span class="line">    def perimeter(self): #求房间的周长的功能</span><br><span class="line">        return 2 * (self.length + self.width) #公式为：（长 + 宽）x 2</span><br><span class="line">    @property</span><br><span class="line">    def volume(self): #求房间的体积的功能</span><br><span class="line">        return self.length * self.width * self.high #公式为：长 x 宽 x 高</span><br><span class="line"> </span><br><span class="line">r1 = room(2,3,4) #实例化一个对象r1</span><br><span class="line">print(&quot;r1.area：&quot;,r1.area) #可以像访问数据属性一样去访问area,会触发一个函数的执行,动态计算出一个值</span><br><span class="line">print(&quot;r1.perimeter：&quot;,r1.perimeter) #同上，就不用像调用绑定方法一样，还得加括号，才能运行</span><br><span class="line">print(&quot;r1.volume：&quot;,r1.volume) #同上，就像是把运算过程封装到一个函数内部，我们不管过程，只要有结果就行</span><br><span class="line">------------输出结果---------------</span><br><span class="line">r1.area： 6</span><br><span class="line">r1.perimeter： 10</span><br><span class="line">r1.volume： 24</span><br></pre></td></tr></table></figure>
+
+<p>注意：此时的特性arear、perimeter和volume不能被赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">r1.area = 8 #为特性area赋值</span><br><span class="line">r1.perimeter = 14 #为特性perimeter赋值</span><br><span class="line">r1.volume = 24 #为特性volume赋值</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">抛出异常：</span><br><span class="line">    r1.area = 8 #第一个就抛异常了，后面的也一样</span><br><span class="line">AttributeError: can&apos;t set attribute</span><br></pre></td></tr></table></figure>
+
+<p>2、为什么要用property</p>
+<p>　　将一个类的函数定义成特性以后，对象再去使用的时候obj.name,根本无法察觉自己的name是执行了一个函数然后计算出来的，这种特性的使用方式遵循了统一访问的原则。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class people: #定义一个人的类</span><br><span class="line">    def __init__(self,name,sex):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.sex = sex #p1.sex = &quot;male&quot;,遇到property，优先用property</span><br><span class="line"> </span><br><span class="line">    @property #查看sex的值</span><br><span class="line">    def sex(self):</span><br><span class="line">        return self.__sex #返回正真存值的地方</span><br><span class="line"> </span><br><span class="line">    @sex.setter #修改sex的值</span><br><span class="line">    def sex(self,value):</span><br><span class="line">        if not isinstance(value,str): #在设定值之前进行类型检查</span><br><span class="line">            raise TypeError(&quot;性别必须是字符串类型&quot;) #不是str类型时，主动抛出异常</span><br><span class="line">        self.__sex = value #类型正确的时候，直接修改__sex的值，这是值正真存放的地方</span><br><span class="line">            #这里sex前加&quot;__&quot;,对sex变形，隐藏。</span><br><span class="line"> </span><br><span class="line">    @sex.deleter #删除sex</span><br><span class="line">    def sex(self):</span><br><span class="line">        del self.__sex</span><br><span class="line"> </span><br><span class="line">p1 = people(&quot;egon&quot;,&quot;male&quot;) #实例化对象p1</span><br><span class="line">print(p1.sex) #查看p1的sex，此时要注意self.sex的优先级</span><br><span class="line">p1.sex = &quot;female&quot; #修改sex的值</span><br><span class="line">print(p1.sex) #查看修改后p1的sex</span><br><span class="line">print(p1.__dict__) #查看p1的名称空间，此时里面有sex</span><br><span class="line">del p1.sex #删除p1的sex</span><br><span class="line">print(p1.__dict__) #查看p1的名称空间，此时发现里面已经没有sex了</span><br><span class="line">-------------------输出结果--------------------</span><br><span class="line">male</span><br><span class="line">female</span><br><span class="line">&#123;&apos;name&apos;: &apos;egon&apos;, &apos;_people__sex&apos;: &apos;female&apos;&#125;</span><br><span class="line">&#123;&apos;name&apos;: &apos;egon&apos;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>python并没有在语法上把它们三个内建到自己的class机制中，在C++里一般会将所有的所有的数据都设置为私有的，然后提供set和get方法（接口）去设置和获取，在python中通过property方法可以实现。</p>
+<h4 id="五、封装与扩展性"><a href="#五、封装与扩展性" class="headerlink" title="五、封装与扩展性"></a>五、封装与扩展性</h4><p>　封装在于明确区分内外，使得类实现者可以修改封装内的东西而不影响外部调用者的代码；而外部使用用者只知道一个接口(函数)，只要接口（函数）名、参数不变，使用者的代码永远无需改变。这就提供一个良好的合作基础——或者说，只要接口这个基础约定不变，则代码改变不足为虑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#类的设计者</span><br><span class="line">class room: #定义一个房间的类</span><br><span class="line">    def __init__(self,name,owner,length,width,high):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.owner = owner</span><br><span class="line">        self.__length = length #房间的长</span><br><span class="line">        self.__width = width #房间的宽</span><br><span class="line">        self.__high = high #房间的高</span><br><span class="line">    @property</span><br><span class="line">    def area(self): #求房间的平方的功能</span><br><span class="line">        return self.__length * self.__width #对外提供的接口，隐藏了内部的实现细节，\</span><br><span class="line">                                            # 此时我们想求的是房间的面积就是：长x宽</span><br></pre></td></tr></table></figure>
+
+<p>实例化对象通过接口，调用相关属性得到想要的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#类的使用者</span><br><span class="line">r1 = room(&quot;客厅&quot;,&quot;michael&quot;,20,30,9) #实例化一个对象r1</span><br><span class="line">print(r1.area) #通过接口使用（area），使用者得到了客厅的面积</span><br><span class="line">-------------输出结果--------------</span><br><span class="line">600 #得到了客厅的面积</span><br></pre></td></tr></table></figure>
+
+<p>扩展原有的代码，使功能增加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#类的设计者，轻松的扩展了功能，而类的使用者完全不需要改变自己的代码</span><br><span class="line">class room: #定义一个房间的类</span><br><span class="line">    def __init__(self,name,owner,length,width,high):</span><br><span class="line">        self.name = name #房间名</span><br><span class="line">        self.owner = owner #房子的主人</span><br><span class="line">        self.__length = length #房间的长</span><br><span class="line">        self.__width = width #房间的宽</span><br><span class="line">        self.__high = high #房间的高</span><br><span class="line">    @property</span><br><span class="line">    def area(self): #对外提供的接口，隐藏内部实现</span><br><span class="line">        return self.__length * self.__width,\</span><br><span class="line">               self.__length * self.__width * self.__high #此时我们增加了求体积,</span><br><span class="line">        # 内部逻辑变了,只需增加这行代码就能简单实现,而且外部调用感知不到,仍然使</span><br><span class="line">        # 用该方法，但是功能已经增加了</span><br></pre></td></tr></table></figure>
+
+<p>对于类的使用者，仍然在调用area接口的人来说，根本无需改动自己的代码，就可以用上新功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#类的使用者</span><br><span class="line">r1 = room(&quot;客厅&quot;,&quot;michael&quot;,20,30,9) #实例化一个对象r1</span><br><span class="line">print(r1.area) #通过接口使用（area），使用者得到了客厅的面积</span><br><span class="line">--------------输出结果---------------</span><br><span class="line">(600, 5400) #得到了新增的功能的值</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/14/python基础二/" rel="next" title="python基础二">
+                <i class="fa fa-chevron-left"></i> python基础二
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/15/python基础三/" rel="prev" title="python基础三">
+                python基础三 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python基础之封装"><span class="nav-number">1.</span> <span class="nav-text">python基础之封装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、什么是封装"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、什么是封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、为什么要封装"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、为什么要封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、封装分为两个层面"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、封装分为两个层面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特性-property"><span class="nav-number">1.0.4.</span> <span class="nav-text">特性(property)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、封装与扩展性"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、封装与扩展性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

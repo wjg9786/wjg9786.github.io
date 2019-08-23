@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python基础本节大纲 迭代器&amp;amp;生成器 装饰器  基本装饰器 多参数装饰器 递归 算法基础：二分查找、二维数组转换 正则表达式 常用模块学习 作业：计算器开发 实现加减乘除及拓号优先级解析 用户输入 1 - 2 * ( (60-30 +(-40/5) * (9-25/3 + 7 /399/42998 +10 * 568/14 )) - (-43)/ (16-32) )等类似公式后，必须自">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python基础四">
+<meta property="og:url" content="http://yunjis.cn/2019/08/17/python基础四/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="python基础本节大纲 迭代器&amp;amp;生成器 装饰器  基本装饰器 多参数装饰器 递归 算法基础：二分查找、二维数组转换 正则表达式 常用模块学习 作业：计算器开发 实现加减乘除及拓号优先级解析 用户输入 1 - 2 * ( (60-30 +(-40/5) * (9-25/3 + 7 /399/42998 +10 * 568/14 )) - (-43)/ (16-32) )等类似公式后，必须自">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-17T08:26:51.753Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python基础四">
+<meta name="twitter:description" content="python基础本节大纲 迭代器&amp;amp;生成器 装饰器  基本装饰器 多参数装饰器 递归 算法基础：二分查找、二维数组转换 正则表达式 常用模块学习 作业：计算器开发 实现加减乘除及拓号优先级解析 用户输入 1 - 2 * ( (60-30 +(-40/5) * (9-25/3 + 7 /399/42998 +10 * 568/14 )) - (-43)/ (16-32) )等类似公式后，必须自">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/17/python基础四/">
+
+
+
+
+
+  <title>python基础四 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/17/python基础四/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python基础四</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-17T04:26:06-04:00">
+                2019-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="python基础"><a href="#python基础" class="headerlink" title="python基础"></a>python基础</h2><p>本节大纲</p>
+<p>迭代器&amp;生成器</p>
+<p>装饰器 </p>
+<p>基本装饰器</p>
+<p>多参数装饰器</p>
+<p>递归</p>
+<p>算法基础：二分查找、二维数组转换</p>
+<p>正则表达式</p>
+<p>常用模块学习</p>
+<p>作业：计算器开发</p>
+<p>实现加减乘除及拓号优先级解析</p>
+<p>用户输入 1 - 2 * ( (60-30 +(-40/5) * (9-2<em>5/3 + 7 /3<em>99/4</em>2998 +10 * 568/14 )) - (-4<em>3)/ (16-3</em>2) )等类似公式后，必须自己解析里面的(),+,-,</em>,/符号和公式，运算后得出结果，结果必须与真实的计算器所得出的结果一致</p>
+<h3 id="迭代器-amp-生成器"><a href="#迭代器-amp-生成器" class="headerlink" title="迭代器&amp;生成器"></a>迭代器&amp;生成器</h3><h4 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h4><p>迭代器是访问集合元素的一种方式。迭代器对象从集合的第一个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退，不过这也没什么，因为人们很少在迭代途中往后退。另外，迭代器的一大优点是不要求事先准备好整个迭代过程中所有的元素。迭代器仅仅在迭代到某个元素时才计算该元素，而在这之前或之后 ，元素可以不存在或者销毁。这个特点使得它特别适合用于遍历一些巨大的或是无限的集合，比如几个G的文件。</p>
+<p>特点：</p>
+<p>1.访问者不需要关心迭代器内部的结构，仅需通过next()方法不断去取下一个内容</p>
+<p>2.不能随机访问集合的某个值，只能从头到尾依次访问</p>
+<p>3.访问到一半时不能往回退</p>
+<p>4.便于循环比较大的数据集合，节省内存</p>
+<p>生成一个迭代器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = iter([1,2,3,4,5])</span><br><span class="line">&gt;&gt;&gt; a</span><br><span class="line">&lt;list_iterator object at 0x101402630&gt;</span><br><span class="line">&gt;&gt;&gt; a.__next__()</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; a.__next__()</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; a.__next__()</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; a.__next__()</span><br><span class="line">4</span><br><span class="line">&gt;&gt;&gt; a.__next__()</span><br><span class="line">5</span><br><span class="line">&gt;&gt;&gt; a.__next__()</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">StopIteration</span><br></pre></td></tr></table></figure>
+
+<p>Repeated calls to the iterator’s  <strong>next</strong>() method (or passing it to the built-in function  next()) return successive items in the stream. When no more data are available a  StopIteration exception is raised instead. At this point, the iterator object is exhausted and any further calls to its  <strong>next</strong>() method just raise  StopIteration again.</p>
+<p>重复调用迭代器的<strong>next __（）方法（或将其传递给内置函数next（））返回流中的连续项。当没有更多数据可用时，会引发StopIteration异常。此时，迭代器对象已耗尽，并且对</strong>next __（）方法的任何进一步调用只会再次引发StopIteration。</p>
+<h3 id="生成器generator"><a href="#生成器generator" class="headerlink" title="生成器generator"></a>生成器generator</h3><p>定义：一个函数调用时返回一个迭代器，那这个函数就叫做生成器（generator），如果函数中包含yield语法，那这个函数就会变成生成器 </p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def cash_out(amount):</span><br><span class="line">    while amount &gt;0:</span><br><span class="line">        amount -= 1</span><br><span class="line">        yield 1&lt;br&gt;        print(&quot;擦，又来取钱了。。。败家子！&quot;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">ATM = cash_out(5)</span><br><span class="line"> </span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__())</span><br><span class="line">print(&quot;花掉花掉!&quot;)</span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__())</span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__())</span><br><span class="line">print(&quot;花掉花掉!&quot;)</span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__())</span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__())</span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__()) #到这时钱就取没了,再取就报错了</span><br><span class="line">print(&quot;取到钱 %s 万&quot; % ATM.__next__())</span><br></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<p>这个yield的主要效果呢，就是可以使函数中断，并保存中断状态，中断后，代码可以继续往下执行，过一段时间还可以再重新调用这个函数，从上次yield的下一句开始执行。</p>
+<p>另外，还可通过yield实现在单线程的情况下实现并发运算的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">def consumer(name):</span><br><span class="line">    print(&quot;%s 准备吃包子啦!&quot; %name)</span><br><span class="line">    while True:</span><br><span class="line">       baozi = yield</span><br><span class="line"> </span><br><span class="line">       print(&quot;包子[%s]来了,被[%s]吃了!&quot; %(baozi,name))</span><br><span class="line"> </span><br><span class="line">def producer(name):</span><br><span class="line">    c = consumer(&apos;A&apos;)</span><br><span class="line">    c2 = consumer(&apos;B&apos;)</span><br><span class="line">    c.__next__()</span><br><span class="line">    c2.__next__()</span><br><span class="line">    print(&quot;老子开始准备做包子啦!&quot;)</span><br><span class="line">    for i in range(10):</span><br><span class="line">        time.sleep(1)</span><br><span class="line">        print(&quot;做了2个包子!&quot;)</span><br><span class="line">        c.send(i)</span><br><span class="line">        c2.send(i)</span><br><span class="line"> </span><br><span class="line">producer(&quot;alex&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h3><p>直接 看银角大王写的文档 <a href="http://www.cnblogs.com/wupeiqi/articles/4980620.html" target="_blank" rel="noopener">http://www.cnblogs.com/wupeiqi/articles/4980620.html</a>  </p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><p>递归算法是一种直接或者间接地调用自身算法的过程。在计算机编写程序中，递归算法对解决一大类问题是十分有效的，它往往使算法的描述简洁而且易于理解。</p>
+<p>递归算法解决问题的特点：</p>
+<p>1.递归就是在过程或函数时调用自身。</p>
+<p>2.在使用递归策略时，必须有一个明确的递归结束条件，称为递归出口。</p>
+<p>3.递归算法解题通常显得很简洁，但递归算法解题的运行效率较低。所以一般不提倡用递归算法设计程序。</p>
+<p>4.在递归调用的过程当中系统为每一层的返回点、局部量开辟了栈来存储。递归次数过多容易造成栈溢出等。所以一般不提倡用递归算法设计程序。</p>
+<h4 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h4><p>递归算法所体现的”重复”一般有三个要求:</p>
+<p>一是每次调用在规模上都有所缩小(通常是减半);</p>
+<p>二是相邻两次重复之间有紧密的联系，前一次要为后一次做准备(通常前一次的输出就作为后一次的输入);</p>
+<p>三是在问题的规模极小时必须用直接给出解答而不再进行递归调用，因而每次递归调用都是有条件的(以规模未达到直接解答的大小为条件),无条件递归调用将会成为死循环而不能正常结束。</p>
+<p>实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">1. 通过递归实现2分查找</span><br><span class="line">　　现有列表 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]， 要求尔等 用最快的方式 找出23 。 请Low B, Low 2B ,Low 3B 三个同学来回答这个问题。 </span><br><span class="line">　　Low B: 这个很简单，直接用 if 41 in primes:print(&quot;found it!&quot;) , 话音未落就被老师打了，让你自己实现，不是让你用现成提供的功能， Low B于是说，那只能从头开始一个个数了，然后Low B被 开除了。。。</span><br><span class="line">　　Low 2B: 因为这个列表是有序的， 我可以把列表从中截取一半，大概如下：</span><br><span class="line">　　　　p1 = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37,41]</span><br><span class="line">　　　　p2 = [ 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]</span><br><span class="line">　　　　然后看p1[-1]也就是41是否比23大， 如果比23大就代表23肯定在p1里面，否则那就肯定在p2里面。现在我们知道23比41小，所以23肯定在p1里，但p1里依然有很多元素， 怎么找到23呢？很简单，依然按上一次的方法，把p1分成2部分，如下：</span><br><span class="line">　　　　p1_a = [2, 3, 5, 7, 11, 13,17]</span><br><span class="line">　　　　p1_b = [19, 23, 29, 31, 37,41]</span><br><span class="line">　　　　然后我们发现，23 比p1_a最后一个值 17 大，那代表23肯定在p1_b中， p1_b中依然有很多元素，那就再按之前的方法继续分半，最终用不了几次，肯定就把23找出来了！</span><br><span class="line">　　　　说完，Low 2B满有成就感的甩了下头上的头皮屑。</span><br><span class="line">　　老师：很好，确实较Low B的方案强很多。 然后转头问Low 3B ，你有更好的想法 么？ </span><br><span class="line">      Low 3B: 啊。。。噢 ，我。。。我跟Low 2B的想法一样，结果被他说了。</span><br><span class="line">      老师：噢，那你帮我把代码写出来吧。 </span><br><span class="line">      Low 3B此时冷汗直冒，因为他根本没思路，但还是硬着头皮去写了。。。。虽然自己没思路，但是会谷歌呀，三个小时过去了，终于憋出了以下代码：</span><br><span class="line">def binary_search(data_list,find_num):</span><br><span class="line">    mid_pos = int(len(data_list) /2 ) #find the middle position of the list</span><br><span class="line">    mid_val = data_list[mid_pos] # get the value by it&apos;s position</span><br><span class="line">    print(data_list)</span><br><span class="line">    if len(data_list) &gt;1:</span><br><span class="line">        if mid_val &gt; find_num: # means the find_num is in left hand of mid_val</span><br><span class="line">            print(&quot;[%s] should be in left of [%s]&quot; %(find_num,mid_val))</span><br><span class="line">            binary_search(data_list[:mid_pos],find_num)</span><br><span class="line">        elif mid_val &lt; find_num: # means the find_num is in the right hand of mid_val</span><br><span class="line">            print(&quot;[%s] should be in right of [%s]&quot; %(find_num,mid_val))</span><br><span class="line">            binary_search(data_list[mid_pos:],find_num)</span><br><span class="line">        else: # means the mid_val == find_num</span><br><span class="line">            print(&quot;Find &quot;, find_num)</span><br><span class="line"> </span><br><span class="line">    else:</span><br><span class="line">        print(&quot;cannot find [%s] in data_list&quot; %find_num)</span><br><span class="line"> </span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]</span><br><span class="line">    binary_search(primes,67)</span><br><span class="line">以上就是典型的递归用法，在程序里自己调用自己</span><br></pre></td></tr></table></figure>
+
+<h4 id="算法基础"><a href="#算法基础" class="headerlink" title="算法基础"></a>算法基础</h4><p>要求：生成一个4*4的2维数组并将其顺时针旋转90度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!_*_coding:utf-8_*_</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">array=[[col for col in range(5)] for row in range(5)] #初始化一个4*4数组</span><br><span class="line">#array=[[col for col in &apos;abcde&apos;] for row in range(5)]</span><br><span class="line"> </span><br><span class="line">for row in array: #旋转前先看看数组长啥样</span><br><span class="line">    print(row)</span><br><span class="line"> </span><br><span class="line">print(&apos;-------------&apos;)</span><br><span class="line">for i,row in enumerate(array):</span><br><span class="line"> </span><br><span class="line">    for index in range(i,len(row)):</span><br><span class="line">        tmp = array[index][i] #get each rows&apos; data by column&apos;s index</span><br><span class="line">        array[index][i] = array[i][index] #</span><br><span class="line">        print tmp,array[i][index]  #= tmp</span><br><span class="line">        array[i][index] = tmp</span><br><span class="line">    for r in array:print r</span><br><span class="line"> </span><br><span class="line">    print(&apos;--one big loop --&apos;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><p>将一个不规则的数组按从小到大的顺序进行排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">data = [10,4,33,21,54,3,8,11,5,22,2,1,17,13,6]</span><br><span class="line"> </span><br><span class="line">print(&quot;before sort:&quot;,data)</span><br><span class="line"> </span><br><span class="line">previous = data[0]</span><br><span class="line">for j in range(len(data)):</span><br><span class="line">    tmp = 0</span><br><span class="line">    for i in range(len(data)-1):</span><br><span class="line">        if data[i] &gt; data[i+1]:</span><br><span class="line">            tmp=data[i]</span><br><span class="line">            data[i] = data[i+1]</span><br><span class="line">            data[i+1] = tmp</span><br><span class="line">    print(data)</span><br><span class="line"> </span><br><span class="line">print(&quot;after sort:&quot;,data)</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度</p>
+<p>（1）时间频度 </p>
+<p>一个算法执行所耗费的时间，从理论上是不能算出来的，必须上机运行测试才能知道。但我们不可能也没有必要对每个算法都上机测试，只需知道哪个算法花费的时间多，哪个算法花费的时间少就可以了。并且一个算法花费的时间与算法中语句的执行次数成正比例，哪个算法中语句执行次数多，它花费时间就多。一个算法中的语句执行次数称为语句频度或时间频度。记为T(n)。</p>
+<p>（2）时间复杂度</p>
+<p>在刚才提到的时间频度中，n称为问题的规模，当n不断变化时，时间频度T(n)也会不断变化。但有时我们想知道它变化时呈现什么规律。为此，我们引入时间复杂度概念。 一般情况下，算法中基本操作重复执行的次数是问题规模n的某个函数，用T(n)表示，若有某个辅助函数f(n),使得当n趋近于无穷大时，T(n)/f(n)的极限值为不等于零的常数，则称f(n)是T(n)的同数量级函数。记作T(n)=Ｏ(f(n)),称Ｏ(f(n)) 为算法的渐进时间复杂度，简称时间复杂度。</p>
+<p>指数时间</p>
+<p>指的是一个问题求解所需要的计算时间m(n)，依输入数据的大小n而呈指数成长（即输入数据的数量依线性成长，所花的时间将会以指数成长）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (i=1; i&lt;=n; i++)</span><br><span class="line">       x++;</span><br><span class="line">for (i=1; i&lt;=n; i++)</span><br><span class="line">    　for (j=1; j&lt;=n; j++)</span><br><span class="line">          x++;</span><br></pre></td></tr></table></figure>
+
+<p>第一个for循环的时间复杂度为Ο(n)，第二个for循环的时间复杂度为Ο(n2)，则整个算法的时间复杂度为Ο(n+n2)=Ο(n2)。</p>
+<p>常数时间</p>
+<p>若对于一个算法，T(n)的上界与输入大小无关，则称其具有常数时间，记作O(1)时间。一个例子是访问数组中的单个元素，因为访问它只需要一条指令。但是，找到无序数组中的最小元素则不是，因为这需要遍历所有元素来找出最小值。这是一项线性时间的操作，或称O(n)时间。但如果预先知道元素的数量并假设数量保持不变，则该操作也可被称为具有常数时间。</p>
+<p>对数时间 </p>
+<p>若算法的T(n) = O(log n)，则称其具有对数时间</p>
+<p>常见的具有对数时间的算法有二叉树的相关操作和二分搜索。</p>
+<p>对数时间的算法是非常有效的，因为每增加一个输入，其所需要的额外计算时间会变小。</p>
+<p>递归地将字符串砍半并且输出是这个类别函数的一个简单例子。它需要O（log n）的时间因为每次输出之前我们都将字符串砍半。 这意味着，如果我们想增加输出的次数，我们需要将字符串长度加倍。</p>
+<p>线性时间　</p>
+<p>如果一个算法的时间复杂度为O(n)，则称这个算法具有线性时间，或O(n)时间。非正式地说，这意味着对于足够大的输入，运行时间增加的大小与输入成线性关系。例如，一个计算列表所有元素的和的程序，需要的时间与列表的长度成正比。</p>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>语法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import re #导入模块名</span><br><span class="line"> </span><br><span class="line">p = re.compile(&quot;^[0-9]&quot;)  #生成要匹配的正则对象 ， ^代表从开头匹配，[0-9]代表匹配0至9的任意一个数字， 所以这里的意思是对传进来的字符串进行匹配，如果这个字符串的开头第一个字符是数字，就代表匹配上了</span><br><span class="line"> </span><br><span class="line">m = p.match(&apos;14534Abc&apos;)   #按上面生成的正则对象 去匹配 字符串， 如果能匹配成功，这个m就会有值， 否则m为None&lt;br&gt;&lt;br&gt;if m: #不为空代表匹配上了</span><br><span class="line">　　print(m.group())　　　　#m.group()返回匹配上的结果，此处为1，因为匹配上的是1这个字符&lt;br&gt;else:&lt;br&gt;　　print(&quot;doesn&apos;t match.&quot;)&lt;br&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的第2 和第3行也可以合并成一行来写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m = p.match(&quot;^[0-9]&quot;,&apos;14534Abc&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>效果是一样的，区别在于，第一种方式是提前对要匹配的格式进行了编译（对匹配公式进行解析），这样再去匹配的时候就不用在编译匹配的格式，第2种简写是每次匹配的时候 都 要进行一次匹配公式的编译，所以，如果你需要一个5w行的文件中匹配出所有以数字开头的行，建议先把正则公式进行编译再匹配，这样速度会快点。</p>
+<p>匹配格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">模式	描述</span><br><span class="line">^	匹配字符串的开头</span><br><span class="line">$	匹配字符串的末尾。</span><br><span class="line">.	匹配任意字符，除了换行符，当re.DOTALL标记被指定时，则可以匹配包括换行符的任意字符。</span><br><span class="line">[...]	用来表示一组字符,单独列出：[amk] 匹配 &apos;a&apos;，&apos;m&apos;或&apos;k&apos;</span><br><span class="line">[^...]	不在[]中的字符：[^abc] 匹配除了a,b,c之外的字符。</span><br><span class="line">re*	匹配0个或多个的表达式。</span><br><span class="line">re+	匹配1个或多个的表达式。</span><br><span class="line">re?	匹配0个或1个由前面的正则表达式定义的片段，非贪婪方式</span><br><span class="line">re&#123; n&#125;	 </span><br><span class="line">re&#123; n,&#125;	精确匹配n个前面表达式。</span><br><span class="line">re&#123; n, m&#125;	匹配 n 到 m 次由前面的正则表达式定义的片段，贪婪方式</span><br><span class="line">a| b	匹配a或b</span><br><span class="line">(re)	G匹配括号内的表达式，也表示一个组</span><br><span class="line">(?imx)	正则表达式包含三种可选标志：i, m, 或 x 。只影响括号中的区域。</span><br><span class="line">(?-imx)	正则表达式关闭 i, m, 或 x 可选标志。只影响括号中的区域。</span><br><span class="line">(?: re)	类似 (...), 但是不表示一个组</span><br><span class="line">(?imx: re)	在括号中使用i, m, 或 x 可选标志</span><br><span class="line">(?-imx: re)	在括号中不使用i, m, 或 x 可选标志</span><br><span class="line">(?#...)	注释.</span><br><span class="line">(?= re)	前向肯定界定符。如果所含正则表达式，以 ... 表示，在当前位置成功匹配时成功，否则失败。但一旦所含表达式已经尝试，匹配引擎根本没有提高；模式的剩余部分还要尝试界定符的右边。</span><br><span class="line">(?! re)	前向否定界定符。与肯定界定符相反；当所含表达式不能在字符串当前位置匹配时成功</span><br><span class="line">(?&gt; re)	匹配的独立模式，省去回溯。</span><br><span class="line">\w	匹配字母数字</span><br><span class="line">\W	匹配非字母数字</span><br><span class="line">\s	匹配任意空白字符，等价于 [\t\n\r\f].</span><br><span class="line">\S	匹配任意非空字符</span><br><span class="line">\d	匹配任意数字，等价于 [0-9].</span><br><span class="line">\D	匹配任意非数字</span><br><span class="line">\A	匹配字符串开始</span><br><span class="line">\Z	匹配字符串结束，如果是存在换行，只匹配到换行前的结束字符串。c</span><br><span class="line">\z	匹配字符串结束</span><br><span class="line">\G	匹配最后匹配完成的位置。</span><br><span class="line">\b	匹配一个单词边界，也就是指单词和空格间的位置。例如， &apos;er\b&apos; 可以匹配&quot;never&quot; 中的 &apos;er&apos;，但不能匹配 &quot;verb&quot; 中的 &apos;er&apos;。</span><br><span class="line">\B	匹配非单词边界。&apos;er\B&apos; 能匹配 &quot;verb&quot; 中的 &apos;er&apos;，但不能匹配 &quot;never&quot; 中的 &apos;er&apos;。</span><br><span class="line">\n, \t, 等.	匹配一个换行符。匹配一个制表符。等</span><br><span class="line">\1...\9	匹配第n个分组的子表达式。</span><br><span class="line">\10	匹配第n个分组的子表达式，如果它经匹配。否则指的是八进制字符码的表达式。</span><br></pre></td></tr></table></figure>
+
+<p>正则表达式常用5种操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">re.match(pattern, string)　　　　 # 从头匹配</span><br><span class="line"></span><br><span class="line">re.search(pattern, string)　　　　# 匹配整个字符串，直到找到一个匹配</span><br><span class="line"></span><br><span class="line">re.split()　　　　　　　　　　　　# 将匹配到的格式当做分割点对字符串分割成列表</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt;m = re.split(&quot;[0-9]&quot;, &quot;alex1rain2jack3helen rachel8&quot;)</span><br><span class="line">&gt;&gt;&gt;print(m)</span><br><span class="line">输出：　[&apos;alex&apos;, &apos;rain&apos;, &apos;jack&apos;, &apos;helen rachel&apos;, &apos;&apos;]</span><br><span class="line"></span><br><span class="line">re.findall()　　　　　　　　　　# 找到所有要匹配的字符并返回列表格式</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt;m = re.findall(&quot;[0-9]&quot;, &quot;alex1rain2jack3helen rachel8&quot;)</span><br><span class="line">&gt;&gt;&gt;print(m)&lt;br&gt;</span><br><span class="line">输出：[&apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;8&apos;]</span><br><span class="line"></span><br><span class="line">re.sub(pattern, repl, string, count,flag) 　　　# 替换匹配到的字符</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">m=re.sub(&quot;[0-9]&quot;,&quot;|&quot;, &quot;alex1rain2jack3helen rachel8&quot;,count=2 )</span><br><span class="line">print(m)</span><br><span class="line">输出：alex|rain|jack3helen rachel8</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">正则表达式实例</span><br><span class="line">字符匹配</span><br><span class="line">实例	描述</span><br><span class="line">python	匹配 &quot;python&quot;.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">字符类</span><br><span class="line">实例	描述</span><br><span class="line">[Pp]ython	匹配 &quot;Python&quot; 或 &quot;python&quot;</span><br><span class="line">rub[ye]	匹配 &quot;ruby&quot; 或 &quot;rube&quot;</span><br><span class="line">[aeiou]	匹配中括号内的任意一个字母</span><br><span class="line">[0-9]	匹配任何数字。类似于 [0123456789]</span><br><span class="line">[a-z]	匹配任何小写字母</span><br><span class="line">[A-Z]	匹配任何大写字母</span><br><span class="line">[a-zA-Z0-9]	匹配任何字母及数字</span><br><span class="line">[^aeiou]	除了aeiou字母以外的所有字符</span><br><span class="line">[^0-9]	匹配除了数字外的字符</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">特殊字符类</span><br><span class="line">实例	描述</span><br><span class="line">.	匹配除 &quot;\n&quot; 之外的任何单个字符。要匹配包括 &apos;\n&apos; 在内的任何字符，请使用象 &apos;[.\n]&apos; 的模式。</span><br><span class="line">\d	匹配一个数字字符。等价于 [0-9]。</span><br><span class="line">\D	匹配一个非数字字符。等价于 [^0-9]。</span><br><span class="line">\s	匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</span><br><span class="line">\S	匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</span><br><span class="line">\w	匹配包括下划线的任何单词字符。等价于&apos;[A-Za-z0-9_]&apos;。</span><br><span class="line">\W	匹配任何非单词字符。等价于 &apos;[^A-Za-z0-9_]&apos;。</span><br></pre></td></tr></table></figure>
+
+<p>####re.match与re.search的区别<br>re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Regular Expression Modifiers: Option Flags</span><br><span class="line">Regular expression literals may include an optional modifier to control various aspects of matching. The modifiers are specified as an optional flag. You can provide multiple modifiers using exclusive OR (|), as shown previously and may be represented by one of these −</span><br><span class="line"></span><br><span class="line">Modifier	Description</span><br><span class="line">re.I	Performs case-insensitive matching.</span><br><span class="line">re.L	Interprets words according to the current locale. This interpretation affects the alphabetic group (\w and \W), as well as word boundary behavior (\b and \B).</span><br><span class="line">re.M	Makes $ match the end of a line (not just the end of the string) and makes ^ match the start of any line (not just the start of the string).</span><br><span class="line">re.S	Makes a period (dot) match any character, including a newline.</span><br><span class="line">re.U	Interprets letters according to the Unicode character set. This flag affects the behavior of \w, \W, \b, \B.</span><br><span class="line">re.X	Permits &quot;cuter&quot; regular expression syntax. It ignores whitespace (except inside a set [] or when escaped by a backslash) and treats unescaped # as a comment marker.</span><br></pre></td></tr></table></figure>
+
+<p>几个常见正则例子：</p>
+<p>匹配手机号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">phone_str = &quot;hey my name is alex, and my phone number is 13651054607, please call me if you are pretty!&quot;</span><br><span class="line">phone_str2 = &quot;hey my name is alex, and my phone number is 18651054604, please call me if you are pretty!&quot;</span><br><span class="line"> </span><br><span class="line">m = re.search(&quot;(1)([358]\d&#123;9&#125;)&quot;,phone_str2)</span><br><span class="line">if m:</span><br><span class="line">    print(m.group())</span><br></pre></td></tr></table></figure>
+
+<p>匹配IP V4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip_addr = &quot;inet 192.168.60.223 netmask 0xffffff00 broadcast 192.168.60.255&quot;</span><br><span class="line"> </span><br><span class="line">m = re.search(&quot;\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;&quot;, ip_addr)</span><br><span class="line"> </span><br><span class="line">print(m.group())</span><br></pre></td></tr></table></figure>
+
+<p>分组匹配地址　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">contactInfo = &apos;Oldboy School, Beijing Changping Shahe: 010-8343245&apos;</span><br><span class="line">match = re.search(r&apos;(\w+), (\w+): (\S+)&apos;, contactInfo) #分组</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">&gt;&gt;&gt; match.group(1)</span><br><span class="line">  &apos;Doe&apos;</span><br><span class="line">  &gt;&gt;&gt; match.group(2)</span><br><span class="line">  &apos;John&apos;</span><br><span class="line">  &gt;&gt;&gt; match.group(3)</span><br><span class="line">  &apos;555-1212&apos;</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">match = re.search(r&apos;(?P&lt;last&gt;\w+), (?P&lt;first&gt;\w+): (?P&lt;phone&gt;\S+)&apos;, contactInfo)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"> &gt;&gt;&gt; match.group(&apos;last&apos;)</span><br><span class="line">  &apos;Doe&apos;</span><br><span class="line">  &gt;&gt;&gt; match.group(&apos;first&apos;)</span><br><span class="line">  &apos;John&apos;</span><br><span class="line">  &gt;&gt;&gt; match.group(&apos;phone&apos;)</span><br><span class="line">  &apos;555-1212&apos;</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>匹配email</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">email = &quot;alex.li@126.com   http://www.oldboyedu.com&quot;</span><br><span class="line"> </span><br><span class="line">m = re.search(r&quot;[0-9.a-z]&#123;0,26&#125;@[0-9.a-z]&#123;0,20&#125;.[0-9a-z]&#123;0,8&#125;&quot;, email)</span><br><span class="line">print(m.group())</span><br></pre></td></tr></table></figure>
+
+<p>json 和 pickle </p>
+<p>用于序列化的两个模块</p>
+<p>json，用于字符串 和 python数据类型间进行转换</p>
+<p>pickle，用于python特有的类型 和 python的数据类型间进行转换</p>
+<p>Json模块提供了四个功能：dumps、dump、loads、load</p>
+<p>pickle模块提供了四个功能：dumps、dump、loads、load</p>
+<p> 其它常用模块学习</p>
+<p><a href="http://www.cnblogs.com/wupeiqi/articles/4963027.html" target="_blank" rel="noopener">http://www.cnblogs.com/wupeiqi/articles/4963027.html</a> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/17/python字符格式化/" rel="next" title="python字符格式化">
+                <i class="fa fa-chevron-left"></i> python字符格式化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/19/python模块学习/" rel="prev" title="python模块学习">
+                python模块学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python基础"><span class="nav-number">1.</span> <span class="nav-text">python基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器-amp-生成器"><span class="nav-number">1.1.</span> <span class="nav-text">迭代器&amp;生成器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#迭代器"><span class="nav-number">1.1.1.</span> <span class="nav-text">迭代器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成器generator"><span class="nav-number">1.2.</span> <span class="nav-text">生成器generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器"><span class="nav-number">1.3.</span> <span class="nav-text">装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归"><span class="nav-number">1.4.</span> <span class="nav-text">递归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">1.4.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#要求"><span class="nav-number">1.4.2.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法基础"><span class="nav-number">1.4.3.</span> <span class="nav-text">算法基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.4.4.</span> <span class="nav-text">冒泡排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.5.</span> <span class="nav-text">正则表达式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
