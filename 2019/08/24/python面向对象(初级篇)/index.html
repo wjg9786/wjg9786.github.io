@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python面向对象(初级篇)概述 面向过程：根据业务逻辑从上到下写垒代码 函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可 面向对象：对函数进行分类和封装，让开发“更快更好更强…”  面向过程编程最易被初学者接受，其往往用一长段代码来实现指定功能，开发过程中最常见的操作就是粘贴复制，即：将之前实现的代码块复制到现需功能处。 1234567891011121314151617w">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python面向对象(初级篇)">
+<meta property="og:url" content="http://yunjis.cn/2019/08/24/python面向对象(初级篇)/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="python面向对象(初级篇)概述 面向过程：根据业务逻辑从上到下写垒代码 函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可 面向对象：对函数进行分类和封装，让开发“更快更好更强…”  面向过程编程最易被初学者接受，其往往用一长段代码来实现指定功能，开发过程中最常见的操作就是粘贴复制，即：将之前实现的代码块复制到现需功能处。 1234567891011121314151617w">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/425762/201508/271420286872390.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A16.png.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/425762/201508/272229566093488.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/425762/201508/272315068126604.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/425762/201508/272341313127410.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/blog2015/425762/201508/272341553282314.jpg">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/425762/201508/425762-20150829133530437-321533636.jpg">
+<meta property="og:updated_time" content="2019-08-24T17:31:11.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python面向对象(初级篇)">
+<meta name="twitter:description" content="python面向对象(初级篇)概述 面向过程：根据业务逻辑从上到下写垒代码 函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可 面向对象：对函数进行分类和封装，让开发“更快更好更强…”  面向过程编程最易被初学者接受，其往往用一长段代码来实现指定功能，开发过程中最常见的操作就是粘贴复制，即：将之前实现的代码块复制到现需功能处。 1234567891011121314151617w">
+<meta name="twitter:image" content="https://images0.cnblogs.com/blog2015/425762/201508/271420286872390.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/24/python面向对象(初级篇)/">
+
+
+
+
+
+  <title>python面向对象(初级篇) | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/24/python面向对象(初级篇)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python面向对象(初级篇)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-24T13:30:29-04:00">
+                2019-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="python面向对象-初级篇"><a href="#python面向对象-初级篇" class="headerlink" title="python面向对象(初级篇)"></a>python面向对象(初级篇)</h3><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>面向过程：根据业务逻辑从上到下写垒代码</li>
+<li>函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可</li>
+<li>面向对象：对函数进行分类和封装，让开发“更快更好更强…”</li>
+</ul>
+<p>面向过程编程最易被初学者接受，其往往用一长段代码来实现指定功能，开发过程中最常见的操作就是粘贴复制，即：将之前实现的代码块复制到现需功能处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">while True：</span><br><span class="line">    if cpu利用率 &gt; 90%:</span><br><span class="line">        #发送邮件提醒</span><br><span class="line">        连接邮箱服务器</span><br><span class="line">        发送邮件</span><br><span class="line">        关闭连接</span><br><span class="line"> </span><br><span class="line">    if 硬盘使用空间 &gt; 90%:</span><br><span class="line">        #发送邮件提醒</span><br><span class="line">        连接邮箱服务器</span><br><span class="line">        发送邮件</span><br><span class="line">        关闭连接</span><br><span class="line"> </span><br><span class="line">    if 内存占用 &gt; 80%:</span><br><span class="line">        #发送邮件提醒</span><br><span class="line">        连接邮箱服务器</span><br><span class="line">        发送邮件</span><br></pre></td></tr></table></figure>
+
+<p>随着时间的推移，开始使用了函数式编程，增强代码的重用性和可读性，就变成了这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def 发送邮件(内容)</span><br><span class="line">    #发送邮件提醒</span><br><span class="line">    连接邮箱服务器</span><br><span class="line">    发送邮件</span><br><span class="line">    关闭连接</span><br><span class="line"> </span><br><span class="line">while True：</span><br><span class="line"> </span><br><span class="line">    if cpu利用率 &gt; 90%:</span><br><span class="line">        发送邮件(&apos;CPU报警&apos;)</span><br><span class="line"> </span><br><span class="line">    if 硬盘使用空间 &gt; 90%:</span><br><span class="line">        发送邮件(&apos;硬盘报警&apos;)</span><br><span class="line"> </span><br><span class="line">    if 内存占用 &gt; 80%:</span><br><span class="line">        发送邮件(&apos;内存报警&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>今天我们来学习一种新的编程方式：面向对象编程（Object Oriented Programming，OOP，面向对象程序设计）<br><em>注：Java和C#来说只支持面向对象编程，而python比较灵活即支持面向对象编程也支持函数式编程</em></p>
+<h3 id="创建类和对象"><a href="#创建类和对象" class="headerlink" title="创建类和对象"></a>创建类和对象</h3><p>面向对象编程是一种编程方式，此编程方式的落地需要使用 “类” 和 “对象” 来实现，所以，面向对象编程其实就是对 “类” 和 “对象” 的使用。</p>
+<p>　　类就是一个模板，模板里可以包含多个函数，函数里实现一些功能</p>
+<p>　　对象则是根据模板创建的实例，通过实例对象可以执行类中的函数</p>
+<p><strong><img src="https://images0.cnblogs.com/blog2015/425762/201508/271420286872390.jpg" alt="img"></strong></p>
+<ul>
+<li>class是关键字，表示类</li>
+<li>创建对象，类名称后加括号即可</li>
+</ul>
+<p><em>ps：类中的函数第一个参数必须是self（详细见：类的三大特性之封装）</em></p>
+<p> <em>类中定义的函数叫做 “方法”</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 创建类</span><br><span class="line">class Foo:</span><br><span class="line">     </span><br><span class="line">    def Bar(self):</span><br><span class="line">        print &apos;Bar&apos;</span><br><span class="line"> </span><br><span class="line">    def Hello(self, name):</span><br><span class="line">        print &apos;i am %s&apos; %name</span><br><span class="line"> </span><br><span class="line"># 根据类Foo创建对象obj</span><br><span class="line">obj = Foo()</span><br><span class="line">obj.Bar()            #执行Bar方法</span><br><span class="line">obj.Hello(&apos;wupeiqi&apos;) #执行Hello方法</span><br></pre></td></tr></table></figure>
+
+<p><strong>*诶，</strong>你在这里是不是有疑问了？使用函数式编程和面向对象编程方式来执行一个“方法”时函数要比面向对象简便*</p>
+<ul>
+<li><em>面向对象：【创建对象】【通过对象执行方法】</em></li>
+<li><em>函数编程：【执行函数】</em></li>
+</ul>
+<p>观察上述对比答案则是肯定的，然后并非绝对，场景的不同适合其的编程方式也不同。</p>
+<p>总结：函数式的应用场景 –&gt; 各个函数之间是独立且无共用的数据</p>
+<h3 id="面向对象三大特性"><a href="#面向对象三大特性" class="headerlink" title="面向对象三大特性"></a>面向对象三大特性</h3><p>面向对象的三大特性是指：封装、继承和多态。</p>
+<p><strong>一、封装</strong></p>
+<p>封装，顾名思义就是将内容封装到某个地方，以后再去调用被封装在某处的内容。</p>
+<p>所以，在使用面向对象的封装特性时，需要：</p>
+<ul>
+<li>将内容封装到某处</li>
+<li>从某处调用被封装的内容</li>
+</ul>
+<p><strong>第一步：将内容封装到某处</strong></p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A15.png" alt></p>
+<p>self 是一个形式参数，当执行 obj1 = Foo(‘wupeiqi’, 18 ) 时，self 等于 obj1</p>
+<p>​                              当执行 obj2 = Foo(‘alex’, 78 ) 时，self 等于 obj2</p>
+<p>所以，内容其实被封装到了对象 obj1 和 obj2 中，每个对象中都有 name 和 age 属性，在内存里类似于下图来保存。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A16.png.jpg" alt></p>
+<p><strong>第二步：从某处调用被封装的内容</strong></p>
+<p>调用被封装的内容时，有两种情况：</p>
+<ul>
+<li>通过对象直接调用</li>
+<li>通过self间接调用</li>
+</ul>
+<p>1、通过对象直接调用被封装的内容</p>
+<p>上图展示了对象 obj1 和 obj2 在内存中保存的方式，根据保存格式可以如此调用被封装的内容：对象.属性名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Foo:</span><br><span class="line"> </span><br><span class="line">    def __init__(self, name, age):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line">obj1 = Foo(&apos;wupeiqi&apos;, 18)</span><br><span class="line">print obj1.name    # 直接调用obj1对象的name属性</span><br><span class="line">print obj1.age     # 直接调用obj1对象的age属性</span><br><span class="line"> </span><br><span class="line">obj2 = Foo(&apos;alex&apos;, 73)</span><br><span class="line">print obj2.name    # 直接调用obj2对象的name属性</span><br><span class="line">print obj2.age     # 直接调用obj2对象的age属性</span><br></pre></td></tr></table></figure>
+
+<p>2、通过self间接调用被封装的内容</p>
+<p>执行类中的方法时，需要通过self间接调用被封装的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Foo:</span><br><span class="line">  </span><br><span class="line">    def __init__(self, name, age):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">  </span><br><span class="line">    def detail(self):</span><br><span class="line">        print self.name</span><br><span class="line">        print self.age</span><br><span class="line">  </span><br><span class="line">obj1 = Foo(&apos;wupeiqi&apos;, 18)</span><br><span class="line">obj1.detail()  # Python默认会将obj1传给self参数，即：obj1.detail(obj1)，所以，此时方法内部的 self ＝ obj1，即：self.name 是 wupeiqi ；self.age 是 18</span><br><span class="line">  </span><br><span class="line">obj2 = Foo(&apos;alex&apos;, 73)</span><br><span class="line">obj2.detail()  # Python默认会将obj2传给self参数，即：obj1.detail(obj2)，所以，此时方法内部的 self ＝ obj2，即：self.name 是 alex ； self.age 是 78</span><br></pre></td></tr></table></figure>
+
+<p><strong>综上所述，对于面向对象的封装来说，其实就是使用构造方法将内容封装到 对象 中，然后通过对象直接或者self间接获取被封装的内容。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">练习一：在终端输出如下信息</span><br><span class="line"></span><br><span class="line">小明，10岁，男，上山去砍柴</span><br><span class="line">小明，10岁，男，开车去东北</span><br><span class="line">小明，10岁，男，最爱大保健</span><br><span class="line">老李，90岁，男，上山去砍柴</span><br><span class="line">老李，90岁，男，开车去东北</span><br><span class="line">老李，90岁，男，最爱大保健</span><br><span class="line">老张...</span><br><span class="line"></span><br><span class="line">函数式编程</span><br><span class="line">def kanchai(name, age, gender):</span><br><span class="line">    print &quot;%s,%s岁,%s,上山去砍柴&quot; %(name, age, gender)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def qudongbei(name, age, gender):</span><br><span class="line">    print &quot;%s,%s岁,%s,开车去东北&quot; %(name, age, gender)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def dabaojian(name, age, gender):</span><br><span class="line">    print &quot;%s,%s岁,%s,最爱大保健&quot; %(name, age, gender)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kanchai(&apos;小明&apos;, 10, &apos;男&apos;)</span><br><span class="line">qudongbei(&apos;小明&apos;, 10, &apos;男&apos;)</span><br><span class="line">dabaojian(&apos;小明&apos;, 10, &apos;男&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kanchai(&apos;老李&apos;, 90, &apos;男&apos;)</span><br><span class="line">qudongbei(&apos;老李&apos;, 90, &apos;男&apos;)</span><br><span class="line">dabaojian(&apos;老李&apos;, 90, &apos;男&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">面向对象</span><br><span class="line">class Foo:</span><br><span class="line">    </span><br><span class="line">    def __init__(self, name, age ,gender):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.gender = gender</span><br><span class="line"></span><br><span class="line">    def kanchai(self):</span><br><span class="line">        print &quot;%s,%s岁,%s,上山去砍柴&quot; %(self.name, self.age, self.gender)</span><br><span class="line"></span><br><span class="line">    def qudongbei(self):</span><br><span class="line">        print &quot;%s,%s岁,%s,开车去东北&quot; %(self.name, self.age, self.gender)</span><br><span class="line"></span><br><span class="line">    def dabaojian(self):</span><br><span class="line">        print &quot;%s,%s岁,%s,最爱大保健&quot; %(self.name, self.age, self.gender)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xiaoming = Foo(&apos;小明&apos;, 10, &apos;男&apos;)</span><br><span class="line">xiaoming.kanchai()</span><br><span class="line">xiaoming.qudongbei()</span><br><span class="line">xiaoming.dabaojian()</span><br><span class="line"></span><br><span class="line">laoli = Foo(&apos;老李&apos;, 90, &apos;男&apos;)</span><br><span class="line">laoli.kanchai()</span><br><span class="line">laoli.qudongbei()</span><br><span class="line">laoli.dabaojian()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">练习二：游戏人生程序</span><br><span class="line"></span><br><span class="line">1、创建三个游戏人物，分别是：</span><br><span class="line"></span><br><span class="line">苍井井，女，18，初始战斗力1000</span><br><span class="line">东尼木木，男，20，初始战斗力1800</span><br><span class="line">波多多，女，19，初始战斗力2500</span><br><span class="line">2、游戏场景，分别：</span><br><span class="line"></span><br><span class="line">草丛战斗，消耗200战斗力</span><br><span class="line">自我修炼，增长100战斗力</span><br><span class="line">多人游戏，消耗500战斗力</span><br><span class="line"></span><br><span class="line">游戏人生</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line"></span><br><span class="line"># #####################  定义实现功能的类  #####################</span><br><span class="line"></span><br><span class="line">class Person:</span><br><span class="line"></span><br><span class="line">    def __init__(self, na, gen, age, fig):</span><br><span class="line">        self.name = na</span><br><span class="line">        self.gender = gen</span><br><span class="line">        self.age = age</span><br><span class="line">        self.fight =fig</span><br><span class="line"></span><br><span class="line">    def grassland(self):</span><br><span class="line">        &quot;&quot;&quot;注释：草丛战斗，消耗200战斗力&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        self.fight = self.fight - 200</span><br><span class="line"></span><br><span class="line">    def practice(self):</span><br><span class="line">        &quot;&quot;&quot;注释：自我修炼，增长100战斗力&quot;&quot;&quot;</span><br><span class="line">        </span><br><span class="line">        self.fight = self.fight + 200</span><br><span class="line"></span><br><span class="line">    def incest(self):</span><br><span class="line">        &quot;&quot;&quot;注释：多人游戏，消耗500战斗力&quot;&quot;&quot;</span><br><span class="line">        </span><br><span class="line">        self.fight = self.fight - 500</span><br><span class="line"></span><br><span class="line">    def detail(self):</span><br><span class="line">        &quot;&quot;&quot;注释：当前对象的详细情况&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        temp = &quot;姓名:%s ; 性别:%s ; 年龄:%s ; 战斗力:%s&quot;  % (self.name, self.gender, self.age, self.fight)</span><br><span class="line">        print temp</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"># #####################  开始游戏  #####################</span><br><span class="line"></span><br><span class="line">cang = Person(&apos;苍井井&apos;, &apos;女&apos;, 18, 1000)    # 创建苍井井角色</span><br><span class="line">dong = Person(&apos;东尼木木&apos;, &apos;男&apos;, 20, 1800)  # 创建东尼木木角色</span><br><span class="line">bo = Person(&apos;波多多&apos;, &apos;女&apos;, 19, 2500)      # 创建波多多角色</span><br><span class="line"></span><br><span class="line">cang.incest() #苍井空参加一次多人游戏</span><br><span class="line">dong.practice()#东尼木木自我修炼了一次</span><br><span class="line">bo.grassland() #波多多参加一次草丛战斗</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#输出当前所有人的详细情况</span><br><span class="line">cang.detail()</span><br><span class="line">dong.detail()</span><br><span class="line">bo.detail()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cang.incest() #苍井空又参加一次多人游戏</span><br><span class="line">dong.incest() #东尼木木也参加了一个多人游戏</span><br><span class="line">bo.practice() #波多多自我修炼了一次</span><br><span class="line"></span><br><span class="line">#输出当前所有人的详细情况</span><br><span class="line">cang.detail()</span><br><span class="line">dong.detail()</span><br><span class="line">bo.detail()</span><br></pre></td></tr></table></figure>
+
+<p><strong>二、继承</strong></p>
+<p>继承，面向对象中的继承和现实生活中的继承相同，即：子可以继承父的内容。</p>
+<p>例如：</p>
+<p>　　猫可以：喵喵叫、吃、喝、拉、撒</p>
+<p>　　狗可以：汪汪叫、吃、喝、拉、撒</p>
+<p>如果我们要分别为猫和狗创建一个类，那么就需要为 猫 和 狗 实现他们所有的功能，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class 猫：</span><br><span class="line"></span><br><span class="line">    def 喵喵叫(self):</span><br><span class="line">        print &apos;喵喵叫&apos;</span><br><span class="line"></span><br><span class="line">    def 吃(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 喝(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 拉(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 撒(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">class 狗：</span><br><span class="line"></span><br><span class="line">    def 汪汪叫(self):</span><br><span class="line">        print &apos;喵喵叫&apos;</span><br><span class="line"></span><br><span class="line">    def 吃(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 喝(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 拉(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 撒(self):</span><br><span class="line">        # do something</span><br></pre></td></tr></table></figure>
+
+<p>上述代码不难看出，吃、喝、拉、撒是猫和狗都具有的功能，而我们却分别的猫和狗的类中编写了两次。如果使用 继承 的思想，如下实现：</p>
+<p>　　动物：吃、喝、拉、撒</p>
+<p>　　   猫：喵喵叫（猫继承动物的功能）</p>
+<p>　　   狗：汪汪叫（狗继承动物的功能）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">伪代码</span><br><span class="line">class 动物:</span><br><span class="line"></span><br><span class="line">    def 吃(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 喝(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 拉(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line">    def 撒(self):</span><br><span class="line">        # do something</span><br><span class="line"></span><br><span class="line"># 在类后面括号中写入另外一个类名，表示当前类继承另外一个类</span><br><span class="line">class 猫(动物)：</span><br><span class="line"></span><br><span class="line">    def 喵喵叫(self):</span><br><span class="line">        print &apos;喵喵叫&apos;</span><br><span class="line">        </span><br><span class="line"># 在类后面括号中写入另外一个类名，表示当前类继承另外一个类</span><br><span class="line">class 狗(动物)：</span><br><span class="line"></span><br><span class="line">    def 汪汪叫(self):</span><br><span class="line">        print &apos;喵喵叫&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">代码实例</span><br><span class="line">class Animal:</span><br><span class="line"></span><br><span class="line">    def eat(self):</span><br><span class="line">        print &quot;%s 吃 &quot; %self.name</span><br><span class="line"></span><br><span class="line">    def drink(self):</span><br><span class="line">        print &quot;%s 喝 &quot; %self.name</span><br><span class="line"></span><br><span class="line">    def shit(self):</span><br><span class="line">        print &quot;%s 拉 &quot; %self.name</span><br><span class="line"></span><br><span class="line">    def pee(self):</span><br><span class="line">        print &quot;%s 撒 &quot; %self.name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Cat(Animal):</span><br><span class="line"></span><br><span class="line">    def __init__(self, name):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.breed ＝ &apos;猫&apos;</span><br><span class="line"></span><br><span class="line">    def cry(self):</span><br><span class="line">        print &apos;喵喵叫&apos;</span><br><span class="line"></span><br><span class="line">class Dog(Animal):</span><br><span class="line">    </span><br><span class="line">    def __init__(self, name):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.breed ＝ &apos;狗&apos;</span><br><span class="line">        </span><br><span class="line">    def cry(self):</span><br><span class="line">        print &apos;汪汪叫&apos;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"># ######### 执行 #########</span><br><span class="line"></span><br><span class="line">c1 = Cat(&apos;小白家的小黑猫&apos;)</span><br><span class="line">c1.eat()</span><br><span class="line"></span><br><span class="line">c2 = Cat(&apos;小黑的小白猫&apos;)</span><br><span class="line">c2.drink()</span><br><span class="line"></span><br><span class="line">d1 = Dog(&apos;胖子家的小瘦狗&apos;)</span><br><span class="line">d1.eat()</span><br></pre></td></tr></table></figure>
+
+<p><strong>所以，对于面向对象的继承来说，其实就是将多个类共有的方法提取到父类中，子类仅需继承父类而不必一一实现每个方法。</strong></p>
+<p><em>注：除了子类和父类的称谓，你可能看到过 派生类 和 基类 ，他们与子类和父类只是叫法不同而已。</em></p>
+<p><img src="https://images0.cnblogs.com/blog2015/425762/201508/272229566093488.jpg" alt="img"></p>
+<p>学习了继承的写法之后，我们用代码来是上述阿猫阿狗的功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">代码实例</span><br><span class="line">class Animal:</span><br><span class="line"></span><br><span class="line">    def eat(self):</span><br><span class="line">        print &quot;%s 吃 &quot; %self.name</span><br><span class="line"></span><br><span class="line">    def drink(self):</span><br><span class="line">        print &quot;%s 喝 &quot; %self.name</span><br><span class="line"></span><br><span class="line">    def shit(self):</span><br><span class="line">        print &quot;%s 拉 &quot; %self.name</span><br><span class="line"></span><br><span class="line">    def pee(self):</span><br><span class="line">        print &quot;%s 撒 &quot; %self.name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Cat(Animal):</span><br><span class="line"></span><br><span class="line">    def __init__(self, name):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.breed ＝ &apos;猫&apos;</span><br><span class="line"></span><br><span class="line">    def cry(self):</span><br><span class="line">        print &apos;喵喵叫&apos;</span><br><span class="line"></span><br><span class="line">class Dog(Animal):</span><br><span class="line">    </span><br><span class="line">    def __init__(self, name):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.breed ＝ &apos;狗&apos;</span><br><span class="line">        </span><br><span class="line">    def cry(self):</span><br><span class="line">        print &apos;汪汪叫&apos;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"># ######### 执行 #########</span><br><span class="line"></span><br><span class="line">c1 = Cat(&apos;小白家的小黑猫&apos;)</span><br><span class="line">c1.eat()</span><br><span class="line"></span><br><span class="line">c2 = Cat(&apos;小黑的小白猫&apos;)</span><br><span class="line">c2.drink()</span><br><span class="line"></span><br><span class="line">d1 = Dog(&apos;胖子家的小瘦狗&apos;)</span><br><span class="line">d1.eat()</span><br></pre></td></tr></table></figure>
+
+<p><strong>那么问题又来了，多继承呢？</strong></p>
+<ul>
+<li>是否可以继承多个类</li>
+<li>如果继承的多个类每个类中都定了相同的函数，那么那一个会被使用呢？</li>
+</ul>
+<p>1、Python的类可以继承多个类，Java和C#中则只能继承一个类</p>
+<p>2、Python的类如果继承了多个类，那么其寻找方法的方式有两种，分别是：<strong>深度优先</strong>和<strong>广度优先</strong></p>
+<p><img src="https://images0.cnblogs.com/blog2015/425762/201508/272315068126604.jpg" alt="img"></p>
+<ul>
+<li>当类是经典类时，多继承情况下，会按照深度优先方式查找</li>
+<li>当类是新式类时，多继承情况下，会按照广度优先方式查找</li>
+</ul>
+<p>经典类和新式类，从字面上可以看出一个老一个新，新的必然包含了跟多的功能，也是之后推荐的写法，从写法上区分的话，如果 <strong>当前类或者父类继承了object类</strong>，那么该类便是新式类，否则便是经典类。</p>
+<p><img src="https://images0.cnblogs.com/blog2015/425762/201508/272341313127410.jpg" alt="img"> <img src="https://images0.cnblogs.com/blog2015/425762/201508/272341553282314.jpg" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">经典类多继承</span><br><span class="line">class D:</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;D.bar&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class C(D):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;C.bar&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class B(D):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;B.bar&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class A(B, C):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;A.bar&apos;</span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line"># 执行bar方法时</span><br><span class="line"># 首先去A类中查找，如果A类中没有，则继续去B类中找，如果B类中么有，则继续去D类中找，如果D类中么有，则继续去C类中找，如果还是未找到，则报错</span><br><span class="line"># 所以，查找顺序：A --&gt; B --&gt; D --&gt; C</span><br><span class="line"># 在上述查找bar方法的过程中，一旦找到，则寻找过程立即中断，便不会再继续找了</span><br><span class="line">a.bar()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">新式类多继承</span><br><span class="line">class D(object):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;D.bar&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class C(D):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;C.bar&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class B(D):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;B.bar&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class A(B, C):</span><br><span class="line"></span><br><span class="line">    def bar(self):</span><br><span class="line">        print &apos;A.bar&apos;</span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line"># 执行bar方法时</span><br><span class="line"># 首先去A类中查找，如果A类中没有，则继续去B类中找，如果B类中么有，则继续去C类中找，如果C类中么有，则继续去D类中找，如果还是未找到，则报错</span><br><span class="line"># 所以，查找顺序：A --&gt; B --&gt; C --&gt; D</span><br><span class="line"># 在上述查找bar方法的过程中，一旦找到，则寻找过程立即中断，便不会再继续找了</span><br><span class="line">a.bar()</span><br></pre></td></tr></table></figure>
+
+<p>经典类：首先去<strong>A</strong>类中查找，如果A类中没有，则继续去<strong>B</strong>类中找，如果B类中么有，则继续去<strong>D</strong>类中找，如果D类中么有，则继续去<strong>C</strong>类中找，如果还是未找到，则报错</p>
+<p>新式类：首先去<strong>A</strong>类中查找，如果A类中没有，则继续去<strong>B</strong>类中找，如果B类中么有，则继续去<strong>C</strong>类中找，如果C类中么有，则继续去<strong>D</strong>类中找，如果还是未找到，则报错</p>
+<p>注意：在上述查找过程中，一旦找到，则寻找过程立即中断，便不会再继续找了</p>
+<p><strong>三、多态</strong> </p>
+<p> Pyhon不支持Java和C#这一类强类型语言中多态的写法，但是原生多态，其Python崇尚“鸭子类型”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> Python伪代码实现Java或C#的多态</span><br><span class="line"> class F1:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class S1(F1):</span><br><span class="line"></span><br><span class="line">    def show(self):</span><br><span class="line">        print &apos;S1.show&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class S2(F1):</span><br><span class="line"></span><br><span class="line">    def show(self):</span><br><span class="line">        print &apos;S2.show&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 由于在Java或C#中定义函数参数时，必须指定参数的类型</span><br><span class="line"># 为了让Func函数既可以执行S1对象的show方法，又可以执行S2对象的show方法，所以，定义了一个S1和S2类的父类</span><br><span class="line"># 而实际传入的参数是：S1对象和S2对象</span><br><span class="line"></span><br><span class="line">def Func(F1 obj):</span><br><span class="line">    &quot;&quot;&quot;Func函数需要接收一个F1类型或者F1子类的类型&quot;&quot;&quot;</span><br><span class="line">    </span><br><span class="line">    print obj.show()</span><br><span class="line">    </span><br><span class="line">s1_obj = S1()</span><br><span class="line">Func(s1_obj) # 在Func函数中传入S1类的对象 s1_obj，执行 S1 的show方法，结果：S1.show</span><br><span class="line"></span><br><span class="line">s2_obj = S2()</span><br><span class="line">Func(s2_obj) # 在Func函数中传入Ss类的对象 ss_obj，执行 Ss 的show方法，结果：S2.show</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Python “鸭子类型”</span><br><span class="line">class F1:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class S1(F1):</span><br><span class="line"></span><br><span class="line">    def show(self):</span><br><span class="line">        print &apos;S1.show&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class S2(F1):</span><br><span class="line"></span><br><span class="line">    def show(self):</span><br><span class="line">        print &apos;S2.show&apos;</span><br><span class="line"></span><br><span class="line">def Func(obj):</span><br><span class="line">    print obj.show()</span><br><span class="line"></span><br><span class="line">s1_obj = S1()</span><br><span class="line">Func(s1_obj) </span><br><span class="line"></span><br><span class="line">s2_obj = S2()</span><br><span class="line">Func(s2_obj)</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>以上就是本节对于面向对象初级知识的介绍，总结如下：</p>
+<ul>
+<li>面向对象是一种编程方式，此编程方式的实现是基于对 <strong>类</strong> 和 <strong>对象</strong> 的使用</li>
+<li>类 是一个模板，模板中包装了多个“函数”供使用</li>
+<li>对象，根据模板创建的实例（即：对象），实例用于调用被包装在类中的函数</li>
+<li>面向对象三大特性：封装、继承和多态</li>
+</ul>
+<p><strong>问答专区</strong></p>
+<p><strong>问题一：什么样的代码才是面向对象？</strong></p>
+<p><em>答：从简单来说，如果程序中的所有功能都是用 类 和 对象 来实现，那么就是面向对象编程了。</em></p>
+<p><strong>问题二：函数式编程 和 面向对象 如何选择？分别在什么情况下使用？</strong></p>
+<p><em>答：须知：对于 C# 和 Java 程序员来说不存在这个问题，因为该两门语言只支持面向对象编程（不支持函数式编程）。而对于 Python 和 PHP 等语言却同时支持两种编程方式，且函数式编程能完成的操作，面向对象都可以实现；而面向对象的能完成的操作，函数式编程不行（函数式编程无法实现面向对象的封装功能）。</em></p>
+<p><em>所以，一般在Python开发中，*</em>全部使用面向对象** 或 <strong>面向对象和函数式混合使用*</strong></p>
+<p><em>面向对象的应用场景:</em></p>
+<p><em>多函数需使用共同的值，如：数据库的增、删、改、查操作都需要连接数据库字符串、主机名、用户名和密码</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Demo</span><br><span class="line">class SqlHelper:</span><br><span class="line"></span><br><span class="line">   def __init__(self, host, user, pwd):</span><br><span class="line"></span><br><span class="line">       self.host = host</span><br><span class="line">       self.user = user</span><br><span class="line">       self.pwd = pwd</span><br><span class="line"></span><br><span class="line">   def 增(self):</span><br><span class="line">       # 使用主机名、用户名、密码（self.host 、self.user 、self.pwd）打开数据库连接</span><br><span class="line">       # do something</span><br><span class="line">       # 关闭数据库连接</span><br><span class="line"></span><br><span class="line">   def 删(self):</span><br><span class="line">       # 使用主机名、用户名、密码（self.host 、self.user 、self.pwd）打开数据库连接</span><br><span class="line">       # do something</span><br><span class="line">       # 关闭数据库连接</span><br><span class="line"></span><br><span class="line">   def 改(self):</span><br><span class="line">       # 使用主机名、用户名、密码（self.host 、self.user 、self.pwd）打开数据库连接</span><br><span class="line">       # do something</span><br><span class="line">       # 关闭数据库连接</span><br><span class="line"></span><br><span class="line">   def 查(self):</span><br><span class="line">   # 使用主机名、用户名、密码（self.host 、self.user 、self.pwd）打开数据库连接</span><br><span class="line">       # do something</span><br><span class="line">       # 关闭数据库连接# do something</span><br></pre></td></tr></table></figure>
+
+<p><em>需要创建多个事物，每个事物属性个数相同，但是值的需求</em><br><em>如：张三、李四、杨五，他们都有姓名、年龄、血型，但其都是不相同。即：属性个数相同，但值不相同</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">demo</span><br><span class="line">class Person:</span><br><span class="line"></span><br><span class="line">    def __init__(self, name ,age ,blood_type):</span><br><span class="line"></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.blood_type = blood_type</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def detail(self):</span><br><span class="line">        temp = &quot;i am %s, age %s , blood type %s &quot; % (self.name, self.age, self.blood_type)</span><br><span class="line">        print temp</span><br><span class="line"></span><br><span class="line">zhangsan = Person(&apos;张三&apos;, 18, &apos;A&apos;)</span><br><span class="line">lisi = Person(&apos;李四&apos;, 73, &apos;AB&apos;)</span><br><span class="line">yangwu = Person(&apos;杨五&apos;, 84, &apos;A&apos;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>问题三：类和对象在内存中是如何保存？</strong></p>
+<p>答：<em>类以及类中的方法在内存中只有一份，而根据类创建的每一个对象都在内存中需要存一份，大致如下图：</em></p>
+<p><img src="https://images2015.cnblogs.com/blog/425762/201508/425762-20150829133530437-321533636.jpg" alt="img"></p>
+<p><em>如上图所示，根据类创建对象时，对象中除了封装 name 和 age 的值之外，还会保存一个<strong>类对象指针</strong>，该值指向当前对象的类。</em></p>
+<p><em>当通过 obj1 执行 【方法一】 时，过程如下：</em></p>
+<ol>
+<li><em>根据当前对象中的 类对象指针 找到类中的方法</em></li>
+<li><em>将对象 obj1 当作参数传给 方法的第一个参数 self</em> </li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/23/python中的闭包与装饰器/" rel="next" title="python中的闭包与装饰器">
+                <i class="fa fa-chevron-left"></i> python中的闭包与装饰器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/24/python面向对象-进阶篇/" rel="prev" title="python面向对象-进阶篇">
+                python面向对象-进阶篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python面向对象-初级篇"><span class="nav-number">1.</span> <span class="nav-text">python面向对象(初级篇)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建类和对象"><span class="nav-number">3.</span> <span class="nav-text">创建类和对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象三大特性"><span class="nav-number">4.</span> <span class="nav-text">面向对象三大特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

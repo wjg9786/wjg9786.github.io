@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="理解Python中的闭包1.定义闭包是函数式编程的一个重要的语法结构，函数式编程是一种编程范式(而面向过程编程和面向对象编程也都是编程范式)。在面向过程编程中，我们见过函数(function);在面向对象编程中，我们见过对象(object)。函数和对象的根本目的是对某种逻辑方式组织代码，并提高代码的可重复使用性(reusability)。闭包也是一种组织代码的结构，它同样提高了代码的可重复使用性。">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解python中的闭包">
+<meta property="og:url" content="http://yunjis.cn/2019/08/23/理解python中的闭包/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="理解Python中的闭包1.定义闭包是函数式编程的一个重要的语法结构，函数式编程是一种编程范式(而面向过程编程和面向对象编程也都是编程范式)。在面向过程编程中，我们见过函数(function);在面向对象编程中，我们见过对象(object)。函数和对象的根本目的是对某种逻辑方式组织代码，并提高代码的可重复使用性(reusability)。闭包也是一种组织代码的结构，它同样提高了代码的可重复使用性。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%97%AD%E5%8C%85.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20170328155502885?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWWVvbWFuOTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20170328172951649?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWWVvbWFuOTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20170328173034477?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWWVvbWFuOTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2019-08-23T15:03:33.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解python中的闭包">
+<meta name="twitter:description" content="理解Python中的闭包1.定义闭包是函数式编程的一个重要的语法结构，函数式编程是一种编程范式(而面向过程编程和面向对象编程也都是编程范式)。在面向过程编程中，我们见过函数(function);在面向对象编程中，我们见过对象(object)。函数和对象的根本目的是对某种逻辑方式组织代码，并提高代码的可重复使用性(reusability)。闭包也是一种组织代码的结构，它同样提高了代码的可重复使用性。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%97%AD%E5%8C%85.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/23/理解python中的闭包/">
+
+
+
+
+
+  <title>理解python中的闭包 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/23/理解python中的闭包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">理解python中的闭包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-23T11:02:36-04:00">
+                2019-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="理解Python中的闭包"><a href="#理解Python中的闭包" class="headerlink" title="理解Python中的闭包"></a>理解Python中的闭包</h1><h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a><strong>1.定义</strong></h2><p><strong>闭包</strong>是函数式编程的一个重要的语法结构，函数式编程是一种编程范式(而面向过程编程和面向对象编程也都是编程范式)。在面向过程编程中，我们见过函数(function);在面向对象编程中，我们见过对象(object)。函数和对象的根本目的是对某种逻辑方式组织代码，并提高代码的可重复使用性(reusability)。闭包也是一种组织代码的结构，它同样提高了代码的可重复使用性。</p>
+<p>不同编程语言实现闭包的方式是不同的，python中闭包从表现形式上看，如果 一个内部函数里，对在外部作用域(但不是在全局作用域)的变量进行引用，那么内部函数就被认为是闭包(clsoure)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def outer(x):</span><br><span class="line">    def inner(y):</span><br><span class="line">        return x + y</span><br><span class="line">    return inner</span><br></pre></td></tr></table></figure>
+
+<p>结合这段简单的代码和定义来说明闭包：<br>　　inner(y)就是这个内部函数，对在外部作用域（但不是在全局作用域）的变量进行引用：x就是被引用的变量，x在外部作用域outer里面，但不在全局作用域里，则这个内部函数inner就是一个闭包。</p>
+<p>　　再稍微讲究一点的解释是，闭包=函数块+定义函数时的环境，inner就是函数块，x就是环境，当然这个环境可以有很多，不止一个简单的x。</p>
+<p>　　在函数outer中定义了一个inner函数，inner函数访问外部函数outer的（参数）变量，并且把inner函数作为返回值返回给outer函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = outer(2)</span><br><span class="line">print(&apos;function:&apos;,a) </span><br><span class="line">print(&apos;result:&apos;,a(3))</span><br></pre></td></tr></table></figure>
+
+<p>　上面的代码中a就是一个函数，代码的执行结果为：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images%E9%97%AD%E5%8C%85.png" alt></p>
+<p>从结果我们不难看出，a是函数inner而不是outer，这个有点绕，但是并不难理解，因为return回来的是inner函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(&apos;a.func_name&apos;,a.func_name)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：<img src="https://img-blog.csdn.net/20170328155502885?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWWVvbWFuOTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>　　调用函数a，得到的结果是传入参数的值相加。</p>
+<p>　　上面的和这句是一样的：<code>print(&#39;result:&#39;,outer(2)(3))</code></p>
+<h2 id="2-使用闭包注意的地方"><a href="#2-使用闭包注意的地方" class="headerlink" title="2.使用闭包注意的地方"></a><strong>2.使用闭包注意的地方</strong></h2><h3 id="2-1闭包无法修改外部函数的局部变量"><a href="#2-1闭包无法修改外部函数的局部变量" class="headerlink" title="2.1闭包无法修改外部函数的局部变量"></a><strong>2.1闭包无法修改外部函数的局部变量</strong></h3><p><img src="https://img-blog.csdn.net/20170328172951649?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWWVvbWFuOTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>如果innerFunc可以修改x的值的话，x的值前后会发生变化，但结果是：</p>
+<p><img src="https://img-blog.csdn.net/20170328173034477?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWWVvbWFuOTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>在innerFunc中x的值发生了改变，但是在outerFunc中x的值并未发生变化。</p>
+<p>再来看一个例子</p>
+<h3 id="2-2闭包无法直接访问外部函数的局部变量"><a href="#2-2闭包无法直接访问外部函数的局部变量" class="headerlink" title="2.2闭包无法直接访问外部函数的局部变量"></a><strong>2.2闭包无法直接访问外部函数的局部变量</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def outer():</span><br><span class="line">    x = 5 </span><br><span class="line">    def inner(): #上面一行的x相对inner函数来说是函数外的局部变量（非全局变量）</span><br><span class="line">        x *= x</span><br><span class="line">        return x</span><br><span class="line">    return inner</span><br><span class="line"></span><br><span class="line">outer()()</span><br></pre></td></tr></table></figure>
+
+<p>解决的方法：<br>　　1.在python3之前没有直接的解决方法，只能间接地通过容器类型来解决，因为容器类型不是存放在栈空间的，inner函数可以访问到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def outer():</span><br><span class="line">    x = [5] </span><br><span class="line">    def inner(): </span><br><span class="line">        x[0] *= x[0]</span><br><span class="line">        return x[0]</span><br><span class="line">    return inner </span><br><span class="line"></span><br><span class="line">print(outer()())  #25</span><br></pre></td></tr></table></figure>
+
+<p>2.python3通过nonlocal关键字来解决，该语句显式的指定a不是闭包的局部变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def outer():</span><br><span class="line">    x = 5 </span><br><span class="line">    def inner(): </span><br><span class="line">        nonlocal x #把x声明为非局部变量</span><br><span class="line">        x *= x</span><br><span class="line">        return x</span><br><span class="line">    return inner </span><br><span class="line"></span><br><span class="line">print(outer()())</span><br></pre></td></tr></table></figure>
+
+<p>3.闭包的作用<br>　　说了这么多，不免有人要问，那这个闭包在实际的开发中有什么用呢？闭包主要是在函数式开发过程中使用。以下介绍两种闭包主要的用途。</p>
+<p>用途1：当闭包执行完后，仍然能够保持住当前的运行环境。<br>　　比如说，如果你希望函数的每次执行结果，都是基于这个函数上次的运行结果。我以一个类似棋盘游戏的例子来说明。假设棋盘大小为50*50，左上角为坐标系原点(0,0)，我需要一个函数，接收2个参数，分别为方向(direction)，步长(step)，该函数控制棋子的运动。棋子运动的新的坐标除了依赖于方向和步长以外，当然还要根据原来所处的坐标点，用闭包就可以保持住这个棋子原来所处的坐标。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">origin = [0, 0] </span><br><span class="line">legal_x = [0, 50]  </span><br><span class="line">legal_y = [0, 50] </span><br><span class="line">def create(pos=origin):   </span><br><span class="line">    def player(direction,step):    </span><br><span class="line">        # 这里应该首先判断参数direction,step的合法性，比如direction不能斜着走，step不能为负等    </span><br><span class="line">        # 然后还要对新生成的x，y坐标的合法性进行判断处理，这里主要是想介绍闭包，就不详细写了。    </span><br><span class="line">        new_x = pos[0] + direction[0]*step    </span><br><span class="line">        new_y = pos[1] + direction[1]*step    </span><br><span class="line">        pos[0] = new_x    </span><br><span class="line">        pos[1] = new_y    </span><br><span class="line">        #注意！此处不能写成 pos = [new_x, new_y]，因为参数变量不能被修改，而pos[]是容器类的解决方法 </span><br><span class="line">        return pos   </span><br><span class="line">    return player    </span><br><span class="line"></span><br><span class="line">player = create() # 创建棋子player，起点为原点  </span><br><span class="line">print player([1,0],10) # 向x轴正方向移动10步  </span><br><span class="line">print player([0,1],20) # 向y轴正方向移动20步  </span><br><span class="line">print player([-1,0],10) # 向x轴负方向移动10步 </span><br><span class="line"></span><br><span class="line">输出为：</span><br><span class="line"></span><br><span class="line"> [10, 0] </span><br><span class="line"> [10, 20]  </span><br><span class="line"> [0, 20]</span><br></pre></td></tr></table></figure>
+
+<h3 id="用途2：闭包可以根据外部作用域的局部变量来得到不同的结果"><a href="#用途2：闭包可以根据外部作用域的局部变量来得到不同的结果" class="headerlink" title="用途2：闭包可以根据外部作用域的局部变量来得到不同的结果"></a><strong>用途2：闭包可以根据外部作用域的局部变量来得到不同的结果</strong></h3><p>　　这有点像一种类似配置功能的作用，我们可以修改外部的变量，闭包根据这个变量展现出不同的功能。比如有时我们需要对某些文件的特殊行进行分析，先要提取出这些特殊行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def make_filter(keep):   </span><br><span class="line">    def the_filter(file_name):    </span><br><span class="line">        file = open(file_name)    </span><br><span class="line">        lines = file.readlines()    </span><br><span class="line">        file.close()    </span><br><span class="line">        filter_doc = [i for i in lines if keep in i]    </span><br><span class="line">        return filter_doc   </span><br><span class="line">    return the_filter</span><br></pre></td></tr></table></figure>
+
+<p>如果我们需要取得文件”result.txt”中含有”pass”关键字的行，则可以这样使用例子程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filter = make_filter(&quot;pass&quot;) filter_result = filter(&quot;result.txt&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>以上两种使用场景，用面向对象也是可以很简单的实现的，但是在用Python进行函数式编程时，闭包对数据的持久化以及按配置产生不同的功能，是很有帮助的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/22/ftp服务器快速搭建/" rel="next" title="ftp服务器快速搭建">
+                <i class="fa fa-chevron-left"></i> ftp服务器快速搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/23/python中的闭包与装饰器/" rel="prev" title="python中的闭包与装饰器">
+                python中的闭包与装饰器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#理解Python中的闭包"><span class="nav-number">1.</span> <span class="nav-text">理解Python中的闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-定义"><span class="nav-number">1.1.</span> <span class="nav-text">1.定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-使用闭包注意的地方"><span class="nav-number">1.2.</span> <span class="nav-text">2.使用闭包注意的地方</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1闭包无法修改外部函数的局部变量"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1闭包无法修改外部函数的局部变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2闭包无法直接访问外部函数的局部变量"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2闭包无法直接访问外部函数的局部变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用途2：闭包可以根据外部作用域的局部变量来得到不同的结果"><span class="nav-number">1.2.3.</span> <span class="nav-text">用途2：闭包可以根据外部作用域的局部变量来得到不同的结果</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

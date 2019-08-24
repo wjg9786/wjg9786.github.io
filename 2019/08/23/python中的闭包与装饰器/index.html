@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python中的闭包与装饰器1.Python中一切皆对象这恐怕是学习Python最有用的一句话。想必你已经知道Python中的list, tuple, dict等内置数据结构，当你执行： 1alist = [1, 2, 3]  时，你就创建了一个列表对象，并且用alist这个变量引用它： 当然你也可以自己定义一个类： 12345678class House(object):    def __in">
+<meta name="keywords" content="python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python中的闭包与装饰器">
+<meta property="og:url" content="http://yunjis.cn/2019/08/23/python中的闭包与装饰器/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="python中的闭包与装饰器1.Python中一切皆对象这恐怕是学习Python最有用的一句话。想必你已经知道Python中的list, tuple, dict等内置数据结构，当你执行： 1alist = [1, 2, 3]  时，你就创建了一个列表对象，并且用alist这个变量引用它： 当然你也可以自己定义一个类： 12345678class House(object):    def __in">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdn.net/20161120172744625">
+<meta property="og:image" content="https://img-blog.csdn.net/20161120172907297">
+<meta property="og:image" content="https://img-blog.csdn.net/20161120173017407">
+<meta property="og:image" content="https://img-blog.csdn.net/20161120173115298">
+<meta property="og:image" content="https://img-blog.csdn.net/20161120173345537">
+<meta property="og:updated_time" content="2019-08-23T16:05:59.613Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python中的闭包与装饰器">
+<meta name="twitter:description" content="python中的闭包与装饰器1.Python中一切皆对象这恐怕是学习Python最有用的一句话。想必你已经知道Python中的list, tuple, dict等内置数据结构，当你执行： 1alist = [1, 2, 3]  时，你就创建了一个列表对象，并且用alist这个变量引用它： 当然你也可以自己定义一个类： 12345678class House(object):    def __in">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20161120172744625">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/23/python中的闭包与装饰器/">
+
+
+
+
+
+  <title>python中的闭包与装饰器 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/23/python中的闭包与装饰器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python中的闭包与装饰器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-23T12:05:03-04:00">
+                2019-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="python中的闭包与装饰器"><a href="#python中的闭包与装饰器" class="headerlink" title="python中的闭包与装饰器"></a>python中的闭包与装饰器</h1><h2 id="1-Python中一切皆对象"><a href="#1-Python中一切皆对象" class="headerlink" title="1.Python中一切皆对象"></a>1.Python中一切皆对象</h2><p>这恐怕是学习Python最有用的一句话。想必你已经知道Python中的list, tuple, dict等内置数据结构，当你执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alist = [1, 2, 3]</span><br></pre></td></tr></table></figure>
+
+<p>时，你就创建了一个列表对象，并且用alist这个变量引用它：<br><img src="https://img-blog.csdn.net/20161120172744625" alt="这里写图片描述"></p>
+<p>当然你也可以自己定义一个类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class House(object):</span><br><span class="line">    def __init__(self, area, city):</span><br><span class="line">        self.area = area</span><br><span class="line">        self.city = city</span><br><span class="line"></span><br><span class="line">    def sell(self, price):</span><br><span class="line">        [...]  #other code</span><br><span class="line">        return price</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个类的对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">house = House(200, &apos;Shanghai&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>OK，你立马就在上海有了一套200平米的房子，它有一些属性(area, city)，和一些方法(<strong>init</strong>, self)：</p>
+<p><img src="https://img-blog.csdn.net/20161120172907297" alt="这里写图片描述"></p>
+<h2 id="2-函数式第一类对象"><a href="#2-函数式第一类对象" class="headerlink" title="2.函数式第一类对象"></a>2.函数式第一类对象</h2><p>和list, tuple, dict以及用House创建的对象一样，当你定义一个函数时，函数也是对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def func(a, b):</span><br><span class="line">    return a+b</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20161120173017407" alt="这里写图片描述"><br>在全局域，函数对象被函数名引用着，它接收两个参数a和b，计算这两个参数的和作为返回值。<br>所谓第一类对象，意思是可以用标识符给对象命名，并且对象可以被当作数据处理，例如赋值、作为参数传递给函数，或者作为返回值return 等</p>
+<p>因此，你完全可以用其他变量名引用这个函数对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add = func1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20161120173115298" alt="这里写图片描述"><br>这样，你就可以像调用func(1, 2)一样，通过新的引用调用函数了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print func(1, 2)</span><br><span class="line">print add(1, 2)  #the same as func(1, 2)12</span><br></pre></td></tr></table></figure>
+
+<p>或者将函数对象作为参数，传递给另一个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def caller_func(f):</span><br><span class="line">    return f(1, 2)</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    print caller_func(func)12345</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20161120173345537" alt="这里写图片描述"></p>
+<p>可以看到，<br>1.函数对象func作为参数传递给caller_func函数，传参过程类似于一个赋值操作f=func；<br>2.于是func函数对象，被caller_func函数作用域中的局部变量f引用，f实际指向了函数func；cc<br>3.当执行return f(1, 2)的时候，相当于执行了return func(1, 2)；<br>因此输出结果为3。</p>
+<h2 id="3-函数对象-vs-函数调用"><a href="#3-函数对象-vs-函数调用" class="headerlink" title="3.函数对象 vs 函数调用"></a>3.函数对象 vs 函数调用</h2><p>无论是把函数赋值给新的标识符，还是作为参数传递给新的函数，针对的都是函数对象本身，而不是函数的调用。<br>用一个更加简单，但从外观上看，更容易产生混淆的例子来说明这个问题。例如定义了下面这个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def func():</span><br><span class="line">    return &quot;hello,world&quot;</span><br></pre></td></tr></table></figure>
+
+<p>然后分别执行两次赋值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ref1 = func      #将函数对象赋值给ref1</span><br><span class="line">ref2 = func()    #调用函数，将函数的返回值(&quot;hello,world&quot;字符串)赋值给ref2</span><br></pre></td></tr></table></figure>
+
+<p>很多初学者会混淆这两种赋值，通过Python内建的type函数，可以查看一下这两次赋值的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [4]: type(ref1)</span><br><span class="line">Out[4]: function</span><br><span class="line"></span><br><span class="line">In [5]: type(ref2)</span><br><span class="line">Out[5]: str</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，ref1引用了函数对象本身，而ref2则引用了函数的返回值。通过内建的callable函数，可以进一步验证ref1是可调用的，而ref2是不可调用的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [9]: callable(ref1)</span><br><span class="line">Out[9]: True</span><br><span class="line"></span><br><span class="line">In [10]: callable(ref2)</span><br><span class="line">Out[10]: False</span><br></pre></td></tr></table></figure>
+
+<p>传参的效果与之类似。</p>
+<h2 id="4-闭包-amp-LEGB法则"><a href="#4-闭包-amp-LEGB法则" class="headerlink" title="4.闭包&amp;LEGB法则"></a>4.闭包&amp;LEGB法则</h2><p>所谓闭包，就是将组成函数的语句和这些语句的执行环境打包在一起时，得到的对象<br>听上去的确有些复杂，还是用一个栗子来帮助理解一下。假设我们在foo.py模块中做了如下定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#foo.py</span><br><span class="line">filename = &quot;foo.py&quot;</span><br><span class="line"></span><br><span class="line">def call_func(f):</span><br><span class="line">    return f()    #如前面介绍的，f引用一个函数对象，然后调用它</span><br></pre></td></tr></table></figure>
+
+<p>在另一个func.py模块中，写下了这样的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#func.py</span><br><span class="line">import foo      #导入foo.py</span><br><span class="line"></span><br><span class="line">filename = &quot;func.py&quot;</span><br><span class="line">def show_filename():</span><br><span class="line">    return &quot;filename: %s&quot; % filename</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    print foo.call_func(show_filename)   #注意：实际发生调用的位置，是在foo.call_func函数中</span><br></pre></td></tr></table></figure>
+
+<p>当我们用python func.py命令执行func.py时输出结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chiyu@chiyu-PC:~$ python func.py </span><br><span class="line">filename:func.py</span><br></pre></td></tr></table></figure>
+
+<p>很显然show_filename()函数使用的filename变量的值，是在与它相同环境(func.py模块)中定义的那个。尽管foo.py模块中也定义了同名的filename变量，而且实际调用show_filename的位置也是在foo.py的call_func内部。<br>而对于嵌套函数，这一机制则会表现的更加明显：闭包将会捕捉内层函数执行所需的整个环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#enclosed.py</span><br><span class="line">import foo</span><br><span class="line">def wrapper():</span><br><span class="line">    filename = &quot;enclosed.py&quot;</span><br><span class="line">    def show_filename():</span><br><span class="line">        return &quot;filename: %s&quot; % filename</span><br><span class="line">    print foo.call_func(show_filename)    #输出：filename: enclosed.py</span><br></pre></td></tr></table></figure>
+
+<p>实际上，每一个函数对象，都有一个指向了该函数定义时所在全局名称空间的<strong>globals</strong>属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#show_filename inside wrapper</span><br><span class="line">#show_filename.__globals__</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">&apos;__builtins__&apos;: &lt;module &apos;__builtin__&apos; (built-in)&gt;,        #内建作用域环境</span><br><span class="line">&apos;__file__&apos;: &apos;enclosed.py&apos;,         </span><br><span class="line">&apos;wrapper&apos;: &lt;function wrapper at 0x7f84768b6578&gt;,      #直接外围环境</span><br><span class="line">&apos;__package__&apos;: None,            </span><br><span class="line">&apos;__name__&apos;: &apos;__main__&apos;,        </span><br><span class="line">&apos;foo&apos;: &lt;module &apos;foo&apos; from &apos;/home/chiyu/foo.pyc&apos;&gt;,         #全局环境</span><br><span class="line">&apos;__doc__&apos;: None                   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当代码执行到show_filename中的return “filename: %s” % filename语句时，解析器按照下面的顺序查找filename变量：<br>1.Local - 本地函数(show_filename)内部，通过任何方式赋值的，而且没有被global关键字声明为全局变量的filename变量；<br>2.Enclosing - 直接外围空间(上层函数wrapper)的本地作用域，查找filename变量(如果有多层嵌套，则由内而外逐层查找，直至最外层的函数)；<br>3.Global - 全局空间(模块enclosed.py)，在模块顶层赋值的filename变量；<br>4.Builtin - 内置模块(<strong>builtin</strong>)中预定义的变量名中查找filename变量；</p>
+<p>在任何一层先找到了符合要求的filename变量，则不再向更外层查找。如果直到Builtin层仍然没有找到符合要求的变量，则抛出NameError异常。这就是变量名解析的：LEGB法则。</p>
+<p>总结：<br>1.闭包最重要的使用价值在于：封存函数执行的上下文环境；<br>2.闭包在其捕捉的执行环境(def语句块所在上下文)中，也遵循LEGB规则逐层查找，直至找到符合要求的变量，或者抛出异常。</p>
+<h2 id="5-装饰器-amp-语法糖-syntax-sugar"><a href="#5-装饰器-amp-语法糖-syntax-sugar" class="headerlink" title="5.装饰器&amp;语法糖(syntax sugar)"></a>5.装饰器&amp;语法糖(syntax sugar)</h2><p>那么闭包和装饰器又有什么关系呢？<br>上文提到闭包的重要特性：封存上下文，这一特性可以巧妙的被用于现有函数的包装，从而为现有函数更加功能。而这就是装饰器。<br>还是举个例子，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#alist = [1, 2, 3, ..., 100]  --&gt; 1+2+3+...+100 = 5050</span><br><span class="line">def lazy_sum():</span><br><span class="line">    return reduce(lambda x, y: x+y, alist)</span><br></pre></td></tr></table></figure>
+
+<p>我们定义了一个函数lazy_sum，作用是对alist中的所有元素求和后返回。alist假设为1到100的整数列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alist = range(1, 101)</span><br></pre></td></tr></table></figure>
+
+<p>但是出于某种原因，我并不想马上返回计算结果，而是在之后的某个地方，通过显示的调用输出结果。于是我用一个wrapper函数对其进行包装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def wrapper():</span><br><span class="line">    alist = range(1, 101)</span><br><span class="line">    def lazy_sum():</span><br><span class="line">        return reduce(lambda x, y: x+y, alist)</span><br><span class="line">    return lazy_sum</span><br><span class="line"></span><br><span class="line">lazy_sum = wrapper()        #wrapper() 返回的是lazy_sum函数对象</span><br><span class="line"></span><br><span class="line">if __name__  == &quot;__main__&quot;:</span><br><span class="line">    lazy_sum()           #5050</span><br></pre></td></tr></table></figure>
+
+<p>这是一个典型的Lazy Evaluation的例子。我们知道，一般情况下，局部变量在函数返回时，就会被垃圾回收器回收，而不能再被使用。但是这里的alist却没有，它随着lazy_sum函数对象的返回被一并返回了(这个说法不准确，实际是包含在了lazy_sum的执行环境中，通过<strong>globals</strong>)，从而延长了生命周期。</p>
+<p>当在if语句块中调用lazy_sum()的时候，解析器会从上下文中(这里是Enclosing层的wrapper函数的局部作用域中)找到alist列表，计算结果，返回5050。</p>
+<p>当你需要动态的给已定义的函数增加功能时，比如：参数检查，类似的原理就变得很有用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def add(a, b):</span><br><span class="line">    return a+b</span><br></pre></td></tr></table></figure>
+
+<p>这是很简单的一个函数：计算a+b的和返回，但我们知道Python是 动态类型+强类型 的语言，你并不能保证用户传入的参数a和b一定是两个整型，他有可能传入了一个整型和一个字符串类型的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">In [2]: add(1, 2)</span><br><span class="line">Out[2]: 3</span><br><span class="line"></span><br><span class="line">In [3]: add(1.2, 3.45)</span><br><span class="line">Out[3]: 4.65</span><br><span class="line"></span><br><span class="line">In [4]: add(5, &apos;hello&apos;)</span><br><span class="line">---------------------------------------------------------------------------</span><br><span class="line">TypeError                                 Traceback (most recent call last)</span><br><span class="line">/home/chiyu/&lt;ipython-input-4-f2f9e8aa5eae&gt; in &lt;module&gt;()</span><br><span class="line">----&gt; 1 add(5, &apos;hello&apos;)</span><br><span class="line"></span><br><span class="line">/home/chiyu/&lt;ipython-input-1-02b3d3d6caec&gt; in add(a, b)</span><br><span class="line">      1 def add(a, b):</span><br><span class="line">----&gt; 2     return a+b</span><br><span class="line"></span><br><span class="line">TypeError: unsupported operand type(s) for +: &apos;int&apos; and &apos;str&apos;</span><br></pre></td></tr></table></figure>
+
+<p>于是，解析器无情的抛出了一个TypeError异常。<br>1.动态类型：在运行期间确定变量的类型，python确定一个变量的类型是在你第一次给他赋值的时候；<br>2.强类型：有强制的类型定义，你有一个整数，除非显示的类型转换，否则绝不能将它当作一个字符串(例如直接尝试将一个整型和一个字符串做+运算)；</p>
+<p>因此，为了更加优雅的使用add函数，我们需要在执行+运算前，对a和b进行参数检查。这时候装饰器就显得非常有用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(level = logging.INFO)</span><br><span class="line"></span><br><span class="line">def add(a, b):</span><br><span class="line">    return a + b</span><br><span class="line"></span><br><span class="line">def checkParams(fn):</span><br><span class="line">    def wrapper(a, b):</span><br><span class="line">        if isinstance(a, (int, float)) and isinstance(b, (int, float)):    #检查参数a和b是否都为整型或浮点型</span><br><span class="line">            return fn(a, b)             #是则调用fn(a, b)返回计算结果</span><br><span class="line"></span><br><span class="line">        #否则通过logging记录错误信息，并友好退出</span><br><span class="line">        logging.warning(&quot;variable &apos;a&apos; and &apos;b&apos; cannot be added&quot;)   </span><br><span class="line">        return</span><br><span class="line">    return wrapper     #fn引用add，被封存在闭包的执行环境中返回</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    #将add函数对象传入，fn指向add</span><br><span class="line">    #等号左侧的add，指向checkParams的返回值wrapper</span><br><span class="line">    add = checkParams(add)      </span><br><span class="line">    add(3, &apos;hello&apos;)     #经过类型检查，不会计算结果，而是记录日志并退出</span><br></pre></td></tr></table></figure>
+
+<p>注意checkParams函数：<br>1.首先看参数fn，当我们调用checkParams(add)的时候，它将成为函数对象add的一个本地(Local)引用；<br>2.在checkParams内部，我们定义了一个wrapper函数，添加了参数类型检查的功能，然后调用了fn(a, b)，根据LEGB法则，解释器将搜索几个作用域，并最终在(Enclosing层)checkParams函数的本地作用域中找到fn；<br>3.注意最后的return wrapper，这将创建一个闭包，fn变量(add函数对象的一个引用)将会封存在闭包的执行环境中，不会随着checkParams的返回而被回收；</p>
+<p>当调用add = checkParams(add)时，add指向了新的wrapper对象，它添加了参数检查和记录日志的功能，同时又能够通过封存的fn，继续调用原始的add进行+运算。</p>
+<p>因此调用add(3, ‘hello’)将不会返回计算结果，而是打印出日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chiyu@chiyu-PC:~$ python func.py </span><br><span class="line">WARNING:root:variable &apos;a&apos; and &apos;b&apos; cannot be added</span><br></pre></td></tr></table></figure>
+
+<p>有人觉得add = checkParams(add)这样的写法未免太过麻烦，于是python提供了一种更优雅的写法，被称为语法糖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@checkParams</span><br><span class="line">def add(a, b):</span><br><span class="line">    return a + b</span><br></pre></td></tr></table></figure>
+
+<p>这只是一种写法上的优化，解释器仍然会将它转化为add = checkParams(add)来执行。</p>
+<h2 id="6-回归问题"><a href="#6-回归问题" class="headerlink" title="6. 回归问题"></a>6. 回归问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def addspam(fn):</span><br><span class="line">    def new(*args):</span><br><span class="line">        print &quot;spam,spam,spam&quot;</span><br><span class="line">        return fn(*args)</span><br><span class="line">    return new</span><br><span class="line"></span><br><span class="line">@addspam</span><br><span class="line">def useful(a,b):</span><br><span class="line">    print a**2+b**2</span><br></pre></td></tr></table></figure>
+
+<p>首先看第二段代码：<br>@addspam装饰器，相当于执行了useful = addspam(useful)。在这里题主有一个理解误区：传递给addspam的参数，是useful这个函数对象本身，而不是它的一个调用结果；<br>再回到addspam函数体：<br>1.return new 返回一个闭包，fn被封存在闭包的执行环境中，不会随着addspam函数的返回被回收；<br>2.而fn此时是useful的一个引用，当执行return fn(<em>args)时，实际相当于执行了return useful(</em>args)；</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/23/理解python中的闭包/" rel="next" title="理解python中的闭包">
+                <i class="fa fa-chevron-left"></i> 理解python中的闭包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/24/python面向对象(初级篇)/" rel="prev" title="python面向对象(初级篇)">
+                python面向对象(初级篇) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python中的闭包与装饰器"><span class="nav-number">1.</span> <span class="nav-text">python中的闭包与装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Python中一切皆对象"><span class="nav-number">1.1.</span> <span class="nav-text">1.Python中一切皆对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-函数式第一类对象"><span class="nav-number">1.2.</span> <span class="nav-text">2.函数式第一类对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-函数对象-vs-函数调用"><span class="nav-number">1.3.</span> <span class="nav-text">3.函数对象 vs 函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-闭包-amp-LEGB法则"><span class="nav-number">1.4.</span> <span class="nav-text">4.闭包&amp;LEGB法则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-装饰器-amp-语法糖-syntax-sugar"><span class="nav-number">1.5.</span> <span class="nav-text">5.装饰器&amp;语法糖(syntax sugar)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-回归问题"><span class="nav-number">1.6.</span> <span class="nav-text">6. 回归问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
