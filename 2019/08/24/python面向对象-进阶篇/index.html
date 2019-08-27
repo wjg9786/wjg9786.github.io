@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images425762-20151019151817833-1751535998.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images425762-20150907094454965-329821364%20(1).jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images425762-20151020005415755-634423846.png">
-<meta property="og:updated_time" content="2019-08-24T18:32:00.469Z">
+<meta property="og:updated_time" content="2019-08-26T13:49:55.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python面向对象-进阶篇">
 <meta name="twitter:description" content="python面向对象(进阶篇) 本篇将详细介绍Python 类的成员、成员修饰符、类的特殊成员。 类的成员类的成员可以分为三大类：字段、方法和属性  注：所有成员中，只有普通字段的内容保存对象中，即：根据此类创建了多少对象，在内存中就有多少个普通字段。而其他的成员，则都是保存在类中，即：无论对象的多少，在内存中只创建一份。 一、字段 字段包括：普通字段和静态字段，他们在定义和使用中有所区别，而最本">
@@ -601,6 +601,8 @@
 <p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images425762-20151020005415755-634423846.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class MyType(type):</span><br><span class="line"></span><br><span class="line">    def __init__(self, what, bases=None, dict=None):</span><br><span class="line">        super(MyType, self).__init__(what, bases, dict)</span><br><span class="line"></span><br><span class="line">    def __call__(self, *args, **kwargs):</span><br><span class="line">        obj = self.__new__(self, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">        self.__init__(obj)</span><br><span class="line"></span><br><span class="line">class Foo(object):</span><br><span class="line"></span><br><span class="line">    __metaclass__ = MyType</span><br><span class="line"></span><br><span class="line">    def __init__(self, name):</span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    def __new__(cls, *args, **kwargs):</span><br><span class="line">        return object.__new__(cls, *args, **kwargs)</span><br><span class="line"></span><br><span class="line"># 第一阶段：解释器从上到下执行代码创建Foo类</span><br><span class="line"># 第二阶段：通过Foo类创建obj对象</span><br><span class="line">obj = Foo()</span><br></pre></td></tr></table></figure>
 
+<p> 类的生成 调用 顺序依次是 <strong>new</strong> –&gt; <strong>init</strong> –&gt; <strong>call</strong></p>
+<p> metaclass 详解文章：<a href="http://stackoverflow.com/questions/100003/what-is-a-metaclass-in-python" target="_blank" rel="noopener">http://stackoverflow.com/questions/100003/what-is-a-metaclass-in-python</a> 得票最高那个答案写的非常好</p>
 
       
     </div>
@@ -640,6 +642,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/27/面向对象及相关/" rel="prev" title="面向对象及相关">
+                面向对象及相关 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -718,7 +724,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -729,7 +735,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -740,7 +746,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

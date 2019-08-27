@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python网络编程,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Socket网络编程入门引子 从我们熟悉的web应用为例子，先不讨论socket,我们看一下如果两台机器之间要通讯，需要经过哪些步骤。我们看一下服务器回给我们一个简单的”hi”时，需要经过哪些步骤。  服务端: 1.服务器的应用层会产生一个hi字符串 2.数据封装后交给传输层 3.传输层封装后交给网络层 4.网络层数据封装后交给数据链路层 5.物理层接收后变成0和1字节流传输到internet网络">
+<meta name="keywords" content="python网络编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket网络编程入门">
+<meta property="og:url" content="http://yunjis.cn/2019/08/27/socket网络编程入门/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="Socket网络编程入门引子 从我们熟悉的web应用为例子，先不讨论socket,我们看一下如果两台机器之间要通讯，需要经过哪些步骤。我们看一下服务器回给我们一个简单的”hi”时，需要经过哪些步骤。  服务端: 1.服务器的应用层会产生一个hi字符串 2.数据封装后交给传输层 3.传输层封装后交给网络层 4.网络层数据封装后交给数据链路层 5.物理层接收后变成0和1字节流传输到internet网络">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesQQ%E5%9B%BE%E7%89%8720170325155516.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesQQ%E5%9B%BE%E7%89%8720170325165352.png">
+<meta property="og:updated_time" content="2019-08-27T18:34:08.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket网络编程入门">
+<meta name="twitter:description" content="Socket网络编程入门引子 从我们熟悉的web应用为例子，先不讨论socket,我们看一下如果两台机器之间要通讯，需要经过哪些步骤。我们看一下服务器回给我们一个简单的”hi”时，需要经过哪些步骤。  服务端: 1.服务器的应用层会产生一个hi字符串 2.数据封装后交给传输层 3.传输层封装后交给网络层 4.网络层数据封装后交给数据链路层 5.物理层接收后变成0和1字节流传输到internet网络">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesQQ%E5%9B%BE%E7%89%8720170325155516.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/27/socket网络编程入门/">
+
+
+
+
+
+  <title>socket网络编程入门 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/27/socket网络编程入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">socket网络编程入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T14:33:14-04:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">python网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Socket网络编程入门"><a href="#Socket网络编程入门" class="headerlink" title="Socket网络编程入门"></a>Socket网络编程入门</h2><p>引子</p>
+<p>从我们熟悉的web应用为例子，先不讨论socket,我们看一下如果两台机器之间要通讯，需要经过哪些步骤。我们看一下服务器回给我们一个简单的”hi”时，需要经过哪些步骤。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesQQ%E5%9B%BE%E7%89%8720170325155516.png" alt></p>
+<p>服务端:</p>
+<p>1.服务器的应用层会产生一个hi字符串</p>
+<p>2.数据封装后交给传输层</p>
+<p>3.传输层封装后交给网络层</p>
+<p>4.网络层数据封装后交给数据链路层</p>
+<p>5.物理层接收后变成0和1字节流传输到internet网络中</p>
+<p>客户端：</p>
+<p>1.客户端物理层接收来自服务端的0和1字节流</p>
+<p>2.数据链路层接收物理层数据并解读数据报</p>
+<p>3.网络层接收物理层数据并解读数据报</p>
+<p>4.传输层解读网络层数据并解读数据报</p>
+<p>5.应用层接收到hi字符</p>
+<p>现实中的网络数据传输远远比这复杂得多，数据必须经过5层协议栈。试想如果让一个开发者从0开始实现这样的一个数据传输，难度可想而知。但是目前从事网络开发的人千千万万，他们是怎么做到的呢，这一切都要归功于unix操作系统和socket。因为有了socket，网络编程变得快速而且简单了很多。</p>
+<h2 id="什么是socket"><a href="#什么是socket" class="headerlink" title="什么是socket"></a>什么是socket</h2><p>socket就是操作系统(unix)为应用进程提供的一个方便操作网络数据收发的api接口，只要你读懂了这一套api接口，就可以把数据从一个主机传输到另一个主机，或者从其他主机接受数据，而不需要知道还有五层协议的复杂性。这就好比我们开发者读取文件的时候，file系列函数就可以轻松的帮我们获取文件的内容，我们不需要知道磁盘的磁头是如何转动，如何实现定位读数据等。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesQQ%E5%9B%BE%E7%89%8720170325165352.png" alt></p>
+<p>这个图的上层是应用程序层，比如我们的nginx，apache系列的软件，下层是操作系统层，比如Unix。Socket层位于应用层和传输层之间，上层应用如果想实现网络编程，只需要调用操作系统提供的Socket层提供的api即可。操作系统通过Socket大大简化了网络编程的复杂性，使得从事网络编程的开发人员更加便捷。</p>
+<h2 id="Socket相关函数一览"><a href="#Socket相关函数一览" class="headerlink" title="Socket相关函数一览"></a>Socket相关函数一览</h2><p>既然知道了Socket是操作系统为我们提供的一层网络编程接口封装，那就可以看一下操作系统给我们留了哪些接口，我们能用这些接口干什么</p>
+<table>
+<thead>
+<tr>
+<th align="left">函数名称</th>
+<th align="left">用途</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">socket</td>
+<td align="left">创建套接字</td>
+<td align="left">服务端/客户端需要使用</td>
+</tr>
+<tr>
+<td align="left">connect</td>
+<td align="left">连接远端服务器</td>
+<td align="left">仅客户端</td>
+</tr>
+<tr>
+<td align="left">bind</td>
+<td align="left">绑定套接字的本地ip和端口号</td>
+<td align="left">通常客户端不需要</td>
+</tr>
+<tr>
+<td align="left">listen</td>
+<td align="left">置服务端套接字为监听模式</td>
+<td align="left">仅服务端可用</td>
+</tr>
+<tr>
+<td align="left">accept</td>
+<td align="left">接收一个连接请求并创建新套接字</td>
+<td align="left">仅服务端可用</td>
+</tr>
+<tr>
+<td align="left">send</td>
+<td align="left">发送数据</td>
+<td align="left">服务端和客户端可用</td>
+</tr>
+<tr>
+<td align="left">recv</td>
+<td align="left">接收数据</td>
+<td align="left">服务端和客户端可用</td>
+</tr>
+<tr>
+<td align="left">close</td>
+<td align="left">关闭套接字</td>
+<td align="left">服务端和客户端可用</td>
+</tr>
+</tbody></table>
+<h2 id="客户端编程"><a href="#客户端编程" class="headerlink" title="客户端编程"></a>客户端编程</h2><h3 id="创建-socket"><a href="#创建-socket" class="headerlink" title="创建 socket"></a>创建 socket</h3><p>首先要创建 socket，用 Python 中 socket 模块的函数 <code>socket</code> 就可以完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#Socket client example in python</span><br><span class="line"> </span><br><span class="line">import socket   #for sockets</span><br><span class="line"> </span><br><span class="line">#create an AF_INET, STREAM socket (TCP)</span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"> </span><br><span class="line">print &apos;Socket Created&apos;</span><br></pre></td></tr></table></figure>
+
+<p>函数 <code>socket.socket</code> 创建一个 socket，返回该 socket 的描述符，将在后面相关函数中使用。该函数带有两个参数：</p>
+<ul>
+<li>Address Family：可以选择 <code>AF_INET</code>（用于 Internet 进程间通信） 或者 <code>AF_UNIX</code>（用于同一台机器进程间通信）</li>
+<li>Type：套接字类型，可以是 <code>SOCKET_STREAM</code>（流式套接字，主要用于 TCP 协议）或者<code>SOCKET_DGRAM</code>（数据报套接字，主要用于 UDP 协议）</li>
+</ul>
+<p><strong>错误处理</strong></p>
+<p>如果创建 socket 函数失败，会抛出一个 <code>socket.error</code> 的异常，需要捕获：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#handling errors in python socket programs</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> socket   <span class="comment">#for sockets</span></span><br><span class="line"><span class="keyword">import</span> sys  <span class="comment">#for exit</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#create an AF_INET, STREAM socket (TCP)</span></span><br><span class="line">    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">except</span> socket.error, msg:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Failed to create socket. Error code: '</span> + str(msg[<span class="number">0</span>]) + <span class="string">' , Error message : '</span> + msg[<span class="number">1</span>]</span><br><span class="line">    sys.exit();</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket Created'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="连接服务器"><a href="#连接服务器" class="headerlink" title="连接服务器"></a>连接服务器</h3><p>本文开始也提到了，socket 使用 (IP地址，协议，端口号) 来标识一个进程，那么我们要想和服务器进行通信，就需要知道它的 IP地址以及端口号。</p>
+<p><strong>获得远程主机的 IP 地址</strong></p>
+<p>Python 提供了一个简单的函数 <code>socket.gethostbyname</code> 来获得远程主机的 IP 地址：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">host = <span class="string">'www.google.com'</span></span><br><span class="line">port = <span class="number">80</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    remote_ip = socket.gethostbyname( host )</span><br><span class="line"> </span><br><span class="line"><span class="keyword">except</span> socket.gaierror:</span><br><span class="line">    <span class="comment">#could not resolve</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Hostname could not be resolved. Exiting'</span></span><br><span class="line">    sys.exit()</span><br><span class="line">     </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Ip address of '</span> + host + <span class="string">' is '</span> + remote_ip</span><br></pre></td></tr></table></figure>
+
+<p>现在我们知道了服务器的 IP 地址，就可以使用连接函数 <code>connect</code> 连接到该 IP 的某个特定的端口上了，下面例子连接到 80 端口上（是 HTTP 服务的默认端口）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Connect to remote server</span></span><br><span class="line">s.connect((remote_ip , port))</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket Connected to '</span> + host + <span class="string">' on ip '</span> + remote_ip</span><br></pre></td></tr></table></figure>
+
+<p>运行该程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python client.py</span><br><span class="line">Socket created</span><br><span class="line">Ip of remote host www.google.com is 173.194.38.145</span><br><span class="line">Socket Connected to www.google.com on ip 173.194.38.145</span><br></pre></td></tr></table></figure>
+
+<h3 id="发送数据"><a href="#发送数据" class="headerlink" title="发送数据"></a>发送数据</h3><p>上面说明连接到 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 已经成功了，接下面我们可以向服务器发送一些数据，例如发送字符串<code>GET / HTTP/1.1\r\n\r\n</code>，这是一个 HTTP 请求网页内容的命令。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Send some data to remote server</span></span><br><span class="line">message = <span class="string">"GET / HTTP/1.1\r\n\r\n"</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span> :</span><br><span class="line">    <span class="comment">#Set the whole string</span></span><br><span class="line">    s.sendall(message)</span><br><span class="line"><span class="keyword">except</span> socket.error:</span><br><span class="line">    <span class="comment">#Send failed</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Send failed'</span></span><br><span class="line">    sys.exit()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Message send successfully'</span></span><br></pre></td></tr></table></figure>
+
+<p>发送完数据之后，客户端还需要接受服务器的响应。</p>
+<h3 id="接收数据"><a href="#接收数据" class="headerlink" title="接收数据"></a>接收数据</h3><p>函数 <code>recv</code> 可以用来接收 socket 的数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Now receive data</span></span><br><span class="line">reply = s.recv(<span class="number">4096</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> reply</span><br></pre></td></tr></table></figure>
+
+<p>一起运行的结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Socket created</span><br><span class="line">Ip of remote host www.google.com is 173.194.38.145</span><br><span class="line">Socket Connected to www.google.com on ip 173.194.38.145</span><br><span class="line">Message send successfully</span><br><span class="line">HTTP/1.1 302 Found</span><br><span class="line">Cache-Control: private</span><br><span class="line">Content-Type: text/html; charset=UTF-8</span><br><span class="line">Location: http://www.google.com.sg/?gfe_rd=cr&amp;ei=PlqJVLCREovW8gfF0oG4CQ</span><br><span class="line">Content-Length: 262</span><br><span class="line">Date: Thu, 11 Dec 2014 08:47:58 GMT</span><br><span class="line">Server: GFE/2.0</span><br><span class="line">Alternate-Protocol: 80:quic,p=0.02</span><br><span class="line"></span><br><span class="line">&lt;HTML&gt;&lt;HEAD&gt;&lt;meta http-equiv=<span class="string">"content-type"</span> content=<span class="string">"text/html;charset=utf-8"</span>&gt;</span><br><span class="line">&lt;TITLE&gt;302 Moved&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;</span><br><span class="line">&lt;H1&gt;302 Moved&lt;/H1&gt;</span><br><span class="line">The document has moved</span><br><span class="line">&lt;A HREF=<span class="string">"http://www.google.com.sg/?gfe_rd=cr&amp;ei=PlqJVLCREovW8gfF0oG4CQ"</span>&gt;here&lt;/A&gt;.</span><br><span class="line">&lt;/BODY&gt;&lt;/HTML&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关闭-socket"><a href="#关闭-socket" class="headerlink" title="关闭 socket"></a>关闭 socket</h3><p>当我们不想再次请求服务器数据时，可以将该 socket 关闭，结束这次通信：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.close()</span><br></pre></td></tr></table></figure>
+
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>上面我们学到了如何：</p>
+<ol>
+<li>创建 socket</li>
+<li>连接到远程服务器</li>
+<li>发送数据</li>
+<li>接收数据</li>
+<li>关闭 socket</li>
+</ol>
+<p>当我们打开 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 时，浏览器所做的就是这些，知道这些是非常有意义的。在 socket 中具有这种行为特征的被称为<strong>CLIENT</strong>，客户端主要是连接远程系统获取数据。</p>
+<p>socket 中另一种行为称为<strong>SERVER</strong>，服务器使用 socket 来接收连接以及提供数据，和客户端正好相反。所以 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 是服务器，你的浏览器是客户端，或者更准确地说，<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 是 HTTP 服务器，你的浏览器是 HTTP 客户端。</p>
+<p>那么上面介绍了客户端的编程，现在轮到服务器端如果使用 socket 了。</p>
+<h2 id="服务器端编程"><a href="#服务器端编程" class="headerlink" title="服务器端编程"></a>服务器端编程</h2><p>服务器端主要做以下工作：</p>
+<ul>
+<li>打开 socket</li>
+<li>绑定到特定的地址以及端口上</li>
+<li>监听连接</li>
+<li>建立连接</li>
+<li>接收/发送数据</li>
+</ul>
+<p>上面已经介绍了如何创建 socket 了，下面一步是绑定。</p>
+<h3 id="绑定-socket"><a href="#绑定-socket" class="headerlink" title="绑定 socket"></a>绑定 socket</h3><p>函数 <code>bind</code> 可以用来将 socket 绑定到特定的地址和端口上，它需要一个 <code>sockaddr_in</code> 结构作为参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"> </span><br><span class="line">HOST = <span class="string">''</span>   <span class="comment"># Symbolic name meaning all available interfaces</span></span><br><span class="line">PORT = <span class="number">8888</span> <span class="comment"># Arbitrary non-privileged port</span></span><br><span class="line"> </span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket created'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.bind((HOST, PORT))</span><br><span class="line"><span class="keyword">except</span> socket.error , msg:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Bind failed. Error Code : '</span> + str(msg[<span class="number">0</span>]) + <span class="string">' Message '</span> + msg[<span class="number">1</span>]</span><br><span class="line">    sys.exit()</span><br><span class="line">     </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket bind complete'</span></span><br></pre></td></tr></table></figure>
+
+<p>绑定完成之后，接下来就是监听连接了。</p>
+<h3 id="监听连接"><a href="#监听连接" class="headerlink" title="监听连接"></a>监听连接</h3><p>函数 <code>listen</code> 可以将 socket 置于监听模式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s.listen(10)</span><br><span class="line"><span class="built_in">print</span> <span class="string">'Socket now listening'</span></span><br></pre></td></tr></table></figure>
+
+<p>该函数带有一个参数称为 <strong>backlog</strong>，用来控制连接的个数。如果设为 10，那么有 10 个连接正在等待处理，此时第 11 个请求过来时将会被拒绝。</p>
+<h3 id="接收连接"><a href="#接收连接" class="headerlink" title="接收连接"></a>接收连接</h3><p>当有客户端向服务器发送连接请求时，服务器会接收连接：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#wait to accept a connection - blocking call</span></span><br><span class="line">conn, addr = s.accept()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#display client information</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'Connected with '</span> + addr[<span class="number">0</span>] + <span class="string">':'</span> + str(addr[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<p>运行该程序的，输出结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python server.py</span><br><span class="line">Socket created</span><br><span class="line">Socket <span class="built_in">bind</span> complete</span><br><span class="line">Socket now listening</span><br></pre></td></tr></table></figure>
+
+<p>此时，该程序在 8888 端口上等待请求的到来。不要关掉这个程序，让它一直运行，现在客户端可以通过该端口连接到 socket。我们用 telnet 客户端来测试，打开一个终端，输入 <code>telnet localhost 8888</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ telnet localhost 8888</span><br><span class="line">Trying 127.0.0.1...</span><br><span class="line">Connected to localhost.</span><br><span class="line">Escape character is <span class="string">'^]'</span>.</span><br><span class="line">Connection closed by foreign host.</span><br></pre></td></tr></table></figure>
+
+<p>这时服务端输出会显示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ python server.py</span><br><span class="line">Socket created</span><br><span class="line">Socket <span class="built_in">bind</span> complete</span><br><span class="line">Socket now listening</span><br><span class="line">Connected with 127.0.0.1:59954</span><br></pre></td></tr></table></figure>
+
+<p>我们观察到客户端已经连接上服务器了。在建立连接之后，我们可以用来与客户端进行通信。下面例子演示的是，服务器建立连接之后，接收客户端发送来的数据，并立即将数据发送回去，下面是完整的服务端程序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"> </span><br><span class="line">HOST = <span class="string">''</span>   <span class="comment"># Symbolic name meaning all available interfaces</span></span><br><span class="line">PORT = <span class="number">8888</span> <span class="comment"># Arbitrary non-privileged port</span></span><br><span class="line"> </span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket created'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.bind((HOST, PORT))</span><br><span class="line"><span class="keyword">except</span> socket.error , msg:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Bind failed. Error Code : '</span> + str(msg[<span class="number">0</span>]) + <span class="string">' Message '</span> + msg[<span class="number">1</span>]</span><br><span class="line">    sys.exit()</span><br><span class="line">     </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket bind complete'</span></span><br><span class="line"> </span><br><span class="line">s.listen(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket now listening'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#wait to accept a connection - blocking call</span></span><br><span class="line">conn, addr = s.accept()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Connected with '</span> + addr[<span class="number">0</span>] + <span class="string">':'</span> + str(addr[<span class="number">1</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">#now keep talking with the client</span></span><br><span class="line">data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">conn.sendall(data)</span><br><span class="line"> </span><br><span class="line">conn.close()</span><br><span class="line">s.close()</span><br></pre></td></tr></table></figure>
+
+<p>在一个终端中运行这个程序，打开另一个终端，使用 telnet 连接服务器，随便输入字符串，你会看到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ telnet localhost 8888</span><br><span class="line">Trying 127.0.0.1...</span><br><span class="line">Connected to localhost.</span><br><span class="line">Escape character is <span class="string">'^]'</span>.</span><br><span class="line">happy</span><br><span class="line">happy</span><br><span class="line">Connection closed by foreign host.</span><br></pre></td></tr></table></figure>
+
+<p>客户端（telnet）接收了服务器的响应。</p>
+<p>我们在完成一次响应之后服务器立即断开了连接，而像 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 这样的服务器总是一直等待接收连接的。我们需要将上面的服务器程序改造成一直运行，最简单的办法是将 <code>accept</code> 放到一个循环中，那么就可以一直接收连接了。</p>
+<h3 id="保持服务"><a href="#保持服务" class="headerlink" title="保持服务"></a>保持服务</h3><p>我们可以将代码改成这样让服务器一直工作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"> </span><br><span class="line">HOST = <span class="string">''</span>   <span class="comment"># Symbolic name meaning all available interfaces</span></span><br><span class="line">PORT = <span class="number">5000</span> <span class="comment"># Arbitrary non-privileged port</span></span><br><span class="line"> </span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket created'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.bind((HOST, PORT))</span><br><span class="line"><span class="keyword">except</span> socket.error , msg:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Bind failed. Error Code : '</span> + str(msg[<span class="number">0</span>]) + <span class="string">' Message '</span> + msg[<span class="number">1</span>]</span><br><span class="line">    sys.exit()</span><br><span class="line">     </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket bind complete'</span></span><br><span class="line"> </span><br><span class="line">s.listen(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket now listening'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#now keep talking with the client</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    <span class="comment">#wait to accept a connection - blocking call</span></span><br><span class="line">    conn, addr = s.accept()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Connected with '</span> + addr[<span class="number">0</span>] + <span class="string">':'</span> + str(addr[<span class="number">1</span>])</span><br><span class="line">     </span><br><span class="line">    data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">    reply = <span class="string">'OK...'</span> + data</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> data: </span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">     </span><br><span class="line">    conn.sendall(reply)</span><br><span class="line"> </span><br><span class="line">conn.close()</span><br><span class="line">s.close()</span><br></pre></td></tr></table></figure>
+
+<p>现在在一个终端下运行上面的服务器程序，再开启三个终端，分别用 telnet 去连接，如果一个终端连接之后不输入数据其他终端是没办法进行连接的，而且每个终端只能服务一次就断开连接。这从代码上也是可以看出来的。</p>
+<p>这显然也不是我们想要的，我们希望多个客户端可以随时建立连接，而且每个客户端可以跟服务器进行多次通信，这该怎么修改呢？</p>
+<h3 id="处理连接"><a href="#处理连接" class="headerlink" title="处理连接"></a>处理连接</h3><p>为了处理每个连接，我们需要将处理的程序与主程序的接收连接分开。一种方法可以使用线程来实现，主服务程序接收连接，创建一个线程来处理该连接的通信，然后服务器回到接收其他连接的逻辑上来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> thread <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">HOST = <span class="string">''</span>   <span class="comment"># Symbolic name meaning all available interfaces</span></span><br><span class="line">PORT = <span class="number">8888</span> <span class="comment"># Arbitrary non-privileged port</span></span><br><span class="line"> </span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket created'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#Bind socket to local host and port</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.bind((HOST, PORT))</span><br><span class="line"><span class="keyword">except</span> socket.error , msg:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Bind failed. Error Code : '</span> + str(msg[<span class="number">0</span>]) + <span class="string">' Message '</span> + msg[<span class="number">1</span>]</span><br><span class="line">    sys.exit()</span><br><span class="line">     </span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket bind complete'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#Start listening on socket</span></span><br><span class="line">s.listen(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Socket now listening'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#Function for handling connections. This will be used to create threads</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clientthread</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="comment">#Sending message to connected client</span></span><br><span class="line">    conn.send(<span class="string">'Welcome to the server. Type something and hit enter\n'</span>) <span class="comment">#send only takes string</span></span><br><span class="line">     </span><br><span class="line">    <span class="comment">#infinite loop so that function do not terminate and thread do not end.</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">         </span><br><span class="line">        <span class="comment">#Receiving from client</span></span><br><span class="line">        data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">        reply = <span class="string">'OK...'</span> + data</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> data: </span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">     </span><br><span class="line">        conn.sendall(reply)</span><br><span class="line">     </span><br><span class="line">    <span class="comment">#came out of loop</span></span><br><span class="line">    conn.close()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#now keep talking with the client</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    <span class="comment">#wait to accept a connection - blocking call</span></span><br><span class="line">    conn, addr = s.accept()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Connected with '</span> + addr[<span class="number">0</span>] + <span class="string">':'</span> + str(addr[<span class="number">1</span>])</span><br><span class="line">     </span><br><span class="line">    <span class="comment">#start new thread takes 1st argument as a function name to be run, second is the tuple of arguments to the function.</span></span><br><span class="line">    start_new_thread(clientthread ,(conn,))</span><br><span class="line"> </span><br><span class="line">s.close()</span><br></pre></td></tr></table></figure>
+
+<p>再次运行上面的程序，打开三个终端来与主服务器建立 telnet 连接，这时候三个客户端可以随时接入，而且每个客户端可以与主服务器进行多次通信。</p>
+<p>telnet 终端下可能输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ telnet localhost 8888</span><br><span class="line">Trying 127.0.0.1...</span><br><span class="line">Connected to localhost.</span><br><span class="line">Escape character is <span class="string">'^]'</span>.</span><br><span class="line">Welcome to the server. Type something and hit enter</span><br><span class="line">hi</span><br><span class="line">OK...hi</span><br><span class="line">asd</span><br><span class="line">OK...asd</span><br><span class="line">cv</span><br><span class="line">OK...cv</span><br></pre></td></tr></table></figure>
+
+<p>要结束 telnet 的连接，按下 <code>Ctrl-]</code> 键，再输入 <code>close</code> 命令。</p>
+<p>服务器终端的输出可能是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python server.py</span><br><span class="line">Socket created</span><br><span class="line">Socket <span class="built_in">bind</span> complete</span><br><span class="line">Socket now listening</span><br><span class="line">Connected with 127.0.0.1:60730</span><br><span class="line">Connected with 127.0.0.1:60731</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python网络编程/" rel="tag"># python网络编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/27/面向对象及相关/" rel="next" title="面向对象及相关">
+                <i class="fa fa-chevron-left"></i> 面向对象及相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Socket网络编程入门"><span class="nav-number">1.</span> <span class="nav-text">Socket网络编程入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是socket"><span class="nav-number">2.</span> <span class="nav-text">什么是socket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Socket相关函数一览"><span class="nav-number">3.</span> <span class="nav-text">Socket相关函数一览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端编程"><span class="nav-number">4.</span> <span class="nav-text">客户端编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-socket"><span class="nav-number">4.1.</span> <span class="nav-text">创建 socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接服务器"><span class="nav-number">4.2.</span> <span class="nav-text">连接服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送数据"><span class="nav-number">4.3.</span> <span class="nav-text">发送数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收数据"><span class="nav-number">4.4.</span> <span class="nav-text">接收数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭-socket"><span class="nav-number">4.5.</span> <span class="nav-text">关闭 socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">4.6.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器端编程"><span class="nav-number">5.</span> <span class="nav-text">服务器端编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定-socket"><span class="nav-number">5.1.</span> <span class="nav-text">绑定 socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听连接"><span class="nav-number">5.2.</span> <span class="nav-text">监听连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收连接"><span class="nav-number">5.3.</span> <span class="nav-text">接收连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保持服务"><span class="nav-number">5.4.</span> <span class="nav-text">保持服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理连接"><span class="nav-number">5.5.</span> <span class="nav-text">处理连接</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
