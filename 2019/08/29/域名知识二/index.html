@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="网络,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="域名知识二 DNS 进行域名解析的过程：  客户端寻找本地 DNS 服务器，向它发出请求； 本地 DNS 再依照域名层次结构，向不同级别的域名服务器发出迭代查询请求。  所有这些请求都是通过无连接的 UDP 协议进行通信，DNS 服务器识别是自己发出的数据包的唯一标准就是随机的源端口号，如果端口号匹配则认为是正确回复。这样一种简单的方式在日益复杂的网络结构下，可能会出现各种说不清道不明的问题。 1">
+<meta name="keywords" content="网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域名知识二">
+<meta property="og:url" content="http://yunjis.cn/2019/08/29/域名知识二/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="域名知识二 DNS 进行域名解析的过程：  客户端寻找本地 DNS 服务器，向它发出请求； 本地 DNS 再依照域名层次结构，向不同级别的域名服务器发出迭代查询请求。  所有这些请求都是通过无连接的 UDP 协议进行通信，DNS 服务器识别是自己发出的数据包的唯一标准就是随机的源端口号，如果端口号匹配则认为是正确回复。这样一种简单的方式在日益复杂的网络结构下，可能会出现各种说不清道不明的问题。 1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images16cdc47891c3e6bf">
+<meta property="og:updated_time" content="2019-08-29T18:44:24.832Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="域名知识二">
+<meta name="twitter:description" content="域名知识二 DNS 进行域名解析的过程：  客户端寻找本地 DNS 服务器，向它发出请求； 本地 DNS 再依照域名层次结构，向不同级别的域名服务器发出迭代查询请求。  所有这些请求都是通过无连接的 UDP 协议进行通信，DNS 服务器识别是自己发出的数据包的唯一标准就是随机的源端口号，如果端口号匹配则认为是正确回复。这样一种简单的方式在日益复杂的网络结构下，可能会出现各种说不清道不明的问题。 1">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images16cdc47891c3e6bf">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/08/29/域名知识二/">
+
+
+
+
+
+  <title>域名知识二 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/08/29/域名知识二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">域名知识二</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-29T14:43:41-04:00">
+                2019-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="域名知识二"><a href="#域名知识二" class="headerlink" title="域名知识二"></a>域名知识二</h1><p> DNS 进行域名解析的过程：</p>
+<ol>
+<li>客户端寻找本地 DNS 服务器，向它发出请求；</li>
+<li>本地 DNS 再依照域名层次结构，向不同级别的域名服务器发出迭代查询请求。</li>
+</ol>
+<p>所有这些请求都是通过无连接的 UDP 协议进行通信，DNS 服务器识别是自己发出的数据包的唯一标准就是随机的源端口号，如果端口号匹配则认为是正确回复。这样一种简单的方式在日益复杂的网络结构下，可能会出现各种说不清道不明的问题。</p>
+<h3 id="1-域名劫持"><a href="#1-域名劫持" class="headerlink" title="1. 域名劫持"></a>1. 域名劫持</h3><p>既然 DNS 响应数据包的源 IP 地址很容易仿冒或伪造，自然就有很多人开始利用这一漏洞，伪造权威域名服务器的应答，把目标网站域名解析到错误的地址，从而达到让用户无法访问目标网站的目的，这就是「域名劫持」。</p>
+<p>这里很有代表性的例子就是防火长城（GFW）。我们国家依法对互联网进行管理和监控，为了封堵国外的非法内容，GFW 会对 UDP 53 端口上的所有请求进行检测，一经发现与黑名单关键词相匹配的域名查询请求，会马上伪装成目标域名的解析服务器返回虚假的查询结果。由于通常的域名查询没有任何认证机制，而且基于无连接不可靠的 UDP 协议，查询者只能接受最先到达的格式正确结果，并丢弃之后的结果。这样一来，如果我们直接访问一些国外的「非法」网站，拿到的就会是一个假的 IP 地址。</p>
+<p>当然，也有一些黑客入侵导致的域名被劫持事件。黑客通过非法手段控制了域名管理密码和域名管理邮箱，然后将该域名的 NS 记录指向到黑客可以控制的 DNS 服务器，然后通过在该 DNS 服务器上添加虚假域名记录，从而所有到目标网站的流量全部导向黑客所指向的内容。2010 年 1 月 12 日针对百度的一次域名劫持事件在历史上影响巨大。当天，百度被自称是伊朗网军（Iranian Cyber Army）的黑客组织入侵，导致其首页瘫痪长达 8 小时，并随后引发中国黑客对多个伊朗政府网站以及伊朗广播大学网站的报复行为。</p>
+<p>其实类似的事件还发生过很多次，不光百度，谷歌和微软他们的域名也曾经被劫持过，可以说互联网的背后一点都不像看起来风平浪静的样子。</p>
+<h4 id="2-域名缓存污染"><a href="#2-域名缓存污染" class="headerlink" title="2. 域名缓存污染"></a>2. 域名缓存污染</h4><p>如果没有上游的欺骗和黑客的破坏，LocalDNS 拿到正确的结果之后，大体上是可以正常服务的，但这里也仅仅只能说是「大体」上。LocalDNS 会把从权威域名服务器接收到的结果数据进行缓存，以便加速后续的解析流程。例如在有效期内再有人问门卫王大爷「北海公园」的地址，王大爷只需要查一眼自己的笔记本，就可以马上给出回答。这一设计看似 feature，但是在现实生活中有时候它会失效，反而带来危害。</p>
+<p>首先很多时候运营商的缓存时间都不太靠谱，他们不会遵守权威 DNS 提供的 ttl（存活时间），而是统一设置一个固定的时间，所以通常我们改了一个域名的解析 IP 之后，会需要 0-48 小时（甚至更多）的时间才能让所有的客户端同步过来。而且但凡程序都会有 Bug，各运营商的运维水平也参差不齐，有时候还会因为缓存故障影响大面积的用户访问。例如门卫王大爷在查找地址的时候也可能会看走眼，对此我们也不能苛责；而更多的时候，在中国特色的互联网环境中，王大爷还有自己的一些「小算盘」。</p>
+<p>我们的互联网看似四通八达，其实底层还是几个平行网络在有限的几个点铰接而成的，运营商总是喜欢缓存 DNS 结果，还有一些经济方面的考虑：</p>
+<ul>
+<li>保证用户访问流量在本网内消化。国内的各互联网接入运营商，他们的带宽资源、网间结算费用、IDC 机房分布、网内 ICP 资源分布等存在较大差异，为了保证网内用户的访问质量，同时减少跨网结算，运营商在网内搭建了内容缓存服务器，通过把域名强行指向内容缓存服务器的 IP 地址，就实现了把本地本网流量完全留在了本地的目的；</li>
+<li>推送广告。有部分区域运营商会把某些域名解析结果指向自己的内容缓存，并替换或者插入第三方广告联盟的广告，以此增加收入。。。</li>
+</ul>
+<p>以上就是我们常说的「域名缓存污染」，它会导致终端用户访问目标网站时产生各种访问异常，或者夹杂莫名其妙的广告，这种异常在无线网络上更为常见。</p>
+<h3 id="3-解析转发"><a href="#3-解析转发" class="headerlink" title="3. 解析转发"></a>3. 解析转发</h3><p>域名缓存是运营商「积极作为」带来的副问题，而运营商不作为有时也会引来麻烦。运营商的 LocalDNS 有时候还会偷懒，自身不进行域名递归解析，而简单把域名解析请求转发到其它运营商的递归 DNS 上去。</p>
+<p>例如北京市「道路咨询局」有东西两个大门（相隔较远），分别由门卫王大爷和刘大爷把守，从道路咨询局去北海公园也有东西两条路。从东门进来的游客，他们会咨询王大爷，王大爷就会选择便捷一点的东边的路回复游客；从西门进来的游客，他们会咨询刘大爷，刘大爷会选择西边的路来回复游客。但是突然有一天，王大爷不想解答游客的问题了，他找到了一个便捷的办法，把所有问题都转到刘大爷那里去了，最后所有的游客都会选择从西边的路去北海公园。对于原本在东门的游客来说，可能就多走了一大段冤枉路。</p>
+<p>实际的网络拓扑结构是很复杂的，为了尽可能覆盖更多用户，一个网站会接入多条运营商线路，DNS 那里则会根据请求者的特征为用户来选择最短访问路径（详见<a href="https://juejin.im/post/5d37cf70e51d4510664d17d3" target="_blank" rel="noopener">前一篇文章</a>里的「DNS 智能解析」一节）。对这种转发的情况，可能最终的 DNS 会把转发 DNS 的 IP 当成访问者的来源 IP，这样极有可能一个电信用户最终访问到了联通的 IP，那么终端的访问速度可能就变慢了许多。还有一种解析错误是由于 LocalDNS 本地出口 NAT 配置错误导致的，这里不再赘述。</p>
+<p>以 LeanCloud 为例，我们之前使用的域名是 avoscloud.com，由于这个域名存在敏感字符，所以某些区域解析经常出现问题，究其原因基本上都是运营商的 LocalDNS 导致的，而要解决好这些问题，则需要不断与运营商深度沟通或者找工信部投诉来解决，其流程之长和效率之低可想而知。这也就是我们后来切换到 leancloud.cn 这一域名的原因。换了域名之后，终端用户的连通性好了很多，但是还是不能 100% 解决所有网络问题，这时候怎么办呢？</p>
+<h3 id="DNSSEC"><a href="#DNSSEC" class="headerlink" title="DNSSEC"></a>DNSSEC</h3><p>DNS 欺骗和污染的根本原因就是缺乏安全机制，所以自上世纪 90 年代起，人们就开始寻求这一问题的解决方案，最终 DNS 安全扩展 (DNS Security Extensions，DNSSEC) 应运而生。</p>
+<h4 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h4><p>DNSSEC 采用非对称加密的方式对 DNS 数据进行加密，加解密算法与 HTTPS 类似，但是与 HTTPS 协议不同的是，DNSSEC 并非对 DNS 查询和响应的数据包进行加密，而仅仅只对 DNS 数据（A 记录，CNAME 等等，统称为 Resource Record，缩写为 RR）进行签名，所以 DNSSEC 可以完全兼容 DNS。</p>
+<p>为了支持非对称加密算法，DNSSEC 中增加了一个区（zone）的概念。域名系统每一级的权威域名服务器就是一个 zone，他们都配置有一个公私密钥对，这一点与 HTTPS 网站的 SSL 证书类似。权威域名服务器在返回应答数据的时候，除了通常的 Resource Record 之外，还会增加新的数据类型：</p>
+<ul>
+<li>RRSIG（Resource Record Signature）记录，存储 RR 集合的数字签名；</li>
+<li>DNSKEY（DNS Public Key）记录，存储当前 zone 的公钥；</li>
+<li>DS（Delegation Signer）记录，存储 DNSKEY 的散列值，用于验证 DNSKEY 的真实性；</li>
+<li>NSEC（Next Secure）记录，用于应答那些不存在的资源记录；</li>
+</ul>
+<p>如此一来，DNSSEC 就可以额外提供三层安全保护：</p>
+<ul>
+<li>数据完整性（data integrity）。DNSSEC 使用数字签名的技术，为每一个 RR 做签名产生 RRSIG，而接收方可以使用 Public Key + RRSIG 来反向验证数据是否被篡改。</li>
+<li>来源可验证性（origin authentication of DNS data）。当数据完整性被验证之后，我们可以确认数据传输过程中没有被修改，而且确实由负责该域名的 DNS Server 提供，但是我们还不能确认这个 DNS Server 不是一个「中间人」。在 DNSSEC 中，每个 DNS Server 都需要将它的 Public Key 交由公正的第三方来保管，而这个公正第三方就是上一级的 DNS Server。回想一下我们之前说明的域名解析的树形结构，每一级 DNS Server 必须将自己的 Public Key（DNSKEY）做一个数字签名，存放到 Parent DNS Server，这就是 DS（Delegation Signer）记录。这样 Parent DNS Server 中的 DS 记录可以验证 Child DNS Server 的 DNSKEY 是否被修改，所以当我们相信 Parent Zone 的机器时，就可以信任 Child Zone 所询问得到的结果，而又该如何信任 Parent Zone 呢？就是信任 Parent of Parent Zone，如此层层确认，直到 Root Zone（毕竟这里节点有限，由专人管理，被侵入的可能性极小），这即是 DNSSEC 的「信任链」。</li>
+<li>可验证之不存在性（authenticated denial of existence）。我们随便 ping 一个网址，得到「unknown host」的回应，我们又该如何相信这是确实不存在，而不是有人故意制造假象呢？在 DNSSEC 方案中，它将所有的 DNS 记录按照字母排序，而且在每两个记录之间加入一个 NSEC 记录并进行签名，当查询到不存在的网址时，DNSSEC 会传回对应的 NSEC 记录，查询者可以比对 NSEC 记录中前后对应的字母来确认是否真的不存在。</li>
+</ul>
+<p>有兴趣的读者可以参考<a href="https://link.juejin.im?target=https%3A%2F%2Fwww.cloudflare.com%2Fdns%2Fdnssec%2Fhow-dnssec-works%2F" target="_blank" rel="noopener">这篇文章</a>，以了解更多细节。</p>
+<h4 id="验证-DNSSEC"><a href="#验证-DNSSEC" class="headerlink" title="验证 DNSSEC"></a>验证 DNSSEC</h4><p>dig 是一个非常强大的 DNS 查询工具，通过<code>+dnssec</code> 参数可以验证域名服务器和域名是否支持 DNSSec。例如，我们使用国外的 DNS 解析，如<code>8.8.8.8</code>，查询域名 <code>paypal.com</code> 是否支持 DNSSec，可以得到如下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ dig @8.8.8.8 paypal.com +dnssec</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; @8.8.8.8 paypal.com +dnssec</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 6628</span><br><span class="line">;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1</span><br><span class="line"></span><br><span class="line">;; OPT PSEUDOSECTION:</span><br><span class="line">; EDNS: version: 0, flags: do; udp: 512</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;paypal.com.			IN	A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">paypal.com.		9	IN	A	64.4.250.36</span><br><span class="line">paypal.com.		9	IN	A	64.4.250.37</span><br><span class="line">paypal.com.		9	IN	RRSIG	A 5 2 300 20190923004132 20190824003218 11811 paypal.com. E21d1Jc/fCdZneT9oC3xWgQ1gPBdO1v29LPNJw7CtydJVhsy3z3bs4U8 7vBSGScEIpmCkmbZxChW1h3UlZ++hAmCCRx+eZV7VvhynpPW30mvwjrk wx5PVxWhPAKiTs07i5h4ZgTcWwp/ZEQbvU0DEkTKlBs2SuGU6AWNgmgL jgU=</span><br></pre></td></tr></table></figure>
+
+<p>这里我们可以看到多出来的一条 RRSIG 记录，就是 DNSSEC 的签名数据。我们换到 <code>114.114.114.114</code> 的 DNS 服务器来查询 <code>paypal.com</code> 的域名，则得到如下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ dig @114.114.114.114 paypal.com +dnssec</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; @114.114.114.114 paypal.com +dnssec</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 17708</span><br><span class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1</span><br><span class="line"></span><br><span class="line">;; OPT PSEUDOSECTION:</span><br><span class="line">; EDNS: version: 0, flags:; udp: 512</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;paypal.com.			IN	A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">paypal.com.		36	IN	A	64.4.250.37</span><br><span class="line">paypal.com.		36	IN	A	64.4.250.36</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 114 的 DNS 服务器并不支持 DNSSEC，而且我们使用同样的命令，来查询 <code>baidu.com</code>、<code>taobao.com</code> 和 <code>qq.com</code>，就会发现他们都不支持 DNSSEC。为什么国内的大厂都不跟进这一功能呢？</p>
+<p>DNSSEC 从原理上来说，能够比较理想的解决 DNS 上的安全问题，但是签名和校验 DNS 数据显然会产生额外的开销，从而影响网络和服务器的性能：1）签名和校验的计算量很大，会对域名服务器的计算能力提出更高要求；2）签名数据量比普通的 RR 大得多，会加重网络传输负担；3）签名和密钥数据占用的存储空间也会比之前大一个数量级，会导致域名服务器的数据库和管理系统都不得不进行升级和扩容。而且更重要的一点是，要想使用 DNSSEC，必须满足权威域名服务器和 LocalDNS 同时支持 DNSSec，这就需要现有的大量 DNS 解析服务的提供商对已有设备进行大范围修改，这在异构且复杂的现实环境中实施的难度较大，所以总体推进非常缓慢。</p>
+<p>那么除了 DNSSEC 之外，我们还有其他办法来解决 DNS 问题吗？</p>
+<h2 id="DNS-over-HTTP-S"><a href="#DNS-over-HTTP-S" class="headerlink" title="DNS over HTTP(S)"></a>DNS over HTTP(S)</h2><p>2016 年，RFC 添加了 DNS-over-TLS 的标准，它类似于 HTTP-over-TLS（HTTPS），就是基于 TLS 来进行报文加密的 DNS 请求交互。区别于 DNSSEC，DNS-over-TLS 更侧重于 DNS 交互报文的加密性，而 DNSSEC 更侧重于 DNS 交互报文的完整一致性。阿里云有做过 DNS over TLS 的尝试，详见<a href="https://link.juejin.im?target=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F47170371" target="_blank" rel="noopener">这里的介绍</a>，最终也因为 DNS Server 的性能问题而束之高阁，取而代之的是 DNS-over-HTTP(S) 方案。</p>
+<p>DNS over HTTP(S)，顾名思义就是利用 HTTP(S) 协议与 DNS 服务器交互，绕开运营商的 LocalDNS，来防止域名劫持，提高域名解析效率。另外，由于 DNS 服务器端获取的是真实客户端 IP 而非 LocalDNS IP，能够精确定位客户端地理位置和运营商信息，从而也能有效改进路由选择的精确性。DNS over HTTP(S) 这一方案基于已经成熟并已广泛部署的 HTTP(S) 协议，客户端调用也非常方便，没有额外的成本负担。</p>
+<p>到目前为止，有不少公共 DNS 已经支持 DNS over HTTPS，例如国外的 Cloudflare、Google Public DNS 支持 DNS over HTTPS，国内的 DNSPod 支持 DNS over HTTP，等等。以下便是 DNSPod 的 HttpDNS 请求流程图：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images16cdc47891c3e6bf" alt></p>
+<p>LeanCloud 的 Java / Android SDK 扩展了 DNS 解析模块，通过公共 DNS 的 http 请求获取到域名解析结果，然后更新本地 DNS 缓存，这样来避免客户端的 LocalDNS 污染，效果还是很明显的。</p>
+<p>从今年七月份开始，LeanCloud 已经开始<a href="https://link.juejin.im?target=https%3A%2F%2Fleancloudblog.com%2Fcustom-domains-for-api-file-leanengine%2F" target="_blank" rel="noopener">支持应用绑定自己的访问域名</a>，以确保能长期稳定提供服务，这里将我们实践中遇到的一些域名问题和解决办法总结出来，希望对广大开发者有所帮助。</p>
+<p>作者：LeanCloud链接：<a href="https://juejin.im/post/5d677edc51882566ce35a332" target="_blank" rel="noopener">https://juejin.im/post/5d677edc51882566ce35a332</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/29/99%的人都理解错了HTTP中GET与POST的区别/" rel="next" title="99%的人都理解错了HTTP中GET与POST的区别">
+                <i class="fa fa-chevron-left"></i> 99%的人都理解错了HTTP中GET与POST的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/29/域名知识一/" rel="prev" title="域名知识一">
+                域名知识一 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#域名知识二"><span class="nav-number">1.</span> <span class="nav-text">域名知识二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-域名劫持"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 域名劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-域名缓存污染"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">2. 域名缓存污染</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-解析转发"><span class="nav-number">1.0.2.</span> <span class="nav-text">3. 解析转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNSSEC"><span class="nav-number">1.0.3.</span> <span class="nav-text">DNSSEC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本原理"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证-DNSSEC"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">验证 DNSSEC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-over-HTTP-S"><span class="nav-number">1.1.</span> <span class="nav-text">DNS over HTTP(S)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
