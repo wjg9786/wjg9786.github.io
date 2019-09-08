@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="python高级篇,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="运维">
-<meta property="og:type" content="website">
-<meta property="og:title" content="莫欺少年穷">
-<meta property="og:url" content="http://yunjis.cn/tags/python高级篇/index.html">
+<meta name="description" content="进程间、线程间通信方式一、进程间的通信方式 管道(pipe):管道是一种半双式的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。 有名管道(namedpipe):有名管道也是半双式的通信方式，但是它允许无亲缘关系进程间的通信。 信号量(semophore):信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止 某种进">
+<meta name="keywords" content="python高级篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程与线程间通信方式">
+<meta property="og:url" content="http://yunjis.cn/2019/09/08/进程与线程间通信方式/index.html">
 <meta property="og:site_name" content="莫欺少年穷">
-<meta property="og:description" content="运维">
+<meta property="og:description" content="进程间、线程间通信方式一、进程间的通信方式 管道(pipe):管道是一种半双式的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。 有名管道(namedpipe):有名管道也是半双式的通信方式，但是它允许无亲缘关系进程间的通信。 信号量(semophore):信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止 某种进">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-08T22:54:45.590Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="莫欺少年穷">
-<meta name="twitter:description" content="运维">
+<meta name="twitter:title" content="进程与线程间通信方式">
+<meta name="twitter:description" content="进程间、线程间通信方式一、进程间的通信方式 管道(pipe):管道是一种半双式的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。 有名管道(namedpipe):有名管道也是半双式的通信方式，但是它允许无亲缘关系进程间的通信。 信号量(semophore):信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止 某种进">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yunjis.cn/tags/python高级篇/">
+  <link rel="canonical" href="http://yunjis.cn/2019/09/08/进程与线程间通信方式/">
 
 
 
 
 
-  <title>标签: python高级篇 | 莫欺少年穷</title>
+  <title>进程与线程间通信方式 | 莫欺少年穷</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -277,286 +279,192 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>python高级篇<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/08/进程与线程间通信方式/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/08/进程与线程二/" itemprop="url">
-              
-                <span itemprop="name">进程与线程二</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">进程与线程间通信方式</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T18:54:56-04:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T18:53:50-04:00">
+                2019-09-08
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
+                    <span itemprop="name">python高级篇</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/08/进程与线程间通信方式/" itemprop="url">
-              
-                <span itemprop="name">进程与线程间通信方式</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T18:53:50-04:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/08/进程与线程/" itemprop="url">
-              
-                <span itemprop="name">进程与线程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T16:53:47-04:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/08/什么是CPU密集型、IO密集型？/" itemprop="url">
-              
-                <span itemprop="name">什么是CPU密集型、IO密集型？</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T12:15:39-04:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/05/socket/" itemprop="url">
-              
-                <span itemprop="name">socket</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-05T07:47:03-04:00" content="2019-09-05">
-          09-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/29/漫话:什么是IO中的阻塞非阻塞同步异步/" itemprop="url">
-              
-                <span itemprop="name">漫话:什么是IO中的阻塞非阻塞同步异步</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-29T15:15:26-04:00" content="2019-08-29">
-          08-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/29/什么是IO/" itemprop="url">
-              
-                <span itemprop="name">什么是IO</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-29T11:03:40-04:00" content="2019-08-29">
-          08-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/29/详解python之反射机制/" itemprop="url">
-              
-                <span itemprop="name">详解python之反射机制</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-29T09:59:10-04:00" content="2019-08-29">
-          08-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/28/Python篇-IO多路复用详解/" itemprop="url">
-              
-                <span itemprop="name">Python篇-IO多路复用详解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-28T13:09:26-04:00" content="2019-08-28">
-          08-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/27/socket网络编程入门/" itemprop="url">
-              
-                <span itemprop="name">socket网络编程入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-27T14:33:14-04:00" content="2019-08-27">
-          08-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h1 id="进程间、线程间通信方式"><a href="#进程间、线程间通信方式" class="headerlink" title="进程间、线程间通信方式"></a>进程间、线程间通信方式</h1><h3 id="一、进程间的通信方式"><a href="#一、进程间的通信方式" class="headerlink" title="一、进程间的通信方式"></a>一、进程间的通信方式</h3><ul>
+<li>管道(pipe):管道是一种半双式的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。</li>
+<li>有名管道(namedpipe):有名管道也是半双式的通信方式，但是它允许无亲缘关系进程间的通信。</li>
+<li>信号量(semophore):信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止 某种进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</li>
+<li>消息队列(messagequeue)：消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</li>
+<li>信号(sinal):信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生。</li>
+<li>共享内存(shared memory):共享内存就是映射一段能其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。共享内存是最快的IPC方式，它是针对其他进程间通信方式运行效率低而专门设计 的。它往往与其他通信机制，如信号量，配合使用，来实现进程间的同步和通信。</li>
+<li>套接节(socket)：套解口也是种进程间通信机制，与其他通信机制不同的是，它可用于不同及其间的进程通信。</li>
+</ul>
+<h3 id="二、线程间的通信方式"><a href="#二、线程间的通信方式" class="headerlink" title="二、线程间的通信方式"></a>二、线程间的通信方式</h3><ul>
+<li>锁机制:包括互斥锁、条件变量、读写锁<ul>
+<li>互斥锁提供了以排他方式防止数据结构被并发修改的方法。</li>
+<li>读写锁允许多个线程同时读共享数据，而对写操作是互斥的。</li>
+<li>条件变量可以以原子的方式阻塞进程，直到某个特定条件为真为止。对条件的测试是在互斥锁的保护下进程的。条件变量始终与互斥锁一起使用。</li>
+</ul>
+</li>
+<li>信号量机制(Semaphore):包括无名线程信号量和命名线程信号量</li>
+<li>信号机制(Signal):类似进程间的信号处理。</li>
+</ul>
+<p>线程间的通信目的主要用于线程同步，所以线程没有像进程通信中的用于数据交换的通信。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python高级篇/" rel="tag"># python高级篇</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/08/linux进程与线程的区别/" rel="next" title="linux进程与线程的区别">
+                <i class="fa fa-chevron-left"></i> linux进程与线程的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/08/进程与线程二/" rel="prev" title="进程与线程二">
+                进程与线程二 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -564,6 +472,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -584,8 +496,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -647,6 +568,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程间、线程间通信方式"><span class="nav-number">1.</span> <span class="nav-text">进程间、线程间通信方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、进程间的通信方式"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、进程间的通信方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、线程间的通信方式"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、线程间的通信方式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -793,6 +730,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
 
   
 
