@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python高级篇,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="消息中间件MQ概述1 消息中间件介绍一般，我们认为消息中间件是指支持与保障分布式应用程序之间同步/异步收发消息的中间件。消息是分布应用之间进行数据交换的基本信息单位，分布式应用程序之间的通信接口由消息中间件提供。其中，异步方式指消息发送方在发送消息时不必知道接收方的状态，更无需等待接收方的回复，而接收方在收到消息时不必知道发送方的目前状态，更无需进行同步的消息处理，它们之间的连接完全是松耦合的，通">
+<meta name="keywords" content="python高级篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息中间件MQ概述">
+<meta property="og:url" content="http://yunjis.cn/2019/09/10/消息中间件MQ概述/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="消息中间件MQ概述1 消息中间件介绍一般，我们认为消息中间件是指支持与保障分布式应用程序之间同步/异步收发消息的中间件。消息是分布应用之间进行数据交换的基本信息单位，分布式应用程序之间的通信接口由消息中间件提供。其中，异步方式指消息发送方在发送消息时不必知道接收方的状态，更无需等待接收方的回复，而接收方在收到消息时不必知道发送方的目前状态，更无需进行同步的消息处理，它们之间的连接完全是松耦合的，通">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images3.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images4.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images5.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images6.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images7.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images8.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images8.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images10.jpg">
+<meta property="og:updated_time" content="2019-09-10T11:12:50.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="消息中间件MQ概述">
+<meta name="twitter:description" content="消息中间件MQ概述1 消息中间件介绍一般，我们认为消息中间件是指支持与保障分布式应用程序之间同步/异步收发消息的中间件。消息是分布应用之间进行数据交换的基本信息单位，分布式应用程序之间的通信接口由消息中间件提供。其中，异步方式指消息发送方在发送消息时不必知道接收方的状态，更无需等待接收方的回复，而接收方在收到消息时不必知道发送方的目前状态，更无需进行同步的消息处理，它们之间的连接完全是松耦合的，通">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/09/10/消息中间件MQ概述/">
+
+
+
+
+
+  <title>消息中间件MQ概述 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/10/消息中间件MQ概述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">消息中间件MQ概述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T07:11:36-04:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
+                    <span itemprop="name">python高级篇</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="消息中间件MQ概述"><a href="#消息中间件MQ概述" class="headerlink" title="消息中间件MQ概述"></a>消息中间件MQ概述</h1><h3 id="1-消息中间件介绍"><a href="#1-消息中间件介绍" class="headerlink" title="1 消息中间件介绍"></a>1 消息中间件介绍</h3><p>一般，我们认为消息中间件是指支持与保障分布式应用程序之间同步/异步收发消息的中间件。消息是分布应用之间进行数据交换的基本信息单位，分布式应用程序之间的通信接口由消息中间件提供。其中，异步方式指消息发送方在发送消息时不必知道接收方的状态，更无需等待接收方的回复，而接收方在收到消息时不必知道发送方的目前状态，更无需进行同步的消息处理，它们之间的连接完全是松耦合的，通信是非阻塞的，这种异步通信方式是由消息中间件中的消息队列及其服务机制保障的。一般地，实时性要求较高的业务采用同步方式处理，实时性要求不高的业务采用异步方式进行处理。</p>
+<p>消息中间件已广泛应用于各分布式应用系统，消息中间件开始向发布/订阅架构转变，并成为企业应用集成中间件的一种核心机制，而基于发布/订阅架构的消息中间件通常称为发布/订阅消息中间件或消息代理。目前比较典型的消息中间件包括IBM WebSphere MQSeries、阿里的RocketMQ和Kafka等。</p>
+<p>消息中间件是在消息的传输过程中保存信息的容器。消息中间件再将消息从它的源中继到它的目标时充当中间人的作用。队列的主要目的是提供路由并保证消息的传递；如果发送消息时接收者不可用，消息队列会保留消息，直到可以成功地传递它为止，当然，消息队列保存消息也是有期限的。</p>
+<h3 id="2-消息中间件的特点"><a href="#2-消息中间件的特点" class="headerlink" title="2 消息中间件的特点"></a>2 消息中间件的特点</h3><h4 id="2-1-采用异步处理模式"><a href="#2-1-采用异步处理模式" class="headerlink" title="2.1 采用异步处理模式"></a>2.1 采用异步处理模式</h4><p>消息发送者可以发送一个消息而无须等待响应。消息发送者将消息发送到一条虚拟的通道（主题或队列）上，消息接收者则订阅或是监听该通道。一条信息可能最终转发给一个或多个消息接收者，这些接收者都无需对消息发送者做出同步回应。整个过程都是异步的。</p>
+<h4 id="2-2-应用程序和应用程序调用关系为松耦合关系"><a href="#2-2-应用程序和应用程序调用关系为松耦合关系" class="headerlink" title="2.2 应用程序和应用程序调用关系为松耦合关系"></a>2.2 应用程序和应用程序调用关系为松耦合关系</h4><p>主要体现在如下两点：<br>（1）发送者和接受者不必了解对方、只需要确认消息<br>（2）发送者和接受者不必同时在线<br>比如在线交易系统为了保证数据的最终一致，在支付系统处理完成后会把支付结果放到消息中间件里通知订单系统修改订单支付状态。两个系统通过消息中间件解耦。</p>
+<h3 id="3-消息传递服务模型"><a href="#3-消息传递服务模型" class="headerlink" title="3 消息传递服务模型"></a>3 消息传递服务模型</h3><p>消息传递服务模型如下图所示</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images1.jpg" alt></p>
+<h3 id="4-消息中间件的传输模式"><a href="#4-消息中间件的传输模式" class="headerlink" title="4 消息中间件的传输模式"></a>4 消息中间件的传输模式</h3><h4 id="4-1-点对点模型"><a href="#4-1-点对点模型" class="headerlink" title="4.1 点对点模型"></a>4.1 点对点模型</h4><p>点对点模型用于消息生产者和消息消费者之间点到点的通信。消息生产者将消息发送到由某个名字标识的特定消费者。这个名字实际上对于消费服务中的一个队列（Queue），在消息传递给消费者之前它被存储在这个队列中。队列消息可以放在内存中也可以是持久的，以保证在消息服务出现故障时仍然能够传递消息。</p>
+<p>传统的点对点消息中间件通常由消息队列服务、消息传递服务、消息队列和消息应用程序接口API组成，其典型的结构如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images2.jpg" alt></p>
+<p>特点：<br>（1）每个消息只用一个消费者<br>（2）发送者和接受者没有时间依赖<br>（3）接受者确认消息接受和处理成功<br>示意图如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images3.jpg" alt></p>
+<h4 id="4-2-发布-订阅模型（Pub-Sub）"><a href="#4-2-发布-订阅模型（Pub-Sub）" class="headerlink" title="4.2 发布-订阅模型（Pub/Sub）"></a>4.2 发布-订阅模型（Pub/Sub）</h4><p>发布者/订阅者模型支持向一个特定的消息主题生产消息。0或多个订阅者可能对接收来自特定消息主题的消息感兴趣。在这种模型下，发布者和订阅者彼此不知道对方。这种模式就好比是匿名公告板。这种模式被概况为：多个消费者可以获得消息，在发布者和订阅者之间存在时间依赖性。发布者需要建立一个订阅（subscription），以便能够消费者订阅。订阅者必须保持持续的活动状态及接收消息，除非订阅者建立了持久的订阅。在这种情况下，在订阅者未连接时发布的消息将在订阅者重新连接时重新发布。如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images4.jpg" alt></p>
+<p>发布/订阅模型特性<br>（1）每个消息可以有多个订阅者<br>（2）客户端只有订阅后才能接收到消息<br>（3）持久订阅和非持久订阅</p>
+<p>注意：<br>（1）发布者和订阅者有时间依赖<br>接受者和发布者只有建立订阅关系才能收到消息<br>（2）持久订阅<br>订阅关系建立后，消息就不会消失，不管订阅者是否都在线<br>（3）非持久订阅<br>订阅者为了接受消息，必须一直在线。<br>当只有一个订阅者时约等于点对点模式</p>
+<h3 id="5-消息中间件应用场景"><a href="#5-消息中间件应用场景" class="headerlink" title="5 消息中间件应用场景"></a>5 消息中间件应用场景</h3><h4 id="5-1-用户注册异步处理"><a href="#5-1-用户注册异步处理" class="headerlink" title="5.1 用户注册异步处理"></a>5.1 用户注册异步处理</h4><p>网站用户注册，注册成功后会过一会发送邮件确认或者短息</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images5.jpg" alt></p>
+<h4 id="5-2-日志分析使用"><a href="#5-2-日志分析使用" class="headerlink" title="5.2 日志分析使用"></a>5.2 日志分析使用</h4><p>把日志进行集中收集，用于计算PV、用户行为分析</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images6.jpg" alt></p>
+<h4 id="5-3-数据复制"><a href="#5-3-数据复制" class="headerlink" title="5.3 数据复制"></a>5.3 数据复制</h4><p>（1）将数据从源头复制到多个目的地，一般是要求顺序或者保证因果序列<br>（2）用于跨机房数据传输、搜索、离线数据计算等。</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images7.jpg" alt></p>
+<h4 id="5-4-延迟消息发送和暂存"><a href="#5-4-延迟消息发送和暂存" class="headerlink" title="5.4 延迟消息发送和暂存"></a>5.4 延迟消息发送和暂存</h4><p>（1）把消息中间件当成可靠的消息暂存地<br>（2）定时进行消息投递，比如模拟用户秒杀访问，进行系统性能压测</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images8.jpg" alt></p>
+<h4 id="5-5-消息广播"><a href="#5-5-消息广播" class="headerlink" title="5.5 消息广播"></a>5.5 消息广播</h4><p>（1）缓存数据同步更新<br>（2）往应用推送数据<br>比如更新本地缓存：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images8.jpg" alt></p>
+<h3 id="6-消息中间件消息模型分类"><a href="#6-消息中间件消息模型分类" class="headerlink" title="6 消息中间件消息模型分类"></a>6 消息中间件消息模型分类</h3><h4 id="6-1-push推消息模型"><a href="#6-1-push推消息模型" class="headerlink" title="6.1 push推消息模型"></a>6.1 push推消息模型</h4><p>消息生产者将消息发送给消息传递服务，消息传递服务又将消息推给消息消费者。</p>
+<h4 id="6-2-pull拉消息模型"><a href="#6-2-pull拉消息模型" class="headerlink" title="6.2 pull拉消息模型"></a>6.2 pull拉消息模型</h4><p>消费者请求消息服务接受消息，消息生产者从消息中间件拉该消息。</p>
+<h4 id="6-3-两种类型的区别"><a href="#6-3-两种类型的区别" class="headerlink" title="6.3 两种类型的区别"></a>6.3 两种类型的区别</h4><p>push推消息和pull拉消息的区别</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images10.jpg" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python高级篇/" rel="tag"># python高级篇</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/消息中间件MQ详解/" rel="next" title="消息中间件MQ详解">
+                <i class="fa fa-chevron-left"></i> 消息中间件MQ详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#消息中间件MQ概述"><span class="nav-number">1.</span> <span class="nav-text">消息中间件MQ概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-消息中间件介绍"><span class="nav-number">1.0.1.</span> <span class="nav-text">1 消息中间件介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-消息中间件的特点"><span class="nav-number">1.0.2.</span> <span class="nav-text">2 消息中间件的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-采用异步处理模式"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">2.1 采用异步处理模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-应用程序和应用程序调用关系为松耦合关系"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2.2 应用程序和应用程序调用关系为松耦合关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-消息传递服务模型"><span class="nav-number">1.0.3.</span> <span class="nav-text">3 消息传递服务模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-消息中间件的传输模式"><span class="nav-number">1.0.4.</span> <span class="nav-text">4 消息中间件的传输模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-点对点模型"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">4.1 点对点模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-发布-订阅模型（Pub-Sub）"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">4.2 发布-订阅模型（Pub/Sub）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-消息中间件应用场景"><span class="nav-number">1.0.5.</span> <span class="nav-text">5 消息中间件应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-用户注册异步处理"><span class="nav-number">1.0.5.1.</span> <span class="nav-text">5.1 用户注册异步处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-日志分析使用"><span class="nav-number">1.0.5.2.</span> <span class="nav-text">5.2 日志分析使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-数据复制"><span class="nav-number">1.0.5.3.</span> <span class="nav-text">5.3 数据复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-延迟消息发送和暂存"><span class="nav-number">1.0.5.4.</span> <span class="nav-text">5.4 延迟消息发送和暂存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-消息广播"><span class="nav-number">1.0.5.5.</span> <span class="nav-text">5.5 消息广播</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-消息中间件消息模型分类"><span class="nav-number">1.0.6.</span> <span class="nav-text">6 消息中间件消息模型分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-push推消息模型"><span class="nav-number">1.0.6.1.</span> <span class="nav-text">6.1 push推消息模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-pull拉消息模型"><span class="nav-number">1.0.6.2.</span> <span class="nav-text">6.2 pull拉消息模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-两种类型的区别"><span class="nav-number">1.0.6.3.</span> <span class="nav-text">6.3 两种类型的区别</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
