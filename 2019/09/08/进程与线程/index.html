@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images1075473-20170509124615191-1272983553.jpg">
 <meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
-<meta property="og:updated_time" content="2019-09-08T20:55:48.944Z">
+<meta property="og:updated_time" content="2019-09-10T11:55:37.485Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="进程与线程">
 <meta name="twitter:description" content="线程与进程一、线程介绍 线程是操作系统能够进行运算调试的最小单位，它被包含在进程之中，是进程中的实际运行单位，一条线程指的是一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。 在同一个进程内的线程的数据可以进行互相访问的。 线程的切换使用过上下文来实现的，比如有一本书，有a和b这两个人(两个线程)看，a看完之后记录当前看到那一页哪一行，然后交给b看，b看完之后记录当前看">
@@ -394,20 +394,16 @@
 <p>各状态说明:</p>
 <p>1.新建状态 (New)</p>
 <p>使用threading.threading创建实例时候，线程还没有开始运行，此时线程处在新建状态。 当一个线程处于新生状态时，程序还没有开始运行线程中的代码。</p>
-<p> 2.就绪状态(Runnable)</p>
+<p>2.就绪状态(Runnable)</p>
 <p>​        一个新创建的线程并不自动开始运行，要执行线程，必须调用线程的start()方法。当线程对象调用start()方法即启动了线程，start()方法创建线程运行的系统资源，并调度线程运行run()方法。当start()方法返回后，线程就处于就绪状态。</p>
 <p>​        处于就绪状态的线程并不一定立即运行run()方法，线程还必须同其他线程竞争CPU时间，只有获得CPU时间才可以运行线程。因为在单CPU的计算机系统中，不可能同时运行多个线程，一个时刻仅有一个线程处于运行状态。因此此时可能有多个线程处于就绪状态。</p>
 <p> 3.运行状态(Running)</p>
 <p>​        当线程获得CPU时间后，它才进入运行状态，真正开始执行run()方法.</p>
-<ol start="4">
-<li>阻塞状态(Blocked)</li>
-</ol>
+<p>4.阻塞状态(Blocked)</p>
 <p>​        线程运行过程中，可能由于各种原因进入阻塞状态:<br>​        1&gt;线程通过调用sleep方法进入睡眠状态；<br>​        2&gt;线程调用一个在I/O上被阻塞的操作，即该操作在输入输出操作完成之前不会返回到它的调用者；<br>​        3&gt;线程试图得到一个锁，而该锁正被其他线程持有；<br>​        4&gt;线程在等待某个触发条件；</p>
 <p>​          ……           </p>
 <p>​        所谓阻塞状态是正在运行的线程没有运行结束，暂时让出CPU，这时其他处于就绪状态的线程就可以获得CPU时间，进入运行状态。  </p>
-<ol start="5">
-<li>死亡状态(Dead)</li>
-</ol>
+<p>5.死亡状态(Dead)</p>
 <p>​        有两个原因会导致线程死亡：<br>​        1) run方法正常退出而自然死亡，<br>​        2) 一个未捕获的异常终止了run方法而使线程猝死。<br>​       为了确定线程在当前是否存活着（就是要么是可运行的，要么是被阻塞了），需要使用isAlive方法。如果是可运行或被阻塞，这个方法返回true，如果线程仍旧是new状态且不是可运行的， 或者线程死亡了，则返回false.</p>
 <p><strong>python中的多线程：</strong></p>
 <p>python通过两个标准库thread和threading提供对线程的支持。thread提供了低级别的、原始的线程以及一个简单的锁、threading则弥补了其缺陷，所以线程模块使用threading就可以了。</p>
@@ -523,18 +519,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Pool</span><br><span class="line">import os</span><br><span class="line">import time</span><br><span class="line">def fun(i):</span><br><span class="line">    print(&apos;runing process &apos;,i)</span><br><span class="line">    time.sleep(2)</span><br><span class="line"></span><br><span class="line">def end_fun(i=None):</span><br><span class="line">    print(&apos;done&apos;)</span><br><span class="line">    print(&quot;call back process:&quot;,os.getpid())</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    print(&quot;主进程:&quot;,os.getpid())</span><br><span class="line">    pool=Pool(3)#最多运行3个进程同时运行</span><br><span class="line">    for i in range(5):</span><br><span class="line">        pool.apply_async(func=fun,args=(i,),callback=end_fun)#并行执行，callback回调由主程序回调</span><br><span class="line">        #pool.apply(func=fun,args=(i,))串行执行</span><br><span class="line">    pool.close()#关闭进程池</span><br><span class="line">    pool.join()#进程池中进程执行完毕后再关闭，如果注释，那么程序直接关闭</span><br><span class="line">结果：</span><br><span class="line">主进程: 12396</span><br><span class="line">runing process  0</span><br><span class="line">runing process  1</span><br><span class="line">runing process  2</span><br><span class="line">runing process  3</span><br><span class="line">runing process  4</span><br><span class="line">done</span><br><span class="line">call back process: 12396</span><br><span class="line">done</span><br><span class="line">call back process: 12396</span><br><span class="line">done</span><br><span class="line">call back process: 12396</span><br><span class="line">done</span><br><span class="line">call back process: 12396</span><br><span class="line">done</span><br><span class="line">call back process: 12396</span><br></pre></td></tr></table></figure>
 
 <p><strong>三、线程与进程的关系与区别</strong></p>
-<ol>
-<li>线程是执行的指令集，进程是资源的集合；</li>
-<li>线程的启动速度要比进程的启动速度要快；</li>
-<li>两个线程的执行速度是一样的；</li>
-<li>进程与线程的运行速度是没有可比性的；</li>
-<li>线程共享创建它的进程的内存空间，进程的内存是独立的。</li>
-<li>两个线程共享的数据都是同一份数据，两个子进程的数据不是共享的，而且数据是独立的;</li>
-<li>同一个进程的线程之间可以直接交流，同一个主进程的多个子进程之间是不可以进行交流，如果两个进程之间需要通信，就必须要通过一个中间代理来实现;</li>
-<li>一个新的线程很容易被创建，一个新的进程创建需要对父进程进行一次克隆</li>
-<li>一个线程可以控制和操作同一个进程里的其他线程，线程与线程之间没有隶属关系，但是进程只能操作子进程</li>
-<li>改变主线程，有可能会影响到其他线程的行为，但是对于父进程的修改是不会影响子进程;</li>
-</ol>
 <ol>
 <li>线程是执行的指令集，进程是资源的集合；</li>
 <li>线程的启动速度要比进程的启动速度要快；</li>
