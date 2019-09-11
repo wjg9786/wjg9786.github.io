@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="运维基础,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="RocketMQ集群部署方式总结1 RocketMQ网络部署图RocketMQ网络部署图如下图所示：  1.1 RocketMQ网络部署特点： NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。 Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave">
+<meta name="keywords" content="运维基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ集群部署方式总结">
+<meta property="og:url" content="http://yunjis.cn/2019/09/10/RocketMQ集群部署方式总结/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="RocketMQ集群部署方式总结1 RocketMQ网络部署图RocketMQ网络部署图如下图所示：  1.1 RocketMQ网络部署特点： NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。 Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20180422-01.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20180422-02.jpg">
+<meta property="og:updated_time" content="2019-09-11T02:17:05.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RocketMQ集群部署方式总结">
+<meta name="twitter:description" content="RocketMQ集群部署方式总结1 RocketMQ网络部署图RocketMQ网络部署图如下图所示：  1.1 RocketMQ网络部署特点： NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。 Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20180422-01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/09/10/RocketMQ集群部署方式总结/">
+
+
+
+
+
+  <title>RocketMQ集群部署方式总结 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/10/RocketMQ集群部署方式总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RocketMQ集群部署方式总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T22:16:14-04:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维基础/" itemprop="url" rel="index">
+                    <span itemprop="name">运维基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="RocketMQ集群部署方式总结"><a href="#RocketMQ集群部署方式总结" class="headerlink" title="RocketMQ集群部署方式总结"></a>RocketMQ集群部署方式总结</h1><h3 id="1-RocketMQ网络部署图"><a href="#1-RocketMQ网络部署图" class="headerlink" title="1 RocketMQ网络部署图"></a>1 RocketMQ网络部署图</h3><p>RocketMQ网络部署图如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20180422-01.jpg" alt></p>
+<h4 id="1-1-RocketMQ网络部署特点："><a href="#1-1-RocketMQ网络部署特点：" class="headerlink" title="1.1 RocketMQ网络部署特点："></a>1.1 RocketMQ网络部署特点：</h4><ul>
+<li>NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。</li>
+<li>Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave的对应关系通过指定相同的BrokerName，不同的BrokerId来定义，BrokerId为0表示Master，非0表示Slave。Master也可以部署多个。每个Broker与NameServer集群中的所有节点建立长连接，定时注册Topic信息到所有 NameServer。</li>
+<li>Producer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从Name Server取Topic路由信息，并向提供Topic服务的Master建立长连接，且定时向Master发送心跳。Producer完全无状态，可集群部署。</li>
+<li>Consumer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从Name Server取Topic路由信息，并向提供Topic服务的Master、Slave建立长连接，且定时向Master、Slave发送心跳。Consumer既可以从Master订阅消息，也可以从Slave订阅消息，订阅规则由Broker配置决定。</li>
+</ul>
+<h3 id="2-NameServer集群"><a href="#2-NameServer集群" class="headerlink" title="2 NameServer集群"></a>2 NameServer集群</h3><p>NameServer集群如下：</p>
+<table>
+<thead>
+<tr>
+<th>NameServer集群</th>
+<th>IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NameServer-1</td>
+<td>192.168.1.101</td>
+</tr>
+<tr>
+<td>NameServer-2</td>
+<td>192.168.1.102</td>
+</tr>
+</tbody></table>
+<p>分别启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqnamesrv &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/namesrv.log</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-RocketMQ配置文件"><a href="#3-RocketMQ配置文件" class="headerlink" title="3 RocketMQ配置文件"></a>3 RocketMQ配置文件</h3><p>众所周知，RocketMQ有多种集群部署方式，它们的配置文件也是分开的，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@rocketmq01 conf]# ls -rlt /usr/local/rocketmq/conf</span><br><span class="line">total 32</span><br><span class="line">-rw-r--r-- 1 root root   949 Sep 19  2017 broker.conf</span><br><span class="line">drwxr-xr-x 2 root root    60 Sep 19  2017 2m-noslave</span><br><span class="line">drwxr-xr-x 2 root root   118 Sep 19  2017 2m-2s-sync</span><br><span class="line">drwxr-xr-x 2 root root   118 Sep 19  2017 2m-2s-async</span><br><span class="line">-rw-r--r-- 1 root root  3720 Apr 21 07:56 logback_namesrv.xml</span><br><span class="line">-rw-r--r-- 1 root root  3718 Apr 21 07:56 logback_filtersrv.xml</span><br><span class="line">-rw-r--r-- 1 root root 15146 Apr 21 07:56 logback_broker.xml</span><br><span class="line">-rw-r--r-- 1 root root  3789 Apr 21 07:56 logback_tools.xml</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>2m-noslave： 多Master模式</li>
+<li>2m-2s-sync： 多Master多Slave模式，同步双写</li>
+<li>2m-2s-async：多Master多Slave模式，异步复制</li>
+</ul>
+<p>RocketMQ默认提供的配置文件都是最基本的，很多配置都是默认值，在生产环境中我们需要根据实际情况进行修改。样例配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">#所属集群名字</span><br><span class="line">brokerClusterName=rocketmq-cluster</span><br><span class="line">#broker名字，注意此处不同的配置文件填写的不一样</span><br><span class="line">brokerName=broker-a|broker-b</span><br><span class="line">#0表示Master，&gt;0表示Slave</span><br><span class="line">brokerId=0</span><br><span class="line">#nameServer地址，分号分割</span><br><span class="line">namesrvAddr=192.168.1.101:9876;192.168.1.102:9876</span><br><span class="line">#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数</span><br><span class="line">defaultTopicQueueNums=4</span><br><span class="line">#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭</span><br><span class="line">autoCreateTopicEnable=true</span><br><span class="line">#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭</span><br><span class="line">autoCreateSubscriptionGroup=true</span><br><span class="line">#Broker 对外服务的监听端口</span><br><span class="line">listenPort=10911</span><br><span class="line">#删除文件时间点，默认凌晨 4点</span><br><span class="line">deleteWhen=04</span><br><span class="line">#文件保留时间，默认 48 小时</span><br><span class="line">fileReservedTime=120</span><br><span class="line">#commitLog每个文件的大小默认1G</span><br><span class="line">mapedFileSizeCommitLog=1073741824</span><br><span class="line">#ConsumeQueue每个文件默认存30W条，根据业务情况调整</span><br><span class="line">mapedFileSizeConsumeQueue=300000</span><br><span class="line">#destroyMapedFileIntervalForcibly=120000</span><br><span class="line">#redeleteHangedFileInterval=120000</span><br><span class="line">#检测物理文件磁盘空间</span><br><span class="line">diskMaxUsedSpaceRatio=88</span><br><span class="line">#存储路径</span><br><span class="line">storePathRootDir=/usr/local/alibaba-rocketmq/store</span><br><span class="line">#commitLog 存储路径</span><br><span class="line">storePathCommitLog=/usr/local/alibaba-rocketmq/store/commitlog</span><br><span class="line">#消费队列存储路径存储路径</span><br><span class="line">storePathConsumeQueue=/usr/local/alibaba-rocketmq/store/consumequeue</span><br><span class="line">#消息索引存储路径</span><br><span class="line">storePathIndex=/usr/local/alibaba-rocketmq/store/index</span><br><span class="line">#checkpoint 文件存储路径</span><br><span class="line">storeCheckpoint=/usr/local/alibaba-rocketmq/store/checkpoint</span><br><span class="line">#abort 文件存储路径</span><br><span class="line">abortFile=/usr/local/alibaba-rocketmq/store/abort</span><br><span class="line">#限制的消息大小</span><br><span class="line">maxMessageSize=65536</span><br><span class="line">#flushCommitLogLeastPages=4</span><br><span class="line">#flushConsumeQueueLeastPages=2</span><br><span class="line">#flushCommitLogThoroughInterval=10000</span><br><span class="line">#flushConsumeQueueThoroughInterval=60000</span><br><span class="line">#Broker 的角色</span><br><span class="line">#- ASYNC_MASTER 异步复制Master</span><br><span class="line">#- SYNC_MASTER 同步双写Master</span><br><span class="line">#- SLAVE</span><br><span class="line">brokerRole=ASYNC_MASTER</span><br><span class="line">#刷盘方式</span><br><span class="line">#- ASYNC_FLUSH 异步刷盘</span><br><span class="line">#- SYNC_FLUSH 同步刷盘</span><br><span class="line">flushDiskType=ASYNC_FLUSH</span><br><span class="line">#checkTransactionMessageEnable=false</span><br><span class="line">#发消息线程池数量</span><br><span class="line">#sendMessageThreadPoolNums=128</span><br><span class="line">#拉消息线程池数量</span><br><span class="line">#pullMessageThreadPoolNums=128</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-Broker集群部署"><a href="#4-Broker集群部署" class="headerlink" title="4 Broker集群部署"></a>4 Broker集群部署</h3><p>Broker集群部署有几种不同的方式。这里的Slave不可写，但可读，类似于MySQL的主备方式。</p>
+<h4 id="4-1-单个Master"><a href="#4-1-单个Master" class="headerlink" title="4.1 单个Master"></a>4.1 单个Master</h4><p>这种方式风险较大，一旦Broker重启或者宕机时，会导致整个服务不可用，不建议线上环境使用</p>
+<h4 id="4-2-多Master模式"><a href="#4-2-多Master模式" class="headerlink" title="4.2 多Master模式"></a>4.2 多Master模式</h4><p>一个集群无Slave，全是Master，例如2个Master或者3个Master。</p>
+<table>
+<thead>
+<tr>
+<th>brokerName</th>
+<th>brokerId</th>
+<th>brokerRole</th>
+<th>IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>broker-a</td>
+<td>0</td>
+<td>ASYNC_MASTER</td>
+<td>192.168.1.101</td>
+</tr>
+<tr>
+<td>broker-b</td>
+<td>0</td>
+<td>ASYNC_MASTER</td>
+<td>192.168.1.102</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>优点：<br>配置简单，单个Master宕机或重启维护对应用无影响，在磁盘配置为RAID10时，即使机器宕机不可恢复情况下，由于RAID10磁盘非常可靠，消息也不会丢失（异步刷盘丢失少量消息，同步刷盘一条不丢）。性能最高。</p>
+<p>缺点：<br>单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅，消息实时性会受到影响。</p>
+</blockquote>
+<p>启动步骤：<br>第一步：先启动NameServer集群</p>
+<p>第二步：在192.168.1.101，启动第一个Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-noslave/broker-a.properties &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第三步：在192.168.1.102，启动第二个Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-noslave/broker-b.properties &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-多Master多Slave模式，异步复制"><a href="#4-3-多Master多Slave模式，异步复制" class="headerlink" title="4.3 多Master多Slave模式，异步复制"></a>4.3 多Master多Slave模式，异步复制</h4><p>每个Master配置一个Slave，有多对Master-Slave，HA采用异步复制方式，主备有短暂消息延迟，毫秒级。</p>
+<table>
+<thead>
+<tr>
+<th>brokerName</th>
+<th>brokerId</th>
+<th>brokerRole</th>
+<th>IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>broker-a</td>
+<td>0</td>
+<td>ASYNC_MASTER</td>
+<td>192.168.1.101</td>
+</tr>
+<tr>
+<td>broker-a</td>
+<td>1</td>
+<td>SLAVE</td>
+<td>192.168.1.102</td>
+</tr>
+<tr>
+<td>broker-b</td>
+<td>0</td>
+<td>ASYNC_MASTER</td>
+<td>192.168.1.103</td>
+</tr>
+<tr>
+<td>broker-b</td>
+<td>1</td>
+<td>SLAVE</td>
+<td>192.168.1.104</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>优点：即使磁盘损坏，消息丢失的非常少，且消息实时性不会受影响，因为Master 宕机后，消费者仍然可以从Slave消费，此过程对应用透明。不需要人工干预。性能同多 Master 模式几乎一样。</p>
+<p>缺点：Master宕机，磁盘损坏情况，会丢失少量消息。</p>
+</blockquote>
+<p>启动步骤<br>第一步：先启动NameServer集群</p>
+<p>第二步：在192.168.1.101，启动第一个Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-async/broker-a.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第三步：在192.168.1.102，启动第一个Slave</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-async/broker-a-s.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第四步：在192.168.1.103，启动第二个Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-async/broker-b.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第五步：在机器 192.168.1.104，启动第二个Slave</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-async/broker-b-s.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-4-多Master多Slave模式，同步双写"><a href="#4-4-多Master多Slave模式，同步双写" class="headerlink" title="4.4 多Master多Slave模式，同步双写"></a>4.4 多Master多Slave模式，同步双写</h4><p>每个Master配置一个Slave，有多对Master-Slave，HA采用同步双写方式，主备都写成功，向应用才返回成功。</p>
+<table>
+<thead>
+<tr>
+<th>brokerName</th>
+<th>brokerId</th>
+<th>brokerRole</th>
+<th>IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>broker-a</td>
+<td>0</td>
+<td>SYNC_MASTER</td>
+<td>192.168.1.101</td>
+</tr>
+<tr>
+<td>broker-a</td>
+<td>1</td>
+<td>SLAVE</td>
+<td>192.168.1.102</td>
+</tr>
+<tr>
+<td>broker-b</td>
+<td>0</td>
+<td>SYNC_MASTER</td>
+<td>192.168.1.103</td>
+</tr>
+<tr>
+<td>broker-b</td>
+<td>1</td>
+<td>SLAVE</td>
+<td>192.168.1.104</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>优点：数据与服务都无单点，Master宕机情况下，消息无延迟，服务可用性与数据可用性都非常高。</p>
+<p>缺点：性能比异步复制模式略低，大约低10%左右，发送单个消息的RT会略高。目前主宕机后，备机不能自动切换为主机，后续会支持自动切换功能。</p>
+</blockquote>
+<p>启动步骤：<br>第一步：先启动NameServer集群</p>
+<p>第二步：在192.168.1.101，启动第一个Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-sync/broker-a.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第三步：在192.168.1.102，启动第一个Slave</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-sync/broker-a-s.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第四步：在192.168.1.103，启动第二个Master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-sync/broker-b.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>第五步：在192.168.1.104，启动第二个Slave</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup sh mqbroker -c $ROCKETMQ_HOME/conf/2m-2s-sync/broker-b-s.properties &gt;$ROCKETMQ_HOME/log/mq.log &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">tail -f -n 500 $ROCKETMQ_HOME/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+
+<p>注意事项：以上Broker与Slave配对是通过指定相同的brokerName参数来配对，Master的 BrokerId必须是0，Slave的BrokerId必须是大于0的数。另外一个Master下面可以挂载多个Slave，同一Master下的多个Slave 通过指定不同的BrokerId来区分。</p>
+<h4 id="4-5-总结"><a href="#4-5-总结" class="headerlink" title="4.5 总结"></a>4.5 总结</h4><p>1、异步复制和同步双写总结</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20180422-02.jpg" alt></p>
+<p>2、集群方式对比</p>
+<table>
+<thead>
+<tr>
+<th>集群方式</th>
+<th>运维特点</th>
+<th>消息可靠性(master宕机情况)</th>
+<th>服务可用性(master宕机情况)</th>
+<th>其他特点</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单Master</td>
+<td>结构简单，扩容方便，机器要求低</td>
+<td>同步刷盘消息一条都不会丢</td>
+<td>整体可用，未被消费的消息无法取得，影响实时性</td>
+<td>性能最高</td>
+<td></td>
+</tr>
+<tr>
+<td>多Master</td>
+<td></td>
+<td>异步有毫秒级丢失，同步双写不丢失</td>
+<td>差评，主备不能自动切换，且备机只能读不能写，会造成服务整体不可写</td>
+<td></td>
+<td>不考虑，除非自己提供主从切换的方案</td>
+</tr>
+<tr>
+<td>Master-Slave(异步复制)</td>
+<td>结构复杂，扩容方便</td>
+<td>故障时会丢失消息</td>
+<td>整体可用，实时性影响毫秒级别</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>该组服务只能读不能写</td>
+<td>性能很高</td>
+<td>适合消息可靠性中等，实时性中等的要求</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Master-Slave(同步双写)</td>
+<td>结构复杂，扩容方便</td>
+<td>不丢消息</td>
+<td>整体可用，不影响实时性，该组服务只能读不能写</td>
+<td>性能比异步低10%，所以实时性也并不比异步方式太高</td>
+<td>适合消息可靠性略高，实时性中等、性能要求不高的需求</td>
+</tr>
+</tbody></table>
+<h3 id="5-高可用演练场景"><a href="#5-高可用演练场景" class="headerlink" title="5 高可用演练场景"></a>5 高可用演练场景</h3><p>RocketMQ高可用演练场景</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>发送消息</th>
+<th>发送消息过程中</th>
+<th>接收消费消息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>停用一个namesrv</td>
+<td>不影响通信</td>
+<td>不影响通信</td>
+<td>不影响通信</td>
+</tr>
+<tr>
+<td>停用全部namesrv</td>
+<td>影响通信</td>
+<td>不影响通信</td>
+<td>影响通信，启动任意的namesrv可恢复</td>
+</tr>
+<tr>
+<td>停用单个master broker</td>
+<td>不影响通信</td>
+<td>不影响通信</td>
+<td>不影响通信</td>
+</tr>
+<tr>
+<td>停用全部master broker</td>
+<td>影响通信</td>
+<td>影响通信，无法恢复</td>
+<td>影响通信</td>
+</tr>
+<tr>
+<td>停用一个slave broker</td>
+<td>不影响通信</td>
+<td>不影响通信</td>
+<td>不影响通信</td>
+</tr>
+<tr>
+<td>停用全部slave broker</td>
+<td>不影响通信</td>
+<td>影响通信，数秒恢复</td>
+<td>不影响通信，数秒恢复</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/运维基础/" rel="tag"># 运维基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/RocketMQ多Master集群模式部署/" rel="next" title="RocketMQ多Master集群模式部署">
+                <i class="fa fa-chevron-left"></i> RocketMQ多Master集群模式部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RocketMQ集群部署方式总结"><span class="nav-number">1.</span> <span class="nav-text">RocketMQ集群部署方式总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RocketMQ网络部署图"><span class="nav-number">1.0.1.</span> <span class="nav-text">1 RocketMQ网络部署图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-RocketMQ网络部署特点："><span class="nav-number">1.0.1.1.</span> <span class="nav-text">1.1 RocketMQ网络部署特点：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-NameServer集群"><span class="nav-number">1.0.2.</span> <span class="nav-text">2 NameServer集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RocketMQ配置文件"><span class="nav-number">1.0.3.</span> <span class="nav-text">3 RocketMQ配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Broker集群部署"><span class="nav-number">1.0.4.</span> <span class="nav-text">4 Broker集群部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-单个Master"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">4.1 单个Master</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-多Master模式"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">4.2 多Master模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-多Master多Slave模式，异步复制"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">4.3 多Master多Slave模式，异步复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-多Master多Slave模式，同步双写"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">4.4 多Master多Slave模式，同步双写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-总结"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">4.5 总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-高可用演练场景"><span class="nav-number">1.0.5.</span> <span class="nav-text">5 高可用演练场景</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
