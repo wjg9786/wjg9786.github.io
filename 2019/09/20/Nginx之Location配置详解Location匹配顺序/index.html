@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="nginx,">
 
 
 
@@ -79,16 +79,20 @@
 
 
 
-<meta name="description" content="运维">
-<meta property="og:type" content="website">
-<meta property="og:title" content="莫欺少年穷">
-<meta property="og:url" content="http://yunjis.cn/categories/测试工具/index.html">
+<meta name="description" content="Nginx之Location配置详解(Location匹配顺序)location有”定位”的意思，主要是根据uri来进行不同的定位。在虚假主机的配置中，是必不可少的。 location可以把网站的不同部分，定位到不同的处理方式上。 一、location的基础语法 12345678910111213location [=|~|~*|^~] /uri/ &amp;#123; … &amp;#125;= 开头表示精确匹">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx之Location配置详解Location匹配顺序">
+<meta property="og:url" content="http://yunjis.cn/2019/09/20/Nginx之Location配置详解Location匹配顺序/index.html">
 <meta property="og:site_name" content="莫欺少年穷">
-<meta property="og:description" content="运维">
+<meta property="og:description" content="Nginx之Location配置详解(Location匹配顺序)location有”定位”的意思，主要是根据uri来进行不同的定位。在虚假主机的配置中，是必不可少的。 location可以把网站的不同部分，定位到不同的处理方式上。 一、location的基础语法 12345678910111213location [=|~|~*|^~] /uri/ &amp;#123; … &amp;#125;= 开头表示精确匹">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20170419232944871.jpg">
+<meta property="og:updated_time" content="2019-09-20T15:22:08.441Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="莫欺少年穷">
-<meta name="twitter:description" content="运维">
+<meta name="twitter:title" content="Nginx之Location配置详解Location匹配顺序">
+<meta name="twitter:description" content="Nginx之Location配置详解(Location匹配顺序)location有”定位”的意思，主要是根据uri来进行不同的定位。在虚假主机的配置中，是必不可少的。 location可以把网站的不同部分，定位到不同的处理方式上。 一、location的基础语法 12345678910111213location [=|~|~*|^~] /uri/ &amp;#123; … &amp;#125;= 开头表示精确匹">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20170419232944871.jpg">
 
 
 
@@ -118,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yunjis.cn/categories/测试工具/">
+  <link rel="canonical" href="http://yunjis.cn/2019/09/20/Nginx之Location配置详解Location匹配顺序/">
 
 
 
 
 
-  <title>分类: 测试工具 | 莫欺少年穷</title>
+  <title>Nginx之Location配置详解Location匹配顺序 | 莫欺少年穷</title>
   
 
 
@@ -143,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -309,53 +313,235 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>测试工具<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/20/Nginx之Location配置详解Location匹配顺序/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/03/测试网络带宽的命令行界面/" itemprop="url">
-              
-                <span itemprop="name">测试网络带宽的命令行界面</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Nginx之Location配置详解Location匹配顺序</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-03T07:29:58+08:00" content="2019-09-03">
-          09-03
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T23:21:29+08:00">
+                2019-09-20
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Nginx之Location配置详解-Location匹配顺序"><a href="#Nginx之Location配置详解-Location匹配顺序" class="headerlink" title="Nginx之Location配置详解(Location匹配顺序)"></a>Nginx之Location配置详解(Location匹配顺序)</h1><p>location有”定位”的意思，主要是根据uri来进行不同的定位。在虚假主机的配置中，是必不可少的。</p>
+<p>location可以把网站的不同部分，定位到不同的处理方式上。</p>
+<p><strong>一、location的基础语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">location [=|~|~*|^~] /uri/ &#123; … &#125;</span><br><span class="line"></span><br><span class="line">= 开头表示精确匹配</span><br><span class="line"></span><br><span class="line">^~ 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码，因此请求为/static/20%/aa，可以被规则^~ /static/ /aa匹配到（注意是空格）。</span><br><span class="line"></span><br><span class="line">~ 开头表示区分大小写的正则匹配</span><br><span class="line"></span><br><span class="line">~* 开头表示不区分大小写的正则匹配</span><br><span class="line"></span><br><span class="line">!~和!~*分别为区分大小写不匹配及不区分大小写不匹配 的正则</span><br><span class="line"></span><br><span class="line">/ 通用匹配，任何请求都会匹配到。</span><br></pre></td></tr></table></figure>
+
+<p><strong>二、location如何发挥作用</strong></p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/images20170419232944871.jpg" alt></p>
+<p>本章以192.168.60.106为例</p>
+<p><strong>1、精准匹配和一般匹配</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location = /zg/ &#123;</span><br><span class="line">root html;</span><br><span class="line">index index.html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /zg/ &#123;</span><br><span class="line">root html;</span><br><span class="line">index index2.html</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求URL：<a href="http://192.168.60.106/zg/" target="_blank" rel="noopener">http://192.168.60.106/zg</a><a href="http://192.168.60.106/zg/" target="_blank" rel="noopener">/</a>  访问时匹配的是：=/zg/</p>
+<p><strong>2、精准匹配和一般匹配，uri后面不带“/”匹配</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location = /zg &#123;</span><br><span class="line">root html;</span><br><span class="line">index index.html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /zg &#123;</span><br><span class="line">root html;</span><br><span class="line">index index2.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求URL：<a href="http://192.168.60.106/zg/" target="_blank" rel="noopener">http://192.168.60.106/zg</a><a href="http://192.168.60.106/zg/" target="_blank" rel="noopener">/</a>  访问时匹配的是：/zg</p>
+<p><strong>3、精准匹配和一般匹配，uri前面和后面都不带“/”</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location = zg &#123;</span><br><span class="line">root html;</span><br><span class="line">index index.html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location zg &#123;</span><br><span class="line">root html/yb;</span><br><span class="line">index index1.html</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求URL：<a href="http://192.168.60.106/zg/" target="_blank" rel="noopener">http://192.168.60.106/zg/</a> 访问时匹配的是：= zg</p>
+<p>4、<strong>精准匹配和一般匹配，uri带”/“和不带”/“匹配</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">location = zg &#123;</span><br><span class="line">root html;</span><br><span class="line">index index.html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /zg/ &#123;</span><br><span class="line">root html;</span><br><span class="line">index index2.html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location zg &#123;</span><br><span class="line">root html/yb;</span><br><span class="line">index index1.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求URL：<a href="http://192.168.60.106/zg/" target="_blank" rel="noopener">http://192.168.60.106/zg/</a> 访问时匹配的是：/zg/ 顺序换也是一样</p>
+<p>综上所述:路径相同时的精准匹配优先，必须是满足/uri/或者uri,要么uri两加都加/,要么uri两边都不加斜杆的情况</p>
+<p><strong>5、一般匹配时的匹配规则</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /images/ &#123;</span><br><span class="line">root html/file;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /images/aa &#123;</span><br><span class="line">root html/lfile;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在html下创建file,lfile文件夹，然后在file下创建images文件夹，在images下创建aa文件夹，在lfile下创建images文件夹，接着在images下创建aa文件夹，然后同时在两个aa文件夹下导入test.jpg图片，这样file和lfile下都有images/aa路径</p>
+<p>请求url：<a href="http://192.168.60.106/images/aa/test.jpg，既能匹配/images/,又能匹配/images/aa，这时以最长uri匹配优先，匹配的是：/images/aa" target="_blank" rel="noopener">http://192.168.60.106/images/aa/test.jpg，既能匹配/images/,又能匹配/images/aa，这时以最长uri匹配优先，匹配的是：/images/aa</a></p>
+<p><strong>6、^~开头的非正则匹配和一般匹配</strong></p>
+<p>^~代表非正则匹配，非正则，不需要继续正则匹配。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /images/ &#123;</span><br><span class="line">root html/file</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /images/aa &#123;</span><br><span class="line">root html/lfile;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>^~:如果这个匹配使用^〜前缀，搜索停止。这个前缀官网和网上都说得很含糊，加上这个前缀，是会停止搜索正则匹配，但是想对一般匹配是不会停止的，也就是说还是可以匹配到一般匹配的。</p>
+<p>请求url： <a href="http://192.168.60.106/images/aa/test.jpg，匹配结果：/images/aa/" target="_blank" rel="noopener">http://192.168.60.106/images/aa/test.jpg，匹配结果：/images/aa/</a></p>
+<p><strong>7、^~开头的非正则匹配和正则匹配</strong></p>
+<p>~ 开头表示区分大小写的正则匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /images/ &#123;</span><br><span class="line">root html/file;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location ~ /images/aa &#123;</span><br><span class="line">root html/lfile;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求url： <a href="http://192.168.60.106/images/aa/test.jpg，匹配结果：^~/images/" target="_blank" rel="noopener">http://192.168.60.106/images/aa/test.jpg，匹配结果：^~/images/</a></p>
+<p><strong>8、严格精准匹配和正则匹配</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">root html;</span><br><span class="line">index index.html index.htm;</span><br><span class="line">denv all;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location ~ \.html$&#123;</span><br><span class="line">allow all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>严格精准匹配，如果被严格精准匹配到了，则不会继续搜索正则匹配</p>
+<p>如果<a href="http://192.168.60.106,这个就严格精准匹配到了" target="_blank" rel="noopener">http://192.168.60.106,这个就严格精准匹配到了</a> /,则不会继续匹配 ~ .html$</p>
+<p>如果：<a href="http://192.168.60.106/index.html，则会被/" target="_blank" rel="noopener">http://192.168.60.106/index.html，则会被/</a> 匹配到，但是不是严格精准匹配，则会继续搜索正则匹配</p>
+<p><strong>9、正则匹配规则</strong></p>
+<p>都是正则uri的情况下，匹配是按照编辑顺序的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.html$ &#123;</span><br><span class="line">allow all;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location ~ ^/prefix/.*\.html$&#123;</span><br><span class="line">deny all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求URL：<a href="http://192.168.60.106/prefix/index.html，会优先匹配前面定义的location。" target="_blank" rel="noopener">http://192.168.60.106/prefix/index.html，会优先匹配前面定义的location。</a></p>
+<p><strong>10、@开头的uri</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">error_page 404 = @fallback;</span><br><span class="line">location @fallback &#123;</span><br><span class="line">proxy_pass http://www.baidu.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@开头的，如果请求的 URI 存在，则本 nginx 返回对应的页面；如果不存在，则把请求代理到baidu.com 上去做个弥补，其实就是做了一个容错，把找不到的url全部转发到fallback的反向代理服务器去。</p>
+<p>最后总结：</p>
+<ol>
+<li>先判断精准命中，如果命中，立即返回结果并结束解析过程</li>
+<li>判断普通命中，如果有多个命中，记录下来最长的命中结果</li>
+</ol>
+<p>3、如果是^~开头的命中，则不会继续搜索正则命中，但是会继续搜索一般命中</p>
+<ol start="4">
+<li>继续判断正则表达式的解析结果，按配置里的正则表达式顺序为准，由上到下开始匹配，一旦匹配成功立刻返回结果，并结束解析过程。</li>
+</ol>
+<p>延伸分析：a. 普通命中：顺序无所谓，是因为按命中长短来确定的   b. 正则命中：顺序有所谓，因为是从前往后命中的</p>
+<p>原文链接：<a href="https://blog.csdn.net/luoyang_java/article/details/83507193" target="_blank" rel="noopener">https://blog.csdn.net/luoyang_java/article/details/83507193</a></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/RocketMQ集群部署方式总结/" rel="next" title="RocketMQ集群部署方式总结">
+                <i class="fa fa-chevron-left"></i> RocketMQ集群部署方式总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -363,6 +549,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -383,8 +573,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -446,6 +645,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx之Location配置详解-Location匹配顺序"><span class="nav-number">1.</span> <span class="nav-text">Nginx之Location配置详解(Location匹配顺序)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -592,6 +807,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
 
   
 
