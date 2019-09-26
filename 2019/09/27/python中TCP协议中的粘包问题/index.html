@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="网络编程,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python中TCP协议中的粘包问题TCP协议中的粘包问题1.粘包现象 基于TCP实现一个简易远程cmd功能 123456789101112131415161718192021222324252627282930313233343536#服务端import socketimport subprocesssever = socket.socket()sever.bind((&apos;127.0.0.1&apos;,">
+<meta name="keywords" content="网络编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python中TCP协议中的粘包问题">
+<meta property="og:url" content="http://yunjis.cn/2019/09/27/python中TCP协议中的粘包问题/index.html">
+<meta property="og:site_name" content="莫欺少年穷">
+<meta property="og:description" content="python中TCP协议中的粘包问题TCP协议中的粘包问题1.粘包现象 基于TCP实现一个简易远程cmd功能 123456789101112131415161718192021222324252627282930313233343536#服务端import socketimport subprocesssever = socket.socket()sever.bind((&apos;127.0.0.1&apos;,">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-26T18:58:49.623Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python中TCP协议中的粘包问题">
+<meta name="twitter:description" content="python中TCP协议中的粘包问题TCP协议中的粘包问题1.粘包现象 基于TCP实现一个简易远程cmd功能 123456789101112131415161718192021222324252627282930313233343536#服务端import socketimport subprocesssever = socket.socket()sever.bind((&apos;127.0.0.1&apos;,">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yunjis.cn/2019/09/27/python中TCP协议中的粘包问题/">
+
+
+
+
+
+  <title>python中TCP协议中的粘包问题 | 莫欺少年穷</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">莫欺少年穷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">浮世万千，吾爱有三。日，月，卿。日为朝，月为暮，卿为朝朝暮暮</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/python中TCP协议中的粘包问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python中TCP协议中的粘包问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:58:13+08:00">
+                2019-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="python中TCP协议中的粘包问题"><a href="#python中TCP协议中的粘包问题" class="headerlink" title="python中TCP协议中的粘包问题"></a>python中TCP协议中的粘包问题</h1><h4 id="TCP协议中的粘包问题"><a href="#TCP协议中的粘包问题" class="headerlink" title="TCP协议中的粘包问题"></a>TCP协议中的粘包问题</h4><p><strong>1.粘包现象</strong></p>
+<p>基于TCP实现一个简易远程cmd功能</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#服务端</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line">sever = socket.socket()</span><br><span class="line">sever.bind((<span class="string">'127.0.0.1'</span>, <span class="number">33521</span>))</span><br><span class="line">sever.listen()</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    client, address = sever.accept()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            cmd = client.recv(<span class="number">1024</span>).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">            p1 = subprocess.Popen(cmd, shell=<span class="literal">True</span>, stdout=subprocess.PIPE, stderr= subprocess.PIPE)</span><br><span class="line">            data = p1.stdout.read()</span><br><span class="line">            err_data = p1.stderr.read()</span><br><span class="line">            client.send(data)</span><br><span class="line">            client.send(err_data)</span><br><span class="line">        <span class="keyword">except</span> ConnectionResetError:</span><br><span class="line">            print(<span class="string">'connect broken'</span>)</span><br><span class="line">            client.close()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">sever.close()</span><br><span class="line">​</span><br><span class="line">​</span><br><span class="line">​</span><br><span class="line"><span class="comment">#客户端</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">client = socket.socket()</span><br><span class="line">client.connect((<span class="string">'127.0.0.1'</span>, <span class="number">33521</span>))</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    cmd = input(<span class="string">'请输入指令(Q\q退出)&gt;&gt;:'</span>).strip().lower()</span><br><span class="line">    <span class="keyword">if</span> cmd == <span class="string">'q'</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    client.send(cmd.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">    data = client.recv(<span class="number">1024</span>)</span><br><span class="line">    print(data.decode(<span class="string">'gbk'</span>))</span><br><span class="line">client.close()</span><br></pre></td></tr></table></figure>
+
+<p>上述是基于TCP协议的远程cmd简单功能，在运行时会发生粘包。</p>
+<p><strong>2、什么是粘包？</strong></p>
+<p><strong>只有TCP会发生粘包现象，UDP协议永远不会发生粘包；</strong></p>
+<p>TCP：（transport control protocol，传输控制协议）流式协议。在socket中TCP协议是按照字节数进行数据的收发，数据的发送方发出的数据往往接收方不知道数据到底长度是多长，而TCP协议由于本身为了提高传输的效率，发送方往往需要收集到足够的数据才会进行发送。使用了优化方法（Nagle算法），将多次间隔较小且数据量小的数据，合并成一个大的数据块，然后进行封包。这样，接收端，就难于分辨出来了，必须提供科学的拆包机制。 即面向流的通信是无消息保护边界的。</p>
+<p>UDP：（user datagram protocol，用户数据报协议）数据报协议。在socket中udp协议收发数据是以数据报为单位，服务端和客户端收发数据是以一个单位，所以不会使用块的合并优化算法，, 由于UDP支持的是一对多的模式，所以接收端的skbuff(套接字缓冲区）采用了链式结构来记录每一个到达的UDP包，在每个UDP包中就有了消息头（消息来源地址，端口等信息），这样，对于接收端来说，就容易进行区分处理了。 <strong>即面向消息的通信是有消息保护边界的。</strong></p>
+<p><strong>TCP协议不会丢失数据，UDP协议会丢失数据。</strong></p>
+<p>udp的recvfrom是阻塞的，一个recvfrom(x)必须对唯一一个sendinto(y),收完了x个字节的数据就算完成,若是y&gt;x数据就丢失，这意味着udp根本不会粘包，但是会丢数据，不可靠。</p>
+<p>tcp的协议数据不会丢，没有收完包，下次接收，会继续上次继续接收，己端总是在收到ack时才会清除缓冲区内容。数据是可靠的，但是会粘包。</p>
+<p><strong>3、什么情况下会发生粘包？</strong></p>
+<p>1.由于TCP协议的优化算法，当单个数据包较小的时候，<strong>会等到缓冲区满</strong>才会发生数据包前后数据叠加在一起的情况。然后取的时候就分不清了到底是哪段数据，这是第一种粘包。</p>
+<p>2.当发送的单个数据包较大<strong>超过缓冲区</strong>时，收数据方一次就只能取一部分的数据，下次再收数据方再收数据将会延续上次为接收数据。这是第二种粘包。</p>
+<p><strong>粘包的本质问题就是接收方不知道发送数据方一次到底发送了多少数据，解决问题的方向也是从控制数据长度着手，也就是如何设置缓冲区的问题</strong></p>
+<p><strong>4、如何解决粘包问题？</strong></p>
+<p>解决问题思路：上述已经明确粘包的产生是因为接收数据时不知道数据的具体长度。所以我们应该先发送一段数据表明我们发送的数据长度，那么就不会产生数据没有发送或者没有收取完全的情况。</p>
+<p>1.struct 模块（结构体）</p>
+<p>struct模块的功能可以将python中的数据类型转换成C语言中的结构体（bytes类型）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">s = <span class="number">123456789</span></span><br><span class="line">res = struct.pack(<span class="string">'i'</span>, s)</span><br><span class="line">print(res)</span><br><span class="line">res2 = struct.unpack(<span class="string">'i'</span>, res)</span><br><span class="line">print(res2)</span><br><span class="line">print(res2[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<p>2.粘包的解决方案基本版</p>
+<p>既然我们拿到了一个可以固定长度的办法，那么应用struct模块，可以固定长度了。</p>
+<p>为字节流加上自定义固定长度报头，报头中包含字节流长度，然后一次send到对端，对端在接收时，先从缓存中取出定长的报头，然后再取真实数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#服务器端</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">sever = socket.socket()</span><br><span class="line">sever.bind((<span class="string">'127.0.0.1'</span>, <span class="number">33520</span>))</span><br><span class="line">sever.listen()</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    client, address = sever.accept()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            cmd = client.recv(<span class="number">1024</span>).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">            <span class="comment">#利用子进程模块启动程序</span></span><br><span class="line">            p = subprocess.Popen(cmd, shell=<span class="literal">True</span>, stdout=subprocess.PIPE, stderr=subprocess.PIPE)</span><br><span class="line">            <span class="comment">#管道输出的信息有正确和错误的</span></span><br><span class="line">            data = p.stdout.read()</span><br><span class="line">            err_data = p.stderr.read()</span><br><span class="line">            <span class="comment">#先将数据的长度发送给客户端</span></span><br><span class="line">            length = len(data)+len(err_data)</span><br><span class="line">            <span class="comment">#利用struct模块将数据的长度信息转化成固定的字节</span></span><br><span class="line">            len_data = struct.pack(<span class="string">'i'</span>, length)</span><br><span class="line">            <span class="comment">#以下将信息传输给客户端</span></span><br><span class="line">            <span class="comment">#1.数据的长度</span></span><br><span class="line">            client.send(len_data)</span><br><span class="line">            <span class="comment">#2.正确的数据</span></span><br><span class="line">            client.send(data)</span><br><span class="line">            <span class="comment">#2.错误管道的数据</span></span><br><span class="line">            client.send(err_data)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            client.close()</span><br><span class="line">            print(<span class="string">'连接中断。。。。'</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line"><span class="comment">#客户端            </span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">client = socket.socket()</span><br><span class="line">client.connect((<span class="string">'127.0.0.1'</span>, <span class="number">33520</span>))</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    cmd = input(<span class="string">'请输入指令&gt;&gt;:'</span>).strip().encode(<span class="string">'utf-8'</span>)</span><br><span class="line">    client.send(cmd)</span><br><span class="line">    <span class="comment">#1.先接收传过来数据的长度是多少，我们通过struct模块固定了字节长度为4</span></span><br><span class="line">    length = client.recv(<span class="number">4</span>)</span><br><span class="line">    <span class="comment">#将struct的字节再转回去整型数字</span></span><br><span class="line">    len_data = struct.unpack(<span class="string">'i'</span>, length)</span><br><span class="line">    print(len_data)</span><br><span class="line">    len_data = len_data[<span class="number">0</span>]</span><br><span class="line">    print(<span class="string">'数据长度为%s:'</span> % len_data)</span><br><span class="line">    all_data = <span class="string">b''</span></span><br><span class="line">    recv_size = <span class="number">0</span></span><br><span class="line">    <span class="comment">#2.接收真实的数据</span></span><br><span class="line">    <span class="comment">#循环接收直到接收到数据的长度等于数据的真实长度（总长度）</span></span><br><span class="line">    <span class="keyword">while</span> recv_size &lt; len_data:</span><br><span class="line">        data = client.recv(<span class="number">1024</span>)</span><br><span class="line">        recv_size += len(data)</span><br><span class="line">        all_data += data</span><br><span class="line">    print(<span class="string">'接收长度%s'</span> % recv_size)</span><br><span class="line">    print(all_data.decode(<span class="string">'gbk'</span>))</span><br></pre></td></tr></table></figure>
+
+<p>  #总结：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务器端：    1.在服务器端先收到命令，打开子进程，然后计算返回的数据的长度    2.先利用struct模块将数据长度转成固定4个字节传给客户端    3.再向客户端发送真实的数据。    客户端（两次接收）：    1.第一次只接受4个字节，因为长度数据就是4个字节。这样防止了数据粘包。解码得到长度数据    2.第二次循环接收真实数据，拼接真实数据完成解码读取数据。</span><br></pre></td></tr></table></figure>
+
+<p>很显然，如果仅仅只是这样肯定无法满足在实际生产中一些需求。那么该怎么修改？</p>
+<p><strong>我们可以把报头做成字典，字典里包含将要发送的真实数据的详细信息，然后json序列化，然后用struck将序列化后的数据长度打包成4个字节（4个字节足够用了）</strong></p>
+<p>我们可以将自定义的报头设置成这种这种格式。</p>
+<p>发送时：</p>
+<p>1先发报头长度</p>
+<p>2再编码报头内容然后发送</p>
+<p>3最后发真实内容</p>
+<p>接收时：</p>
+<p>1先收报头长度，用struct取出来</p>
+<p>2根据取出的长度收取报头内容，然后解码，反序列化</p>
+<p>3从反序列化的结果中取出待取数据的详细信息，然后去取真实的数据内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#服务器端</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">sever = socket.socket()</span><br><span class="line">sever.bind((<span class="string">'127.0.0.1'</span>, <span class="number">33520</span>))</span><br><span class="line">sever.listen()</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    client, address = sever.accept()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            cmd = client.recv(<span class="number">1024</span>).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">            <span class="comment">#启动子进程</span></span><br><span class="line">            p = subprocess.Popen(cmd, shell=<span class="literal">True</span>, stdout=subprocess.PIPE, stderr=subprocess.PIPE)</span><br><span class="line">            <span class="comment">#得到子进程运行的数据</span></span><br><span class="line">            data = p.stdout.read()   <span class="comment">#子进程运行正确的输出管道数据，数据读出来后是字节</span></span><br><span class="line">            err_data = p.stderr.read() <span class="comment">#子进程运行错误的输出管道数据</span></span><br><span class="line">            <span class="comment">#计算数据的总长度</span></span><br><span class="line">            length = len(data) + len(err_data)</span><br><span class="line">            print(<span class="string">'数据总长度：%s'</span> % length)</span><br><span class="line">            <span class="comment">#先需要发送报头信息，以下为创建报头信息（至第一次发送）</span></span><br><span class="line">            <span class="comment">#需要添加时间信息</span></span><br><span class="line">            time_info = datetime.datetime.now()</span><br><span class="line">            <span class="comment">#设置一个字典将一些额外的信息和长度信息放进去然后json序列化，报头字典</span></span><br><span class="line">            masthead = &#123;&#125;</span><br><span class="line">            <span class="comment">#将时间数据放入报头字典中</span></span><br><span class="line">            masthead[<span class="string">'time'</span>] = str(time_info)   <span class="comment">#时间格式不能被json序列化，所以将其转化为字符串形式</span></span><br><span class="line">            masthead[<span class="string">'length'</span>] = length</span><br><span class="line">            <span class="comment">#将报头字典json序列化</span></span><br><span class="line">            json_masthead = json.dumps(masthead)            <span class="comment">#得到json格式的报头</span></span><br><span class="line">            <span class="comment"># 将json格式的报头编码成字节形式</span></span><br><span class="line">            masthead_data = json_masthead.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            <span class="comment">#利用struct将报头编码的字节的长度转成固定的字节(4个字节）</span></span><br><span class="line">            masthead_length = struct.pack(<span class="string">'i'</span>, len(masthead_data))</span><br><span class="line">            <span class="comment">#1.发送报头的长度（第一次发送）</span></span><br><span class="line">            client.send(masthead_length)</span><br><span class="line">            <span class="comment">#2.发送报头信息(第二次发送）</span></span><br><span class="line">            client.send(masthead_data)</span><br><span class="line">            <span class="comment">#3.发送真实数据（第三次发送）</span></span><br><span class="line">            client.send(data)</span><br><span class="line">            client.send(err_data)</span><br><span class="line">        <span class="keyword">except</span> ConnectionResetError:</span><br><span class="line">            print(<span class="string">'客户端断开连接。。。'</span>)</span><br><span class="line">            client.close()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line"><span class="comment">#客户端</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">client = socket.socket()</span><br><span class="line">client.connect((<span class="string">'127.0.0.1'</span>, <span class="number">33520</span>))</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    cmd = input(<span class="string">'请输入cmd指令(Q\q退出)&gt;&gt;:'</span>).strip()</span><br><span class="line">    <span class="keyword">if</span> cmd == <span class="string">'q'</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="comment">#发送CMD指令至服务器</span></span><br><span class="line">    client.send(cmd.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">    <span class="comment">#1.第一次接收，接收报头信息的长度，由于struct模块固定长度为4字节，括号内直接填4</span></span><br><span class="line">    len_masthead = client.recv(<span class="number">4</span>)</span><br><span class="line">    <span class="comment">#利用struct反解报头长度，由于是元组形式，取值得到整型数字masthead_length</span></span><br><span class="line">    masthead_length = struct.unpack(<span class="string">'i'</span>, len_masthead)[<span class="number">0</span>]</span><br><span class="line">    <span class="comment">#2.第二次接收，接收报头信息，接收长度为报头长度masthead_length 被编码成字节形式的json格式的字典,</span></span><br><span class="line">    <span class="comment"># 解字符编码得到json格式的字典masthead_data</span></span><br><span class="line">    masthead_data = client.recv(masthead_length).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="comment">#得到报头字典masthead</span></span><br><span class="line">    masthead = json.loads(masthead_data)</span><br><span class="line">    print(<span class="string">'执行时间%s'</span> % masthead[<span class="string">'time'</span>])</span><br><span class="line">    <span class="comment">#通过报头字典得到数据长度</span></span><br><span class="line">    data_length = masthead[<span class="string">'length'</span>]</span><br><span class="line">    <span class="comment">#3.第三次接收，接收真实数据，真实数据长度为data_length</span></span><br><span class="line">    <span class="comment"># data = client.recv(data_length)   #有可能真实数据长度太大会撑爆内存。</span></span><br><span class="line">    <span class="comment">#所以循环读取数据</span></span><br><span class="line">    all_data = <span class="string">b''</span></span><br><span class="line">    length = <span class="number">0</span></span><br><span class="line">    <span class="comment">#循环直到长度大于等于数据长度</span></span><br><span class="line">    <span class="keyword">while</span> length &lt; data_length:</span><br><span class="line">        data = client.recv(<span class="number">1024</span>)</span><br><span class="line">        length += len(data)</span><br><span class="line">        all_data += data</span><br><span class="line">    print(<span class="string">'数据的总长度：%s'</span> % data_length)</span><br><span class="line">    <span class="comment">#我的电脑是Windows系统，所以用gbk解码系统发出的信息</span></span><br><span class="line">    print(all_data.decode(<span class="string">'gbk'</span>))</span><br></pre></td></tr></table></figure>
+
+<p>总结：</p>
+<p>1.TCP协议中，会产生粘包现象。粘包现象产生本质就是读取数据长度未知。</p>
+<p>2.解决粘包现象本质就是处理读取数据长度。</p>
+<p>3.报头的作用就是解决数据传输过程中数据长度怎么计算传达和传输其他额外信息的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络编程/" rel="tag"># 网络编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/27/自定义TCP应用层传输协议/" rel="next" title="自定义TCP应用层传输协议">
+                <i class="fa fa-chevron-left"></i> 自定义TCP应用层传输协议
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/27/socket的发送和接收缓冲区/" rel="prev" title="socket的发送和接收缓冲区">
+                socket的发送和接收缓冲区 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="jonson">
+            
+              <p class="site-author-name" itemprop="name">jonson</p>
+              <p class="site-description motion-element" itemprop="description">运维</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python中TCP协议中的粘包问题"><span class="nav-number">1.</span> <span class="nav-text">python中TCP协议中的粘包问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP协议中的粘包问题"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">TCP协议中的粘包问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jonson</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

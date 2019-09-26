@@ -324,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/21/Python之pymysql详解/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/TCP之“滑动窗口”协议/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -343,7 +343,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/21/Python之pymysql详解/" itemprop="url">Python之pymysql详解</a></h1>
+                <a class="post-title-link" href="/2019/09/27/TCP之“滑动窗口”协议/" itemprop="url">TCP之“滑动窗口”协议</a></h1>
         
 
         <div class="post-meta">
@@ -355,8 +355,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T15:32:26+08:00">
-                2019-09-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T03:01:50+08:00">
+                2019-09-27
               </time>
             
 
@@ -378,8 +378,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python模块/" itemprop="url" rel="index">
-                    <span itemprop="name">python模块</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -417,13 +417,16 @@
       
         
           
-          Python之pymysql详解PyMySQLPyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。
-安装pymysqlPyMySQL ： 这是一个使Python连接到MySQL的库，它是一个纯Python库。
-PyMySQL是一
+          TCP之“滑动窗口”协议网络传输的可靠性是通过TCP协议，它是如何解决网络传输不可靠的问题。其中关键部分，就是用的滑动窗口协议。
+滑动窗口协议：
+TCP协议的使用
+维持发送方/接收方缓冲区 缓冲区是 用来解决网络之间数据不可靠的问题，例如丢包，重复包，出错，乱序
+
+在TCP协议中，发送方和接受方通过
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/21/Python之pymysql详解/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/TCP之“滑动窗口”协议/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -474,7 +477,7 @@ PyMySQL是一
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/20/Nginx之Location配置详解Location匹配顺序/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/Socket的粘包和分包的处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -493,7 +496,7 @@ PyMySQL是一
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/20/Nginx之Location配置详解Location匹配顺序/" itemprop="url">Nginx之Location配置详解Location匹配顺序</a></h1>
+                <a class="post-title-link" href="/2019/09/27/Socket的粘包和分包的处理/" itemprop="url">Socket的粘包和分包的处理</a></h1>
         
 
         <div class="post-meta">
@@ -505,8 +508,8 @@ PyMySQL是一
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T23:21:29+08:00">
-                2019-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T03:01:02+08:00">
+                2019-09-27
               </time>
             
 
@@ -528,8 +531,8 @@ PyMySQL是一
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -567,14 +570,14 @@ PyMySQL是一
       
         
           
-          Nginx之Location配置详解(Location匹配顺序)location有”定位”的意思，主要是根据uri来进行不同的定位。在虚假主机的配置中，是必不可少的。
-location可以把网站的不同部分，定位到不同的处理方式上。
-一、location的基础语法
-12345678910111213l
+          TCP Socket的粘包和分包的处理概述在进行TCP socket开发时，都需要处理数据包粘包和分包的情况。解决方法在应用层下，定义一个协议：消息头部+消息长度+消息正文即可。
+只有TCP有粘包问题，而UDP永远不会粘包。socket收发消息原理：
+
+服务端可以1kb,1kb的向客户端发送数据，客
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/20/Nginx之Location配置详解Location匹配顺序/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/Socket的粘包和分包的处理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -625,7 +628,7 @@ location可以把网站的不同部分，定位到不同的处理方式上。
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/10/RocketMQ集群部署方式总结/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -644,7 +647,7 @@ location可以把网站的不同部分，定位到不同的处理方式上。
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/10/RocketMQ集群部署方式总结/" itemprop="url">RocketMQ集群部署方式总结</a></h1>
+                <a class="post-title-link" href="/2019/09/27/socket的发送和接收缓冲区/" itemprop="url">socket的发送和接收缓冲区</a></h1>
         
 
         <div class="post-meta">
@@ -656,8 +659,8 @@ location可以把网站的不同部分，定位到不同的处理方式上。
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T22:16:14+08:00">
-                2019-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:58:59+08:00">
+                2019-09-27
               </time>
             
 
@@ -679,8 +682,8 @@ location可以把网站的不同部分，定位到不同的处理方式上。
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/运维基础/" itemprop="url" rel="index">
-                    <span itemprop="name">运维基础</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -718,15 +721,12 @@ location可以把网站的不同部分，定位到不同的处理方式上。
       
         
           
-          RocketMQ集群部署方式总结1 RocketMQ网络部署图RocketMQ网络部署图如下图所示：
-
-1.1 RocketMQ网络部署特点：
-NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。
-Broker部署相对复杂，Broker分为Master与Slave，一个Ma
+          socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。
+首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/RocketMQ集群部署方式总结/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/socket的发送和接收缓冲区/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -777,7 +777,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/10/RocketMQ多Master集群模式部署/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/python中TCP协议中的粘包问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -796,7 +796,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/10/RocketMQ多Master集群模式部署/" itemprop="url">RocketMQ多Master集群模式部署</a></h1>
+                <a class="post-title-link" href="/2019/09/27/python中TCP协议中的粘包问题/" itemprop="url">python中TCP协议中的粘包问题</a></h1>
         
 
         <div class="post-meta">
@@ -808,8 +808,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T22:12:31+08:00">
-                2019-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:58:13+08:00">
+                2019-09-27
               </time>
             
 
@@ -831,8 +831,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/运维基础/" itemprop="url" rel="index">
-                    <span itemprop="name">运维基础</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -870,12 +870,13 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
       
         
           
-          RocketMQ多Master集群模式部署1 概述多Master集群模式指的是一个集群无Slave，全是Maste。
-优点：配置简单，单个Master宕机或重启维护对应用无影响，在磁盘配置为RAID10 时，即使机器宕机不可恢复情由于RAID10 磁盘非常可靠，消息也不会丢（异步刷盘丢失少量消息，同
+          python中TCP协议中的粘包问题TCP协议中的粘包问题1.粘包现象
+基于TCP实现一个简易远程cmd功能
+123456789101112131415161718192021222324252627282930313233343536#服务端import socketimport subproce
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/RocketMQ多Master集群模式部署/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/python中TCP协议中的粘包问题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -926,7 +927,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/10/消息中间件MQ概述/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/自定义TCP应用层传输协议/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -945,7 +946,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/10/消息中间件MQ概述/" itemprop="url">消息中间件MQ概述</a></h1>
+                <a class="post-title-link" href="/2019/09/27/自定义TCP应用层传输协议/" itemprop="url">自定义TCP应用层传输协议</a></h1>
         
 
         <div class="post-meta">
@@ -957,8 +958,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T07:11:36+08:00">
-                2019-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:57:12+08:00">
+                2019-09-27
               </time>
             
 
@@ -980,8 +981,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
-                    <span itemprop="name">python高级篇</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -1019,11 +1020,12 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
       
         
           
-          消息中间件MQ概述1 消息中间件介绍一般，我们认为消息中间件是指支持与保障分布式应用程序之间同步/异步收发消息的中间件。消息是分布应用之间进行数据交换的基本信息单位，分布式应用程序之间的通信接口由消息中间件提供。其中，异步方式指消息发送方在发送消息时不必知道接收方的状态，更无需等待接收方的回复，而接
+          自定义TCP应用层传输协议什么是分包与黏包？分包：指接受方没有接受到一个完整的包，只接受了部分。黏包：指发送方发送的若干包数据到接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。
+PS:因为TCP是面向字节流的，是没有边界的概念的，严格意义上来说，是没有分包和黏包的概念的，但
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/消息中间件MQ概述/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/自定义TCP应用层传输协议/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1074,7 +1076,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/10/消息中间件MQ详解/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/socket缓冲区以及阻塞模式详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -1093,7 +1095,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/10/消息中间件MQ详解/" itemprop="url">消息中间件MQ详解</a></h1>
+                <a class="post-title-link" href="/2019/09/27/socket缓冲区以及阻塞模式详解/" itemprop="url">socket缓冲区以及阻塞模式详解</a></h1>
         
 
         <div class="post-meta">
@@ -1105,8 +1107,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T01:58:57+08:00">
-                2019-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:55:57+08:00">
+                2019-09-27
               </time>
             
 
@@ -1128,8 +1130,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
-                    <span itemprop="name">python高级篇</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -1167,12 +1169,12 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
       
         
           
-          消息中间件详解
-1 消息中间件概述消息队列已经逐渐成为企业IT系统内部通信的核心手段。它具有低耦合、可靠投递、广播、流量控制、最终一致性等一系列功能，成为异步RPC的主要手段之一。当今天市面上很多主流的消息中间件，如老牌的ActiveMQ、RabbitMQ，炙手可热的Kafka，阿里巴巴自主开发Ro
+          socket缓冲区以及阻塞模式详解每个socket被创建后，都会分配两个缓冲区，输入缓冲区和输出缓冲区。
+send()/recv()并不立即向网络中传输数据，而是先将数据写入缓冲区中，再由TCP协议将数据从缓冲区发送到目标机器。一旦将数据写入到缓冲区，函数就可以成功返回，不管它们有没有到达目标机器，
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/消息中间件MQ详解/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/socket缓冲区以及阻塞模式详解/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1223,7 +1225,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/08/进程与线程二/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/Linux下的socket演示程序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -1242,7 +1244,7 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/08/进程与线程二/" itemprop="url">进程与线程二</a></h1>
+                <a class="post-title-link" href="/2019/09/27/Linux下的socket演示程序/" itemprop="url">Linux下的socket演示程序</a></h1>
         
 
         <div class="post-meta">
@@ -1254,8 +1256,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T18:54:56+08:00">
-                2019-09-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:54:14+08:00">
+                2019-09-27
               </time>
             
 
@@ -1277,8 +1279,8 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
-                    <span itemprop="name">python高级篇</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -1316,32 +1318,12 @@ Broker部署相对复杂，Broker分为Master与Slave，一个Ma
       
         
           
-          进程、线程、协程本节内容
-
-操作系统发展史介绍
-进程、与线程区别
-python GIL全局解释器锁
-线程
-
-语法
-join
-线程锁之Lock\Rlock\信号量
-将线程变为守护进程
-Event事件　
-queue队列
-生产者消费者模型
-Queue队列
-开发一个线程池
-
-
-进程
-语法
-进程间通讯
-进程池
+          一个Web服务之所以不会执行一段时间就结束，本质上是因为它在代码里启动了一个while死循环。另外一个重要特征是，它能够跟客户端打交道，需要进行网络通信，因此需要用到socket这个东西。
+socket是一个4元组，标识TCP连接的两个终端：本地IP地址、本地端口、远程IP地址、远程端口。一个soc
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/08/进程与线程二/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/Linux下的socket演示程序/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1392,7 +1374,7 @@ Queue队列
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/08/进程与线程间通信方式/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/IP、MAC和端口号——网络通信中确认身份信息的三要素/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -1411,7 +1393,7 @@ Queue队列
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/08/进程与线程间通信方式/" itemprop="url">进程与线程间通信方式</a></h1>
+                <a class="post-title-link" href="/2019/09/27/IP、MAC和端口号——网络通信中确认身份信息的三要素/" itemprop="url">IP、MAC和端口号——网络通信中确认身份信息的三要素</a></h1>
         
 
         <div class="post-meta">
@@ -1423,8 +1405,8 @@ Queue队列
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T18:53:50+08:00">
-                2019-09-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:53:16+08:00">
+                2019-09-27
               </time>
             
 
@@ -1446,8 +1428,8 @@ Queue队列
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
-                    <span itemprop="name">python高级篇</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -1485,14 +1467,12 @@ Queue队列
       
         
           
-          进程间、线程间通信方式一、进程间的通信方式
-管道(pipe):管道是一种半双式的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。
-有名管道(namedpipe):有名管道也是半双式的通信方式，但是它允许无亲缘关系进程间的通信。
-信号量(semoph
+          在茫茫的互联网海洋中，要找到一台计算机非常不容易，有三个要素必须具备，它们分别是 IP 地址、MAC 地址和端口号。
+IP地址IP地址是 Internet Protocol Address 的缩写，译为“网际协议地址”。目前大部分软件使用 IPv4 地址，但 IPv6 也正在被人们接受，尤其是在教育
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/08/进程与线程间通信方式/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/IP、MAC和端口号——网络通信中确认身份信息的三要素/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1543,7 +1523,7 @@ Queue队列
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/08/linux进程与线程的区别/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/TCP/IP协议族/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -1562,7 +1542,7 @@ Queue队列
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/08/linux进程与线程的区别/" itemprop="url">linux进程与线程的区别</a></h1>
+                <a class="post-title-link" href="/2019/09/27/TCP/IP协议族/" itemprop="url">TCP/IP协议族</a></h1>
         
 
         <div class="post-meta">
@@ -1574,8 +1554,8 @@ Queue队列
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T18:06:20+08:00">
-                2019-09-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:52:22+08:00">
+                2019-09-27
               </time>
             
 
@@ -1597,8 +1577,8 @@ Queue队列
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux进阶篇/" itemprop="url" rel="index">
-                    <span itemprop="name">linux进阶篇</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -1636,12 +1616,12 @@ Queue队列
       
         
           
-          Linux进程与线程的区别
-首先，简要了解一下进程和线程。对于操作系统而言，进程是核心之核心，整个现代操作系统根本，就是以进程为单位在执行任务。系统的管理架构也是基于进程层面的。在按下电源键之后，计算机就开始了复杂的启动进程，此处有一个经典的问题:当按下电源键之后，计算机如何把自己由静止启动起来的？
+          目前实际使用的网络模型是 TCP/IP 模型，它对 OSI 模型进行了简化，只包含了四层，从上到下分别是应用层、传输层、网络层和链路层（网络接口层），每一层都包含了若干协议。
+协议（Protocol）就是网络通信过程中的约定或者合同，通信的双方必须都遵守才能正常收发数据。协议有很多种，例如 TCP、
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/08/linux进程与线程的区别/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/TCP/IP协议族/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1692,7 +1672,7 @@ Queue队列
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/08/进程与线程/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/OSI网络七层模型简明教程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -1711,7 +1691,7 @@ Queue队列
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/08/进程与线程/" itemprop="url">进程与线程</a></h1>
+                <a class="post-title-link" href="/2019/09/27/OSI网络七层模型简明教程/" itemprop="url">OSI网络七层模型简明教程</a></h1>
         
 
         <div class="post-meta">
@@ -1723,8 +1703,8 @@ Queue队列
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-08T16:53:47+08:00">
-                2019-09-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:49:55+08:00">
+                2019-09-27
               </time>
             
 
@@ -1746,8 +1726,8 @@ Queue队列
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python高级篇/" itemprop="url" rel="index">
-                    <span itemprop="name">python高级篇</span>
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
                   </a>
                 </span>
 
@@ -1785,14 +1765,13 @@ Queue队列
       
         
           
-          线程与进程一、线程介绍
-线程是操作系统能够进行运算调试的最小单位，它被包含在进程之中，是进程中的实际运行单位，一条线程指的是一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。
-在同一个进程内的线程的数据可以进行互相访问的。
-线程的切换使用过上下文来实现的，比如有一本书，有
+          OSI 是 Open System Interconnection 的缩写，译为“开放式系统互联”。
+OSI 模型把网络通信的工作分为 7 层，从下到上分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。
+OSI 只是存在于概念和理论上的一种模型，它的缺点是分层太多，增加了网络工作的复
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/08/进程与线程/#more" rel="contents">
+            <a class="btn" href="/2019/09/27/OSI网络七层模型简明教程/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1834,7 +1813,7 @@ Queue队列
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1882,7 +1861,7 @@ Queue队列
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">79</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1893,7 +1872,7 @@ Queue队列
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1904,7 +1883,7 @@ Queue队列
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
