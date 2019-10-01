@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="网络编程,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="运维">
-<meta property="og:type" content="website">
-<meta property="og:title" content="莫欺少年穷">
-<meta property="og:url" content="http://yunjis.cn/tags/运维基础/index.html">
+<meta name="description" content="socket编程实现文件传输功能先建立两个进程的TCP连接，然后client先向server发送文件信息（包括文件名和文件大小以及MD5值），这个文件信息的大小是预先设定好的，也就是client和server都知道，这样server才能准确判断接收的数据哪些是文件信息哪些是真正的文件。这里用到了struct库对文件信息进行处理。这里的struct类似于c中的结构体，可以把变量转换成具有c结构体形式">
+<meta name="keywords" content="网络编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket编程实现文件传输功能">
+<meta property="og:url" content="http://yunjis.cn/2019/10/01/socket编程实现文件传输功能/index.html">
 <meta property="og:site_name" content="莫欺少年穷">
-<meta property="og:description" content="运维">
+<meta property="og:description" content="socket编程实现文件传输功能先建立两个进程的TCP连接，然后client先向server发送文件信息（包括文件名和文件大小以及MD5值），这个文件信息的大小是预先设定好的，也就是client和server都知道，这样server才能准确判断接收的数据哪些是文件信息哪些是真正的文件。这里用到了struct库对文件信息进行处理。这里的struct类似于c中的结构体，可以把变量转换成具有c结构体形式">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-01T13:48:14.723Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="莫欺少年穷">
-<meta name="twitter:description" content="运维">
+<meta name="twitter:title" content="socket编程实现文件传输功能">
+<meta name="twitter:description" content="socket编程实现文件传输功能先建立两个进程的TCP连接，然后client先向server发送文件信息（包括文件名和文件大小以及MD5值），这个文件信息的大小是预先设定好的，也就是client和server都知道，这样server才能准确判断接收的数据哪些是文件信息哪些是真正的文件。这里用到了struct库对文件信息进行处理。这里的struct类似于c中的结构体，可以把变量转换成具有c结构体形式">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yunjis.cn/tags/运维基础/">
+  <link rel="canonical" href="http://yunjis.cn/2019/10/01/socket编程实现文件传输功能/">
 
 
 
 
 
-  <title>标签: 运维基础 | 莫欺少年穷</title>
+  <title>socket编程实现文件传输功能 | 莫欺少年穷</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -309,78 +311,185 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>运维基础<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/10/01/socket编程实现文件传输功能/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jonson">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="莫欺少年穷">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/10/RocketMQ集群部署方式总结/" itemprop="url">
-              
-                <span itemprop="name">RocketMQ集群部署方式总结</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">socket编程实现文件传输功能</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-10T22:16:14+08:00" content="2019-09-10">
-          09-10
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-01T21:47:22+08:00">
+                2019-10-01
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h2 id="socket编程实现文件传输功能"><a href="#socket编程实现文件传输功能" class="headerlink" title="socket编程实现文件传输功能"></a>socket编程实现文件传输功能</h2><p>先建立两个进程的TCP连接，然后client先向server发送文件信息（包括文件名和文件大小以及MD5值），这个文件信息的大小是预先设定好的，也就是client和server都知道，这样server才能准确判断接收的数据哪些是文件信息哪些是真正的文件。这里用到了struct库对文件信息进行处理。这里的struct类似于c中的结构体，可以把变量转换成具有c结构体形式的字符串。比如我的例子中定义了这样一个struct形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HEAD_STRUCT = &apos;128sIq32s&apos;</span><br></pre></td></tr></table></figure>
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/10/RocketMQ多Master集群模式部署/" itemprop="url">
-              
-                <span itemprop="name">RocketMQ多Master集群模式部署</span>
-              
-            </a>
-        
-      </h2>
+<p>它就相当于c中如下结构体:</p>
+<p>它就相当于c中如下结构体:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct&#123;</span><br><span class="line">    char fileName[128]; //文件名</span><br><span class="line">    int fileNameSize;  //文件名长度</span><br><span class="line">    long long fileSize;  //文件大小</span><br><span class="line">    char MD5[32];  //MD5值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-10T22:12:31+08:00" content="2019-09-10">
-          09-10
-        </time>
-      </div>
+<p>这个结构体的空间大小是固定的，于是当client按照这个格式发送文件信息的时候，server也以相同的格式接收信息。由于文件名的长度不固定，于是这里我还发送了一个文件名的长度，这样server就可以根据这个长度对fileName进行截取。<br>然后再发送文件，这里我是用1024B的缓冲区进行接收（最后一次小于或等于1024B）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 服务端</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line">HOST = <span class="string">'localhost'</span></span><br><span class="line">PORT = <span class="number">1307</span></span><br><span class="line">BUFFER_SIZE = <span class="number">1024</span></span><br><span class="line">HEAD_STRUCT = <span class="string">'128sIq32s'</span></span><br><span class="line">info_size = struct.calcsize(HEAD_STRUCT)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal_md5</span><span class="params">(file_path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(file_path, <span class="string">'rb'</span>) <span class="keyword">as</span> fr:</span><br><span class="line">        md5 = hashlib.md5()</span><br><span class="line">        md5.update(fr.read())</span><br><span class="line">        md5 = md5.hexdigest()</span><br><span class="line">        <span class="keyword">return</span> md5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unpack_file_info</span><span class="params">(file_info)</span>:</span></span><br><span class="line">    file_name, file_name_len, file_size, md5 = struct.unpack(HEAD_STRUCT, file_info)</span><br><span class="line">    file_name = file_name[:file_name_len]</span><br><span class="line">    <span class="keyword">return</span> file_name, file_size, md5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recv_file</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">        server_address = (HOST, PORT)</span><br><span class="line">        sock.bind(server_address)</span><br><span class="line">        sock.listen(<span class="number">1</span>)</span><br><span class="line">        client_socket, client_address = sock.accept()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Connected %s successfully"</span> % str(client_address)</span><br><span class="line"></span><br><span class="line">        file_info_package = client_socket.recv(info_size)</span><br><span class="line">        file_name, file_size, md5_recv = unpack_file_info(file_info_package)</span><br><span class="line"></span><br><span class="line">        recved_size = <span class="number">0</span></span><br><span class="line">        <span class="keyword">with</span> open(file_name, <span class="string">'wb'</span>) <span class="keyword">as</span> fw:</span><br><span class="line">            <span class="keyword">while</span> recved_size &lt; file_size:</span><br><span class="line">                remained_size = file_size - recved_size</span><br><span class="line">                recv_size = BUFFER_SIZE <span class="keyword">if</span> remained_size &gt; BUFFER_SIZE <span class="keyword">else</span> remained_size</span><br><span class="line">                recv_file = client_socket.recv(recv_size)</span><br><span class="line">                recved_size += recv_size</span><br><span class="line">                fw.write(recv_file)</span><br><span class="line">        md5 = cal_md5(file_name)</span><br><span class="line">        <span class="keyword">if</span> md5 != md5_recv:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'MD5 compared fail!'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Received successfully'</span></span><br><span class="line">    <span class="keyword">except</span> socket.errno, e:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Socket error: %s"</span> % str(e)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        sock.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    recv_file()</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#客户端</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line">HOST = <span class="string">'localhost'</span></span><br><span class="line">PORT = <span class="number">1307</span></span><br><span class="line">BUFFER_SIZE = <span class="number">1024</span></span><br><span class="line">HEAD_STRUCT = <span class="string">'128sIq32s'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal_md5</span><span class="params">(file_path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(file_path, <span class="string">'rb'</span>) <span class="keyword">as</span> fr:</span><br><span class="line">        md5 = hashlib.md5()</span><br><span class="line">        md5.update(fr.read())</span><br><span class="line">        md5 = md5.hexdigest()</span><br><span class="line">        <span class="keyword">return</span> md5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_file_info</span><span class="params">(file_path)</span>:</span></span><br><span class="line">    file_name = os.path.basename(file_path)</span><br><span class="line">    file_name_len = len(file_name)</span><br><span class="line">    file_size = os.path.getsize(file_path)</span><br><span class="line">    md5 = cal_md5(file_path)</span><br><span class="line">    <span class="keyword">return</span> file_name, file_name_len, file_size, md5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send_file</span><span class="params">(file_path)</span>:</span></span><br><span class="line">    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    server_address = (HOST, PORT)</span><br><span class="line"></span><br><span class="line">    file_name, file_name_len, file_size, md5 = get_file_info(file_path)</span><br><span class="line">    file_head = struct.pack(HEAD_STRUCT, file_name, file_name_len, file_size, md5)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Start connect"</span></span><br><span class="line">        sock.connect(server_address)</span><br><span class="line">        sock.send(file_head)</span><br><span class="line">        sent_size = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(file_path) <span class="keyword">as</span> fr:</span><br><span class="line">            <span class="keyword">while</span> sent_size &lt; file_size:</span><br><span class="line">                remained_size = file_size - sent_size</span><br><span class="line">                send_size = BUFFER_SIZE <span class="keyword">if</span> remained_size &gt; BUFFER_SIZE <span class="keyword">else</span> remained_size</span><br><span class="line">                send_file = fr.read(send_size)</span><br><span class="line">                sent_size += send_size</span><br><span class="line">                sock.send(send_file)</span><br><span class="line">    <span class="keyword">except</span> socket.errno, e:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Socket error: %s"</span> % str(e)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        sock.close()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Closing connect"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    file_path = raw_input(<span class="string">'Please input file path:'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> file_path:</span><br><span class="line">        file_path = <span class="string">'test.txt'</span></span><br><span class="line">    send_file(file_path)</span><br></pre></td></tr></table></figure>
 
+<p>注意：</p>
+<ul>
+<li>在某些时候（比如传输大文件）会发生丢包的情况，这时候接收的文件大小会小于发送文件的大小，两个MD5值也会不一样。</li>
+</ul>
+<p>原文链接：<a href="https://blog.csdn.net/Thare_Lam/article/details/49506565" target="_blank" rel="noopener">https://blog.csdn.net/Thare_Lam/article/details/49506565</a></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络编程/" rel="tag"># 网络编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/01/基于frp通过shh访问家里内网机器linux系统/" rel="next" title="基于frp通过shh访问家里内网机器linux系统">
+                <i class="fa fa-chevron-left"></i> 基于frp通过shh访问家里内网机器linux系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -388,6 +497,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -408,8 +521,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -471,6 +593,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#socket编程实现文件传输功能"><span class="nav-number">1.</span> <span class="nav-text">socket编程实现文件传输功能</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -617,6 +755,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
 
   
 
