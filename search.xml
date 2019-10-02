@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[网络数据的大小端问题]]></title>
+    <url>%2F2019%2F10%2F02%2F%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%A7%E5%B0%8F%E7%AB%AF%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[网络数据的大小端问题不同 CPU 中，4 字节整数 1 在内存空间的存储方式是不同的。4 字节整数 1 可用 2 进制表示如下： 100000000 00000000 00000000 00000001 有些 CPU 以上面的顺序存储到内存，另外一些 CPU 则以倒序存储，如下所示： 100000001 00000000 00000000 00000000 若不考虑这些就收发数据会发生问题，因为保存顺序的不同意味着对接收数据的解析顺序也不同。 字节序字节序，也就是字节的顺序，指的是多字节的数据在内存中的存放顺序。 在几乎所有的机器上，多字节对象都被存储为连续的字节序列。例如：如果C/C++中的一个int型变量 a 的起始地址是&amp;a = 0x100，那么 a 的四个字节将被存储在存储器的0x100, 0x101, 0x102, 0x103位置。 根据整数 a 在连续的 4 byte 内存中的存储顺序，字节序被分为大端序（Big Endian） 与 小端序（Little Endian）两类。 然后就牵涉出两大CPU派系： Motorola 6800，PowerPC 970，SPARC（除V9外）等处理器采用 Big Endian方式存储数据； x86系列，VAX，PDP-11等处理器采用Little Endian方式存储数据。 另外，还有一些处理器像ARM, DEC Alpha的字节序是可配置的。 大端序和小端序CPU 向内存保存数据的方式有两种： 大端序（Big Endian）：高位字节存放到低位地址（高位字节在前）。 小端序（Little Endian）：高位字节存放到高位地址（低位字节在前）。 仅凭描述很难解释清楚，不妨来看一个实例。假设在 0x20 号开始的地址中保存 4 字节 int 型数据 0x12345678，大端序 CPU 保存方式如下图所示： ​ 图1：整数 0x12345678 的大端序字节表示 对于大端序，最高位字节 0x12 存放到低位地址，最低位字节 0x78 存放到高位地址。小端序的保存方式如下图所示： ​ 图2：整数 0x12345678 的小端序字节表示 不同 CPU 保存和解析数据的方式不同（主流的 Intel 系列 CPU 为小端序），小端序系统和大端序系统通信时会发生数据解析错误。因此在发送数据前，要将数据转换为统一的格式——网络字节序（Network Byte Order）。网络字节序统一为大端序。 主机 A 先把数据转换成大端序再进行网络传输，主机 B 收到数据后先转换为自己的格式再解析。 为什么要注意字节序如果你写的程序只在单机环境下面运行，并且不和别人的程序打交道，那么你完全可以忽略字节序的存在。 但是，如果你的程序要跟别人的程序产生交互呢？ 比如，当一个 C/C++ 的程序要与一个 Java 程序交互时： C/C++语言编写的程序里数据存储顺序是跟编译平台所在的CPU相关的，而现在比较普遍的 x86 处理器是 Little Endian JAVA编写的程序则唯一采用 Big Endian 方式来存储数据 试想，如果你的C/C++程序将变量 a = 0x12345678 的首地址传递给了Java程序，由于Java采取 Big Endian 方式存储数据，很自然的它会将你的数据翻译为 0x78563412。显然，问题就出现了！！！ （网络传输协议TCP/IP采用的是big- endian）。 假设现在要在使用不同字节顺序的机器之间传输和交换数据，那该怎么办呢？（同样的数据，不同的机器可能有不同的理解，岂不是有悖初衷！）有两种方法，一种是全部转换成文本来传输，另一种是双方都按照某一方的字节顺序来传输（这时就有一个不同字节顺序之间的相互转换问题）。 Socket编程中经常采用第二种方法。整个传输过程如下： 发送端将本机的数据转换成网络的字节顺序（调用API函数htonl或htons），然后发送； 接收端收到网络数据后，先将数据转换成本机的字节顺序（调用API函数ntohl或ntohs），然后再进行其它操作——如此就能保证“会议精神”在通信双方的正确传达了！ 大小端问题主要涉及的是非单字节非字符串外的其余数据的表示和传递，如short型、int型等。 大小端的转换只针对整数类型:short, int, long之类 对于char类型，二进制的字节流类型不存在大小端之间的转换 如果你知道你的程序主要用户群是什么平台，为了方便或者效率，你可以除了socket端口等需要在主机字节序和网络字节序之间转换外，其余数据的传递直接无视。 出于效率考虑，我们有理由也完全应该 把大小端的处理放在客户端，在客户端socket过来时把服务器主机的大小端通知给客户端，这样服务器就不需要改动，直接传递数据就行 为什么 主机的字节序不统一呢？ 这是因为 各个CPU厂商出于不同的逻辑考量，换句话说 大端和小端有其各自的优势。 我们知道计算机正常的内存增长方式是从低到高(当然栈不是)，取数据方式是从基址根据偏移找到他们的位置，从他们的存储方式可以看出，大端存储因为第一个字节就是高位，从而很容易知道它是正数还是负数，对于一些数值判断会很迅速。 而小端存储 第一个字节是它的低位，符号位在最后一个字节，这样在做数值四则运算时从低位每次取出相应字节运算，最后直到高位，并且最终把符号位刷新，这样的运算方式会更高效，也更符合我们手算的方式。 总结：（协议部分都是大端，应用可以自己定） 1、编程时，ip和port需要转换成网络字节序，这是网络协议的规定，注意，ip和port并不是到达应用层数据的一部分，而是网络层和传输层头部的一部分，是属于协议的一部分协议； 2、我们发送的数据是真正从发送端的应用层传输到接收端的应用层的数据，如果发送端和接收端字节序不一样，那么就要考虑字节转换。其根本是：网络传输不一定要统一大端，小端也可以，只要保证2端一致就行了。因为服务器负担大，这些工作就由客户端去做，可以有以下两种方式：1）编程之前，用文档约束好，服务器采用的是大端或者小端，然后客户端根据自己的大小端情况去转换成与服务器一样的字节序再发送和接受；2）客户端连接服务器后，服务器先发送一个表示大小端的1字节的数据到客户端，客户端接收后得知服务器的大小端，以后发送和接收数据时作大小端的调整再发送和接收。 可以使用python的struck模块或调用ntohl()和htonl()类函数来转换不同格式的数据。 htons() 用来将当前主机字节序转换为网络字节序，其中h代表主机（host）字节序，n代表网络（network）字节序，s代表short，htons 是 h、to、n、s 的组合，可以理解为”将 short 型数据从当前主机字节序转换为网络字节序“。 常见的网络字节转换函数有： htons()：host to network short，将 short 类型数据从主机字节序转换为网络字节序。 ntohs()：network to host short，将 short 类型数据从网络字节序转换为主机字节序。 htonl()：host to network long，将 long 类型数据从主机字节序转换为网络字节序。 ntohl()：network to host long，将 long 类型数据从网络字节序转换为主机字节序。 通常，以s为后缀的函数中，s代表 2 个字节 short，因此用于端口号转换；以l为后缀的函数中，l代表 4 个字节的 long，因此用于 IP 地址转换。]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>网络编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[socket编程实现文件传输功能]]></title>
     <url>%2F2019%2F10%2F01%2Fsocket%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8A%9F%E8%83%BD%2F</url>
     <content type="text"><![CDATA[socket编程实现文件传输功能先建立两个进程的TCP连接，然后client先向server发送文件信息（包括文件名和文件大小以及MD5值），这个文件信息的大小是预先设定好的，也就是client和server都知道，这样server才能准确判断接收的数据哪些是文件信息哪些是真正的文件。这里用到了struct库对文件信息进行处理。这里的struct类似于c中的结构体，可以把变量转换成具有c结构体形式的字符串。比如我的例子中定义了这样一个struct形式： 1HEAD_STRUCT = &apos;128sIq32s&apos; 它就相当于c中如下结构体: 它就相当于c中如下结构体: 123456struct&#123; char fileName[128]; //文件名 int fileNameSize; //文件名长度 long long fileSize; //文件大小 char MD5[32]; //MD5值&#125; 这个结构体的空间大小是固定的，于是当client按照这个格式发送文件信息的时候，server也以相同的格式接收信息。由于文件名的长度不固定，于是这里我还发送了一个文件名的长度，这样server就可以根据这个长度对fileName进行截取。然后再发送文件，这里我是用1024B的缓冲区进行接收（最后一次小于或等于1024B）。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859# 服务端import socketimport hashlibimport structHOST = 'localhost'PORT = 1307BUFFER_SIZE = 1024HEAD_STRUCT = '128sIq32s'info_size = struct.calcsize(HEAD_STRUCT)def cal_md5(file_path): with open(file_path, 'rb') as fr: md5 = hashlib.md5() md5.update(fr.read()) md5 = md5.hexdigest() return md5def unpack_file_info(file_info): file_name, file_name_len, file_size, md5 = struct.unpack(HEAD_STRUCT, file_info) file_name = file_name[:file_name_len] return file_name, file_size, md5def recv_file(): try: sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) server_address = (HOST, PORT) sock.bind(server_address) sock.listen(1) client_socket, client_address = sock.accept() print "Connected %s successfully" % str(client_address) file_info_package = client_socket.recv(info_size) file_name, file_size, md5_recv = unpack_file_info(file_info_package) recved_size = 0 with open(file_name, 'wb') as fw: while recved_size &lt; file_size: remained_size = file_size - recved_size recv_size = BUFFER_SIZE if remained_size &gt; BUFFER_SIZE else remained_size recv_file = client_socket.recv(recv_size) recved_size += recv_size fw.write(recv_file) md5 = cal_md5(file_name) if md5 != md5_recv: print 'MD5 compared fail!' else: print 'Received successfully' except socket.errno, e: print "Socket error: %s" % str(e) finally: sock.close()if __name__ == '__main__': recv_file() 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859#客户端import socketimport osimport hashlibimport structHOST = 'localhost'PORT = 1307BUFFER_SIZE = 1024HEAD_STRUCT = '128sIq32s'def cal_md5(file_path): with open(file_path, 'rb') as fr: md5 = hashlib.md5() md5.update(fr.read()) md5 = md5.hexdigest() return md5def get_file_info(file_path): file_name = os.path.basename(file_path) file_name_len = len(file_name) file_size = os.path.getsize(file_path) md5 = cal_md5(file_path) return file_name, file_name_len, file_size, md5def send_file(file_path): sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) server_address = (HOST, PORT) file_name, file_name_len, file_size, md5 = get_file_info(file_path) file_head = struct.pack(HEAD_STRUCT, file_name, file_name_len, file_size, md5) try: print "Start connect" sock.connect(server_address) sock.send(file_head) sent_size = 0 with open(file_path) as fr: while sent_size &lt; file_size: remained_size = file_size - sent_size send_size = BUFFER_SIZE if remained_size &gt; BUFFER_SIZE else remained_size send_file = fr.read(send_size) sent_size += send_size sock.send(send_file) except socket.errno, e: print "Socket error: %s" % str(e) finally: sock.close() print "Closing connect"if __name__ == '__main__': file_path = raw_input('Please input file path:') if not file_path: file_path = 'test.txt' send_file(file_path) 注意： 在某些时候（比如传输大文件）会发生丢包的情况，这时候接收的文件大小会小于发送文件的大小，两个MD5值也会不一样。 原文链接：https://blog.csdn.net/Thare_Lam/article/details/49506565]]></content>
@@ -892,31 +903,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[hexo报错解决]]></title>
-    <url>%2F2019%2F07%2F15%2Fhexo%E6%8A%A5%E9%94%99%E5%8E%9F%E5%9B%A0%2F</url>
-    <content type="text"><![CDATA[第一种方法: 检查目录是否.git目录存在没有就手动生成 12git initgit config --global user.email &quot;1548702940@qq.com&quot; &amp;&amp; git config --global user.name &quot;wjg9786&quot; 第二种方法： 如果报Error: Spawn failed,在主目录删除.deploy_git文件夹并且执行hero clean后，重新hero deploy]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[类和对象]]></title>
     <url>%2F2019%2F07%2F15%2F%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%2F</url>
     <content type="text"><![CDATA[类和对象面向对象编程介绍面向对象编程简称OOP，是一种程序设计思想，OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数，面向对像是一种对现实世界理解和抽象的方法。 面向过程是一种以过程为中心的编程思想。面向过程也可称之为面向记录编程思想，他们不支持丰富的“面向对象”特性，比如：继承，多态。并且它们不允许混含持久化状态和域逻辑。就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了。 面向过程是一件事“该怎么做”，面向对象是一件事“该让谁来做”，然后那个“谁”就是对象，他要怎么做是他自己的事，反正最后一群对象合力把事做好就行了。 面向对象：狗吃（屎） 面向过程：吃（狗屎） 类和对象面向对象编程的2个非常重要的概念：类和对象 对象是面向对象编程的核心，在使用对象的过程中，为了将具有共同特性和行为的一组对象抽象定义，提出了另外一个新的概念————类 类就相当于制造飞机的图纸，用它来进行创建的飞机就相当于对象。 1.类人以类聚，物以群分。 具有相似内部状态和运行规律的实体的集合（或统称为抽象） 具有相同属性和行为事物的统称 类是抽象的，在使用的时候通常会找到这个类的一个具体的存在，一个类可以找到多个对象。 2,对象某一个具体事物的存在，在现实世界中可以看得见摸得着的。 可以是直接使用的。 3.类和对象之间的关系相当于玩具模型和某一个具体的玩具 4.区分类和对象比如： 12345678910奔驰汽车：类奔驰smart：类张三的那辆奔驰：对象狗：类李四家那只大黄狗:对象水果：类苹果：类红苹果：类红富士苹果：类我嘴里吃了一半的苹果：对象 5.类的构成类（class）由了个部分构成 （1）.类的名称 类名 （2）.类的属性 一组数据 （3）.类的方法 允许你进行操作的方法（行为） 比如： 123456781）人类设计，只关心3样东西1.事物名称（类名）:人（persion）2.属性:身高（height）、年龄（age）3.方法（行为/功能）：跑（run）、打架（fight）2)狗类的设计1.类名：狗（dog）2.属性：品种、毛色、性别、名字、腿儿的数量3.方法（行为/功能）:叫、跑、咬人、吃、摇尾巴 6.类的抽象拥有相同（或者类似）属性和行为的对象都可以抽象出一个类 方法：一般名词都是类（名词提炼法） 如： 12341.坦克发射3个3颗炮弹轰掉了2架飞机坦克、炮弹、飞机可以抽象成类2.小明在公交车上牵着一条叼着热狗的狗小明:人类，公车：交通工具类，热狗：食物类，狗：狗类]]></content>
-      <categories>
-        <category>python基础</category>
-      </categories>
-      <tags>
-        <tag>python基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[定义类]]></title>
-    <url>%2F2019%2F07%2F15%2F%E5%AE%9A%E4%B9%89%E7%B1%BB%2F</url>
-    <content type="text"><![CDATA[定义类定义一个类，格式如下： 12class 类名: 方法列表 说明: 1.定义类时有2种，新式类和经典类，上面那样定义为经典类，如果是类名(object)则为新式类 2.类名的命名规则按照“大驼峰” 创建对象格式:对象名=类名()#一定记住括号必须加上，没有括号不会创建对象 总结：bmw=Car(),这样就产生了一个Car的实例对象，一定在内存中有一块存放对象的 1.数据信息，换一句话创建一个对象是占内存的，些时也可以通过实例对象bmw来访问属性或方法。 2.给对象设置属性的时候，对象后面直接接属性名后面一个赋值符号然后接属性的值，依次还可以给多个对象赋值。 如：bmw color=’黑色’表示给bmw这个对象添加属性，如果后面再次出现bmw color=xxx表示对象属性进行修改 bmw是一个对象，它拥有属性（数据）和方法（函数） 3.一个对象可以有很多的属性，也可以有很多的函数 4.当创建一个对象时，就是用一个模具，来制造一个实物，如做月饼例子]]></content>
       <categories>
         <category>python基础</category>
       </categories>
@@ -933,6 +922,28 @@
       </categories>
       <tags>
         <tag>linux基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[定义类]]></title>
+    <url>%2F2019%2F07%2F15%2F%E5%AE%9A%E4%B9%89%E7%B1%BB%2F</url>
+    <content type="text"><![CDATA[定义类定义一个类，格式如下： 12class 类名: 方法列表 说明: 1.定义类时有2种，新式类和经典类，上面那样定义为经典类，如果是类名(object)则为新式类 2.类名的命名规则按照“大驼峰” 创建对象格式:对象名=类名()#一定记住括号必须加上，没有括号不会创建对象 总结：bmw=Car(),这样就产生了一个Car的实例对象，一定在内存中有一块存放对象的 1.数据信息，换一句话创建一个对象是占内存的，些时也可以通过实例对象bmw来访问属性或方法。 2.给对象设置属性的时候，对象后面直接接属性名后面一个赋值符号然后接属性的值，依次还可以给多个对象赋值。 如：bmw color=’黑色’表示给bmw这个对象添加属性，如果后面再次出现bmw color=xxx表示对象属性进行修改 bmw是一个对象，它拥有属性（数据）和方法（函数） 3.一个对象可以有很多的属性，也可以有很多的函数 4.当创建一个对象时，就是用一个模具，来制造一个实物，如做月饼例子]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo报错解决]]></title>
+    <url>%2F2019%2F07%2F15%2Fhexo%E6%8A%A5%E9%94%99%E5%8E%9F%E5%9B%A0%2F</url>
+    <content type="text"><![CDATA[第一种方法: 检查目录是否.git目录存在没有就手动生成 12git initgit config --global user.email &quot;1548702940@qq.com&quot; &amp;&amp; git config --global user.name &quot;wjg9786&quot; 第二种方法： 如果报Error: Spawn failed,在主目录删除.deploy_git文件夹并且执行hero clean后，重新hero deploy]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
