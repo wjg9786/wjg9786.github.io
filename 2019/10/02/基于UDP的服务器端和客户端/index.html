@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。 首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给">
+<meta name="description" content="基于UDP的服务器端和客户端udp中的服务端和客户端没有连接udp不像tcp,无需在连接状态下交换数据，因此基于udp的服务端和客户端也无需经过连接过程，也就是说，不必调用listen()和accept()函数。udp中只有创建套接字的过程和数据交换的过程。 udp服务端和客户端均只需1个套接字tcp中，套接字是一对一的关系。如要向10个客户端提供服务，那么除了负责监听的套接字外，还需要创建10个">
 <meta name="keywords" content="网络编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="socket的发送和接收缓冲区">
-<meta property="og:url" content="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/index.html">
+<meta property="og:title" content="基于UDP的服务器端和客户端">
+<meta property="og:url" content="http://yunjis.cn/2019/10/02/基于UDP的服务器端和客户端/index.html">
 <meta property="og:site_name" content="莫欺少年穷">
-<meta property="og:description" content="socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。 首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给">
+<meta property="og:description" content="基于UDP的服务器端和客户端udp中的服务端和客户端没有连接udp不像tcp,无需在连接状态下交换数据，因此基于udp的服务端和客户端也无需经过连接过程，也就是说，不必调用listen()和accept()函数。udp中只有创建套接字的过程和数据交换的过程。 udp服务端和客户端均只需1个套接字tcp中，套接字是一对一的关系。如要向10个客户端提供服务，那么除了负责监听的套接字外，还需要创建10个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T18:59:37.395Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesudp_socket_python.png">
+<meta property="og:updated_time" content="2019-10-02T10:21:39.084Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="socket的发送和接收缓冲区">
-<meta name="twitter:description" content="socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。 首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给">
+<meta name="twitter:title" content="基于UDP的服务器端和客户端">
+<meta name="twitter:description" content="基于UDP的服务器端和客户端udp中的服务端和客户端没有连接udp不像tcp,无需在连接状态下交换数据，因此基于udp的服务端和客户端也无需经过连接过程，也就是说，不必调用listen()和accept()函数。udp中只有创建套接字的过程和数据交换的过程。 udp服务端和客户端均只需1个套接字tcp中，套接字是一对一的关系。如要向10个客户端提供服务，那么除了负责监听的套接字外，还需要创建10个">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesudp_socket_python.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/">
+  <link rel="canonical" href="http://yunjis.cn/2019/10/02/基于UDP的服务器端和客户端/">
 
 
 
 
 
-  <title>socket的发送和接收缓冲区 | 莫欺少年穷</title>
+  <title>基于UDP的服务器端和客户端 | 莫欺少年穷</title>
   
 
 
@@ -325,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/10/02/基于UDP的服务器端和客户端/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -342,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">socket的发送和接收缓冲区</h1>
+          <h1 class="post-title" itemprop="name headline">基于UDP的服务器端和客户端</h1>
         
 
         <div class="post-meta">
@@ -354,8 +356,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:58:59+08:00">
-                2019-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-02T18:21:04+08:00">
+                2019-10-02
               </time>
             
 
@@ -414,34 +416,141 @@
       
 
       
-        <h1 id="socket的发送和接收缓冲区"><a href="#socket的发送和接收缓冲区" class="headerlink" title="socket的发送和接收缓冲区"></a>socket的发送和接收缓冲区</h1><p> 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。</p>
-<p>首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给另一端则是由协议规定的。Recv也类似。</p>
-<p>按照Unix下的send实现的话应该是先检查用户缓冲区是否大于socket发送缓冲区，如果大于则分批次发送，每次拷贝socket缓冲区大小之后发送，发送的时候socket缓冲区锁定，发送之后在从用户缓冲区接受直至发送完毕为止。如果小于则直接发送。在socket缓冲区发送的过程中这个缓冲区是锁定的。</p>
-<p><strong>一、recv端</strong></p>
-<p>在监听套接字上准备accept,在accept结束以后不做什么操作，直接sleep很久，也就是在recv端并不做接收数据的操作，在sleep结束之后再recv数据</p>
-<p><strong>二、send端</strong></p>
-<p>​    通过查看本系统内核支持的发送缓冲区大小，cat/proc/sys/net/ipv4/tcp_wmem，三个参数分别最小值、默认值和最大值。接收缓冲区的配置文件在tcp_rmen中。</p>
-<p>​    将套接字设置为阻塞，一次发送的buffer大于发送缓冲区所能容纳的数据量，一次send结束，在发送返回后接着打印发送的数据长度。</p>
-<p><strong>测试结果：</strong></p>
-<p>​    <strong>阶段一：</strong></p>
-<p>​    recv端表现：在刚开始发送数据时，接收端处于慢启动状态，滑动窗口值越来越大，但是由于接收端不处理接收缓冲区内的数据，其滑动窗口越来越小（因为接收端回应发送端中的win大小表示接受端还能够接受多少数据，发送端下次发送的数据大小不能超过回应中win的大小），最后发送端回应给接受端的ACK中显示的win大小为0，表示接收端不能够再接受数据。</p>
-<p>​    send端表现：发送端一直不能返回，如果接收端一直回应win为0的情况下，发送端的send就会一直不能返回，这种僵局一直持续到接收端的sleep结束。</p>
-<p>​    原因分析：首先需要明白几个事实，阻塞式I/O会一直等待，直达这个操作完成；发送端接受到接收端的回应后才能将发送缓冲区中的数据进行清空。</p>
-<p>​    在接收端不recv，那么接收端的接收缓冲区内会一直有数据，接收缓冲区满，导致滑动窗口为0，发送端不能发送数据。但是send操作为何不能返回呢？send操作只是将应用缓冲区的数据拷贝到发送缓冲区，但是发送缓冲区的数据并没有完全得到接收端的ACK回应，所以暂时不能将发送缓冲区中的数据丢弃，导致发送缓冲区的被填满，这样应用层中的数据也就不能拷贝到内核发送缓冲区内，也就会一直阻塞在这里，直到可以继续将应用层的数据拷贝到发送缓冲区中，何时触发这个操作呢？等到发送端回应win大于0时才有这样的操作。</p>
-<p>​    <strong>阶段二：</strong></p>
-<p>​    recv端：在sleep结束以后，开始调用recv系统调用。这个时候接收端的滑动窗口又开始大于零，这样就唤醒了发送端继续发送数据。</p>
-<p>​    send端：发送端接收到接收端win大于0的回应，这个时候发送端又可以将应用层buffer中的数据拷贝到内核的发送缓冲区中。</p>
-<p>​    由于接收端调用recv将内核接收缓冲区的数据拷贝到应用层中，这样滑动窗口又大于0了，所以激发了发送端继续发送数据。由于发送端可以发送数据了，内核协议栈便将发送缓冲区中的数据发送给接收端，这样发送缓冲区又有空间了，那么send操作就可以将应用层的数据拷贝到发送缓冲区了！这样的操作一直保持到send操作返回，这样代表着将应用层的数据全部拷贝到发送缓冲区内，但不代表将数据发送给对端。发送给对端成功的标志是接收到对端的ACK回应，这个时候发送端才可以将发送缓冲区的数据丢弃。不丢弃的原因是时刻准备重发丢失/出错的数据！</p>
-<p>​    Ps: TCP通信为了保证可靠性，每次发送的数据都需要得到对方的ACK才确认对方收到了(仅保证对方TCP接收缓冲区收到数据了，但不保证对方应用程序取到数据了)，这时如果每次发送一次就要停下来等着对方的ACK消息，显然是一种极大的资源浪费和低下的效率，这时就有了滑动窗口的出现。</p>
-<p>​    发送方的滑动窗口维持着当前发送的帧序号，已发出去帧的计时器，接收方当前的窗口大小(由接收方ACK通知，大体等于接收缓冲大小-未处理的数据包)，接收方滑动窗口保存的有已接收的帧信息、期待的下一帧的帧号等，至于滑动窗口的具体工作原理这里就不说了。</p>
-<p>​    一 个socket有两个滑动窗口(一个sendbuf、一个recvbuf)，两个窗口的大小是通过setsockopt函数设置的，现在问题就出在这里， 通过抓包显示，设置的窗口大小没有生效，最后排查发现setsockopt函数是后来加上的，写到了listen函数的后面，这样每次accept出的 socket并没有继承得到主socket设置的窗口大小，无语啊……</p>
-<p>​    解决办法：setsockopt函数提前到listen函数之前，这样在服务器程序启动监听前recvbuf就已经有了，accept后的链接得到的就是recvbuf了，启动程序运行，抓包显示窗口已经是指定的大小了。</p>
-<p><strong>结论：</strong></p>
-<p>​    1.TCP的滑动窗口大小实际上就是socket的接收缓冲区（SO_RCVBUF）大小的字节数</p>
-<p>​    2.对于server端的socket一定要在listen之前设置缓冲区大小，因为，accept时新产生的socket会继承监听socket的缓冲区大 小。对于client端的socket一定要在connet之前设置缓冲区大小，因为connet时需要进行三次握手过程，会通知对方自己的窗口大小。在 connet之后再设置缓冲区，已经没有什么意义。</p>
-<p>​    3.由于缓冲区大小在TCP头部只有16位来表示，所以它的最大值是65536，但是对于一些情况来说需要使用更大的滑动窗口，这时候就要使用扩展的滑动窗口，如光纤高速通信网络，或者是卫星长连接网络，需要窗口尽可能的大。这时会使用扩展的32位的滑动窗口大小。</p>
-<p>​    这就是发送缓冲区、接受缓冲区、滑动窗口协议之间的关系，不知道大家明白了没有。</p>
-<p>【个人补充】socket的发送缓冲区与滑动窗口关系<br>    socket/send成功与否与滑动窗口没有任何关系，但是，存在逻辑上的先后作用关系，即<br>    socket/send向缓冲区发送数据包时，要看发送缓冲区大小（SO_SNDBUF）–&gt; tcp/send发送缓冲区中的数据包时，看滑动窗口win的值。</p>
+        <h1 id="基于UDP的服务器端和客户端"><a href="#基于UDP的服务器端和客户端" class="headerlink" title="基于UDP的服务器端和客户端"></a>基于UDP的服务器端和客户端</h1><h3 id="udp中的服务端和客户端没有连接"><a href="#udp中的服务端和客户端没有连接" class="headerlink" title="udp中的服务端和客户端没有连接"></a>udp中的服务端和客户端没有连接</h3><p>udp不像tcp,无需在连接状态下交换数据，因此基于udp的服务端和客户端也无需经过连接过程，也就是说，不必调用listen()和accept()函数。udp中只有创建套接字的过程和数据交换的过程。</p>
+<h3 id="udp服务端和客户端均只需1个套接字"><a href="#udp服务端和客户端均只需1个套接字" class="headerlink" title="udp服务端和客户端均只需1个套接字"></a>udp服务端和客户端均只需1个套接字</h3><p>tcp中，套接字是一对一的关系。如要向10个客户端提供服务，那么除了负责监听的套接字外，还需要创建10个套接字。但在udp中，不管是服务器端还是客户端都只需要1个套接字。</p>
+<h3 id="基于UDP的接收和发送函数"><a href="#基于UDP的接收和发送函数" class="headerlink" title="基于UDP的接收和发送函数"></a>基于UDP的接收和发送函数</h3><p>创建好 TCP 套接字后，传输数据时无需再添加地址信息，因为 TCP 套接字将保持与对方套接字的连接。换言之，TCP 套接字知道目标地址信息。但 UDP 套接字不会保持连接状态，每次传输数据都要添加目标地址信息，这相当于在邮寄包裹前填写收件人地址。</p>
+<p>tcp与udp比较:</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">TCP</th>
+<th align="center">UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">连接模式</td>
+<td align="center">面向连接（单点通信）</td>
+<td align="center">无连接（多点通信）</td>
+</tr>
+<tr>
+<td align="center">传输可靠性</td>
+<td align="center">可靠</td>
+<td align="center">不可靠</td>
+</tr>
+<tr>
+<td align="center">通信模式</td>
+<td align="center">基于字节流</td>
+<td align="center">基于数据报</td>
+</tr>
+<tr>
+<td align="center">报头结构</td>
+<td align="center">复杂（至少20字节）</td>
+<td align="center">简单（8字节）</td>
+</tr>
+<tr>
+<td align="center">传输速度</td>
+<td align="center">慢</td>
+<td align="center">快</td>
+</tr>
+<tr>
+<td align="center">资源需求</td>
+<td align="center">多</td>
+<td align="center">少</td>
+</tr>
+<tr>
+<td align="center">到达顺序</td>
+<td align="center">保证</td>
+<td align="center">不保证</td>
+</tr>
+<tr>
+<td align="center">流量控制</td>
+<td align="center">有</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">拥塞控制</td>
+<td align="center">有</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">应用场合</td>
+<td align="center">大量数据传输</td>
+<td align="center">少量数据传输</td>
+</tr>
+<tr>
+<td align="center">支持的应用层协议</td>
+<td align="center">Telnet、FTP、SMTP、HTTP</td>
+<td align="center">DNS、DHCP、TFTP、SNMP</td>
+</tr>
+</tbody></table>
+<p>小贴士：网络层的 IP 地址可以唯一标示主机，传输层的 TCP/UDP 协议和端口号可以唯一标示该主机的一个进程。注意，同一主机中 TCP 协议与 UDP 协议的可以使用相同的端口号。</p>
+<p>所有支持网络通信的编程语言都各自提供了一套 socket API，下面以 Python 3 为例，讲解服务器与客户端建立 UDP 通信连接的交互过程：</p>
+<p><img src="https://raw.githubusercontent.com/wjg9786/image.github.io/master/imagesudp_socket_python.png" alt></p>
+<p>可见，UDP 的通信过程比 TCP 简单许多，服务器少了监听与接受连接的过程，而客户端也少了请求连接的过程。客户端只需要知道服务器的地址，直接向其发送数据即可，而服务器也敞开大门，接收任何发往自家地址的数据。</p>
+<p>小贴士：由于 UDP 采用无连接模式，可知 UDP 服务器在接收到客户端发来的数据之前，是不知道客户端的地址的，因此<strong>必须是客户端先发送数据，服务器后响应数据</strong>。而 TCP 则不同，TCP 服务器接受了客户端的连接后，既可以先向客户端发送数据，也可以等待客户端发送数据后再响应。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">UDP服务器</span><br><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">s.bind((<span class="string">"127.0.0.1"</span>, <span class="number">6000</span>))</span><br><span class="line">print(<span class="string">"UDP bound on port 6000..."</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">	data, addr = s.recvfrom(<span class="number">1024</span>)</span><br><span class="line">	print(<span class="string">"Receive from %s:%s"</span> % addr)</span><br><span class="line">	<span class="keyword">if</span> data == <span class="string">b"exit"</span>:</span><br><span class="line">		s.sendto(<span class="string">b"Good bye!\n"</span>, addr)</span><br><span class="line">		<span class="keyword">continue</span></span><br><span class="line">	s.sendto(<span class="string">b"Hello %s!\n"</span> % data, addr)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Line 5：创建 socket 对象，第一个参数为 <em>socket.AF_INET</em>，代表采用 IPv4 协议用于网络通信，第二个参数为 <em>socket.SOCK_DGRAM</em>，代表采用 UDP 协议用于无连接的网络通信。</li>
+<li>Line 6：向 socket 对象绑定服务器主机地址 (“127.0.0.1”, 6000)，即本地主机的 UDP 6000 端口。</li>
+<li>Line 9：进入与客户端交互数据的循环阶段。</li>
+<li>Line 10：接收客户端发来的数据，包括 bytes 对象 data，以及客户端的 IP 地址和端口号 addr，其中 addr 为二元组 (host, port)。</li>
+<li>Line 11：打印接收信息，表示从地址为 addr 的客户端接收到数据。</li>
+<li>Line 12：若 bytes 对象为 <code>b&quot;exit&quot;</code>，则向地址为 addr 的客户端发送结束响应信息 <code>b&quot;Good bye!\n&quot;</code>。发送完毕后，继续等待其他 UDP 客户端发来数据。</li>
+<li>Line 15：若 bytes 对象不为 <code>b&quot;exit&quot;</code>，则向地址为 addr 的客户端发送问候响应信息 <code>b&quot;Hello %s!\n&quot;</code>，其中 <code>%s</code> 是客户端发来的 bytes 对象。发送完毕后，继续等待任意 UDP 客户端发来数据。</li>
+</ul>
+<p>与 TCP 服务器相比，UDP 服务器不必使用多线程，因为它<strong>无需为每个通信过程创建独立连接，而是采用「即收即发」的模式</strong>，又一次体现了 UDP 的无连接特性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">客户端</span><br><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">addr = (<span class="string">"127.0.0.1"</span>, <span class="number">6000</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">	data = input(<span class="string">"Please input your name: "</span>)</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> data:</span><br><span class="line">		<span class="keyword">continue</span></span><br><span class="line">	s.sendto(data.encode(), addr)</span><br><span class="line">	response, addr = s.recvfrom(<span class="number">1024</span>)</span><br><span class="line">	print(response.decode())</span><br><span class="line">	<span class="keyword">if</span> data == <span class="string">"exit"</span>:</span><br><span class="line">		print(<span class="string">"Session is over from the server %s:%s\n"</span> % addr)</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">s.close()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Line 5：创建 socket 对象，第一个参数为 <em>socket.AF_INET</em>，代表采用 IPv4 协议用于网络通信，第二个参数为 <em>socket.SOCK_DGRAM</em>，代表采用 UDP 协议用于无连接的网络通信。</li>
+<li>Line 6：初始化 UDP 服务器的地址 (“127.0.0.1”, 6000)，即本地主机的 UDP 6000 端口。</li>
+<li>Line 8：进入与服务器交互数据的循环阶段。</li>
+<li>Line 9：要求用户输入名字。</li>
+<li>Line 10：当用户的输入为空时，则重新开始循环，要求用户重新输入。</li>
+<li>Line 12：当用户的输入非空时，则将字符串转换为 bytes 对象后，发送至地址为 (“127.0.0.1”, 6000) 的 UDP 服务器。</li>
+<li>Line 13：接收服务器的响应数据，包括 bytes 对象 response，以及服务器的 IP 地址和端口号 addr，其中 addr 为二元组 (host, port)。</li>
+<li>Line 14：将响应的 bytes 对象 response 转换为字符串后打印输出。</li>
+<li>Line 15：当用户的输入为 <code>&quot;exit&quot;</code> 时，则打印会话结束信息，终止与服务器交互数据的循环阶段，即将关闭套接字。</li>
+<li>Line 19：关闭套接字，不再向服务器发送数据。</li>
+</ul>
+<h3 id="socket-函数"><a href="#socket-函数" class="headerlink" title="socket() 函数"></a>socket() 函数</h3><p><a href="https://docs.python.org/3/library/socket.html#socket.socket" target="_blank" rel="noopener">socket() 函数</a>用于创建网络通信中的套接字对象。函数原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><em>family</em> 参数代表<a href="https://docs.python.org/3/library/socket.html#socket-families" target="_blank" rel="noopener">地址族（Address Family）</a>，默认值为 <em>AF_INET<em>，用于 IPv4 网络通信，常用的还有 *AF_INET6</em>，用于 IPv6 网络通信。*family</em> 参数的可选值取决于本机操作系统。</li>
+<li><em>type</em> 参数代表套接字的类型，默认值为 <em>SOCK_STREAM</em>，用于 TCP 协议（面向连接）的网络通信，常用的还有 <em>SOCK_DGRAM</em>，用于 UDP 协议（无连接）的网络通信。</li>
+<li><em>proto</em> 参数代表套接字的协议，默认值为 <em>0</em>，一般忽略该参数，除非 <em>family</em> 参数为 <em>AF_CAN*，则 *proto</em> 参数需设置为 <em>CAN_RAW</em> 或 <em>CAN_BCM</em>。</li>
+<li><em>fileno</em> 参数代表套接字的文件描述符，默认值为 <em>None</em>，若设置了该参数，则其他三个参数将会被忽略。</li>
+</ul>
+<p>创建完套接字对象后，需使用对象的内置函数完成网络通信过程。<strong>注意，以下函数原型中的「socket」是指 socket 对象，而不是上述的 socket 模块。</strong></p>
+<h3 id="bind-函数"><a href="#bind-函数" class="headerlink" title="bind() 函数"></a>bind() 函数</h3><p><a href="https://docs.python.org/3/library/socket.html#socket.socket.bind" target="_blank" rel="noopener">bind() 函数</a>用于向套接字对象绑定 IP 地址与端口号。注意，套接字对象必须未被绑定，并且端口号未被占用，否则会报错。函数原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket.bind(address)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><em>address</em> 参数代表套接字要绑定的地址，其格式取决于套接字的 <em>family</em> 参数。若 <em>family</em> 参数为 <em>AF_INET*，则 *address</em> 参数表示为二元组 (host, port)，其中 host 是用字符串表示的主机地址，port 是用整型表示的端口号。</li>
+</ul>
+<h3 id="sendto-函数"><a href="#sendto-函数" class="headerlink" title="sendto() 函数"></a>sendto() 函数</h3><p><a href="https://docs.python.org/3/library/socket.html#socket.socket.sendto" target="_blank" rel="noopener">sendto() 函数</a>用于向远程套接字对象发送数据。注意，该函数用于 UDP 进程间的无连接通信，远程套接字的地址在参数中指定，因此使用前不需要先与远程套接字连接。相对地，TCP 进程间面向连接的通信过程需要用 send() 函数。函数原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket.sendto(bytes[, flags], address)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><em>bytes</em> 参数代表即将发送的 <a href="https://docs.python.org/3/library/stdtypes.html#bytes-objects" target="_blank" rel="noopener">bytes 对象</a>数据。例如，对于字符串 <code>&quot;hello world!&quot;</code> 而言，需要用 encode() 函数转换为 bytes 对象 <code>b&quot;hello world!&quot;</code> 才能进行网络传输。</li>
+<li><em>flags</em> 可选参数用于设置 sendto() 函数的特殊功能，默认值为 <em>0</em>，也可由一个或多个预定义值组成，用位或操作符 <code>|</code> 隔开。详情可参考 Unix 函数手册中的 <a href="https://linux.die.net/man/2/sendto" target="_blank" rel="noopener">sendto(2)</a>，<em>flags</em> 参数的常见取值有 MSG_OOB、MSG_EOR、MSG_DONTROUTE 等。</li>
+<li><em>address</em> 参数代表远程套接字的地址，其格式取决于套接字的 <em>family</em> 参数。若 <em>family</em> 参数为 <em>AF_INET*，则 *address</em> 参数表示为二元组 (host, port)，其中 host 是用字符串表示的主机地址，port 是用整型表示的端口号。</li>
+</ul>
+<p>sendto() 函数的返回值是发送数据的字节数。</p>
+<h3 id="recvfrom-函数"><a href="#recvfrom-函数" class="headerlink" title="recvfrom() 函数"></a>recvfrom() 函数</h3><p><a href="https://docs.python.org/3/library/socket.html#socket.socket.recvfrom" target="_blank" rel="noopener">recvfrom() 函数</a>用于从远程套接字对象接收数据。注意，与 sendto() 函数不同，recvfrom() 函数既可用于 UDP 进程间通信，也能用于 TCP 进程间通信。函数原型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket.recvfrom(bufsize[, flags])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><em>bufsize</em> 参数代表套接字可接收数据的最大字节数。注意，为了使硬件设备与网络传输更好地匹配，<em>bufsize</em> 参数的值最好设置为 2 的幂次方，例如 <em>4096</em>。</li>
+<li><em>flags</em> 可选参数用于设置 recv() 函数的特殊功能，默认值为 <em>0</em>，也可由一个或多个预定义值组成，用位或操作符 <code>|</code> 隔开。详情可参考 Unix 函数手册中的 <a href="https://linux.die.net/man/2/recvfrom" target="_blank" rel="noopener">recvfrom(2)</a>，<em>flags</em> 参数的常见取值有 MSG_OOB、MSG_PEEK、MSG_WAITALL 等。</li>
+</ul>
+<p>recvfrom() 函数的返回值是二元组 (bytes, address)，其中 bytes 是接收到的 bytes 对象数据，address 是发送方的 IP 地址与端口号，用二元组 (host, port) 表示。注意，recv() 函数的返回值只有 bytes 对象数据。</p>
+<h3 id="close-函数"><a href="#close-函数" class="headerlink" title="close() 函数"></a>close() 函数</h3><p><a href="https://docs.python.org/3/library/socket.html#socket.socket.close" target="_blank" rel="noopener">close() 函数</a>用于关闭本地套接字对象，释放与该套接字连接的所有资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket.close()</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -472,8 +581,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/27/python中TCP协议中的粘包问题/" rel="next" title="python中TCP协议中的粘包问题">
-                <i class="fa fa-chevron-left"></i> python中TCP协议中的粘包问题
+              <a href="/2019/10/02/UDP和TCP总结/" rel="next" title="UDP和TCP总结">
+                <i class="fa fa-chevron-left"></i> UDP和TCP总结
               </a>
             
           </div>
@@ -482,8 +591,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/27/Socket的粘包和分包的处理/" rel="prev" title="Socket的粘包和分包的处理">
-                Socket的粘包和分包的处理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/02/总结TCP和UDP区别/" rel="prev" title="总结TCP和UDP区别">
+                总结TCP和UDP区别 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -618,7 +727,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#socket的发送和接收缓冲区"><span class="nav-number">1.</span> <span class="nav-text">socket的发送和接收缓冲区</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于UDP的服务器端和客户端"><span class="nav-number">1.</span> <span class="nav-text">基于UDP的服务器端和客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#udp中的服务端和客户端没有连接"><span class="nav-number">1.0.1.</span> <span class="nav-text">udp中的服务端和客户端没有连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#udp服务端和客户端均只需1个套接字"><span class="nav-number">1.0.2.</span> <span class="nav-text">udp服务端和客户端均只需1个套接字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于UDP的接收和发送函数"><span class="nav-number">1.0.3.</span> <span class="nav-text">基于UDP的接收和发送函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#socket-函数"><span class="nav-number">1.0.4.</span> <span class="nav-text">socket() 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bind-函数"><span class="nav-number">1.0.5.</span> <span class="nav-text">bind() 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sendto-函数"><span class="nav-number">1.0.6.</span> <span class="nav-text">sendto() 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#recvfrom-函数"><span class="nav-number">1.0.7.</span> <span class="nav-text">recvfrom() 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#close-函数"><span class="nav-number">1.0.8.</span> <span class="nav-text">close() 函数</span></a></li></ol></li></ol></div>
             
 
           </div>

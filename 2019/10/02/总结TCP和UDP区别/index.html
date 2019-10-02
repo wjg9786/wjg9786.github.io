@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。 首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给">
+<meta name="description" content="总结TCP和UDP区别TCP与UDP基本区别 基于连接与无连接 TCP要求系统资源较多，UDP较少 UDP程序结构简单 流模式(TCP)与数据报模式(UDP) TCP保证数据正确性，UDP可能丢包 TCP保证数据顺序，UDP不保证  UDP应用场景：  1.面向数据报方式  2.网络数据大多为短消息  3.拥有大量Client  4.对数据安全性无特殊要求  5.网络负担非常重，但对响应速度要求高">
 <meta name="keywords" content="网络编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="socket的发送和接收缓冲区">
-<meta property="og:url" content="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/index.html">
+<meta property="og:title" content="总结TCP和UDP区别">
+<meta property="og:url" content="http://yunjis.cn/2019/10/02/总结TCP和UDP区别/index.html">
 <meta property="og:site_name" content="莫欺少年穷">
-<meta property="og:description" content="socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。 首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给">
+<meta property="og:description" content="总结TCP和UDP区别TCP与UDP基本区别 基于连接与无连接 TCP要求系统资源较多，UDP较少 UDP程序结构简单 流模式(TCP)与数据报模式(UDP) TCP保证数据正确性，UDP可能丢包 TCP保证数据顺序，UDP不保证  UDP应用场景：  1.面向数据报方式  2.网络数据大多为短消息  3.拥有大量Client  4.对数据安全性无特殊要求  5.网络负担非常重，但对响应速度要求高">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T18:59:37.395Z">
+<meta property="og:updated_time" content="2019-10-02T10:35:47.001Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="socket的发送和接收缓冲区">
-<meta name="twitter:description" content="socket的发送和接收缓冲区 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。 首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给">
+<meta name="twitter:title" content="总结TCP和UDP区别">
+<meta name="twitter:description" content="总结TCP和UDP区别TCP与UDP基本区别 基于连接与无连接 TCP要求系统资源较多，UDP较少 UDP程序结构简单 流模式(TCP)与数据报模式(UDP) TCP保证数据正确性，UDP可能丢包 TCP保证数据顺序，UDP不保证  UDP应用场景：  1.面向数据报方式  2.网络数据大多为短消息  3.拥有大量Client  4.对数据安全性无特殊要求  5.网络负担非常重，但对响应速度要求高">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/">
+  <link rel="canonical" href="http://yunjis.cn/2019/10/02/总结TCP和UDP区别/">
 
 
 
 
 
-  <title>socket的发送和接收缓冲区 | 莫欺少年穷</title>
+  <title>总结TCP和UDP区别 | 莫欺少年穷</title>
   
 
 
@@ -325,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/09/27/socket的发送和接收缓冲区/">
+    <link itemprop="mainEntityOfPage" href="http://yunjis.cn/2019/10/02/总结TCP和UDP区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jonson">
@@ -342,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">socket的发送和接收缓冲区</h1>
+          <h1 class="post-title" itemprop="name headline">总结TCP和UDP区别</h1>
         
 
         <div class="post-meta">
@@ -354,8 +354,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T02:58:59+08:00">
-                2019-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-02T18:35:07+08:00">
+                2019-10-02
               </time>
             
 
@@ -414,34 +414,27 @@
       
 
       
-        <h1 id="socket的发送和接收缓冲区"><a href="#socket的发送和接收缓冲区" class="headerlink" title="socket的发送和接收缓冲区"></a>socket的发送和接收缓冲区</h1><p> 对于每一个TCP的SOCKET来说，都有一个发送缓冲区和接受缓冲区与之对应。</p>
-<p>首先要理解的是，缓冲区有两种。第一种是用户定义的缓冲区，就是send里的缓冲区参数。另一种就是套接字缓冲区，是由协议自定的。可以用getsockopt获取其大小，并用setsockopt重置其大小。发送的时候使用send实际上是从用户缓冲区发送到socket缓冲区中，至于数据真正何时发送给另一端则是由协议规定的。Recv也类似。</p>
-<p>按照Unix下的send实现的话应该是先检查用户缓冲区是否大于socket发送缓冲区，如果大于则分批次发送，每次拷贝socket缓冲区大小之后发送，发送的时候socket缓冲区锁定，发送之后在从用户缓冲区接受直至发送完毕为止。如果小于则直接发送。在socket缓冲区发送的过程中这个缓冲区是锁定的。</p>
-<p><strong>一、recv端</strong></p>
-<p>在监听套接字上准备accept,在accept结束以后不做什么操作，直接sleep很久，也就是在recv端并不做接收数据的操作，在sleep结束之后再recv数据</p>
-<p><strong>二、send端</strong></p>
-<p>​    通过查看本系统内核支持的发送缓冲区大小，cat/proc/sys/net/ipv4/tcp_wmem，三个参数分别最小值、默认值和最大值。接收缓冲区的配置文件在tcp_rmen中。</p>
-<p>​    将套接字设置为阻塞，一次发送的buffer大于发送缓冲区所能容纳的数据量，一次send结束，在发送返回后接着打印发送的数据长度。</p>
-<p><strong>测试结果：</strong></p>
-<p>​    <strong>阶段一：</strong></p>
-<p>​    recv端表现：在刚开始发送数据时，接收端处于慢启动状态，滑动窗口值越来越大，但是由于接收端不处理接收缓冲区内的数据，其滑动窗口越来越小（因为接收端回应发送端中的win大小表示接受端还能够接受多少数据，发送端下次发送的数据大小不能超过回应中win的大小），最后发送端回应给接受端的ACK中显示的win大小为0，表示接收端不能够再接受数据。</p>
-<p>​    send端表现：发送端一直不能返回，如果接收端一直回应win为0的情况下，发送端的send就会一直不能返回，这种僵局一直持续到接收端的sleep结束。</p>
-<p>​    原因分析：首先需要明白几个事实，阻塞式I/O会一直等待，直达这个操作完成；发送端接受到接收端的回应后才能将发送缓冲区中的数据进行清空。</p>
-<p>​    在接收端不recv，那么接收端的接收缓冲区内会一直有数据，接收缓冲区满，导致滑动窗口为0，发送端不能发送数据。但是send操作为何不能返回呢？send操作只是将应用缓冲区的数据拷贝到发送缓冲区，但是发送缓冲区的数据并没有完全得到接收端的ACK回应，所以暂时不能将发送缓冲区中的数据丢弃，导致发送缓冲区的被填满，这样应用层中的数据也就不能拷贝到内核发送缓冲区内，也就会一直阻塞在这里，直到可以继续将应用层的数据拷贝到发送缓冲区中，何时触发这个操作呢？等到发送端回应win大于0时才有这样的操作。</p>
-<p>​    <strong>阶段二：</strong></p>
-<p>​    recv端：在sleep结束以后，开始调用recv系统调用。这个时候接收端的滑动窗口又开始大于零，这样就唤醒了发送端继续发送数据。</p>
-<p>​    send端：发送端接收到接收端win大于0的回应，这个时候发送端又可以将应用层buffer中的数据拷贝到内核的发送缓冲区中。</p>
-<p>​    由于接收端调用recv将内核接收缓冲区的数据拷贝到应用层中，这样滑动窗口又大于0了，所以激发了发送端继续发送数据。由于发送端可以发送数据了，内核协议栈便将发送缓冲区中的数据发送给接收端，这样发送缓冲区又有空间了，那么send操作就可以将应用层的数据拷贝到发送缓冲区了！这样的操作一直保持到send操作返回，这样代表着将应用层的数据全部拷贝到发送缓冲区内，但不代表将数据发送给对端。发送给对端成功的标志是接收到对端的ACK回应，这个时候发送端才可以将发送缓冲区的数据丢弃。不丢弃的原因是时刻准备重发丢失/出错的数据！</p>
-<p>​    Ps: TCP通信为了保证可靠性，每次发送的数据都需要得到对方的ACK才确认对方收到了(仅保证对方TCP接收缓冲区收到数据了，但不保证对方应用程序取到数据了)，这时如果每次发送一次就要停下来等着对方的ACK消息，显然是一种极大的资源浪费和低下的效率，这时就有了滑动窗口的出现。</p>
-<p>​    发送方的滑动窗口维持着当前发送的帧序号，已发出去帧的计时器，接收方当前的窗口大小(由接收方ACK通知，大体等于接收缓冲大小-未处理的数据包)，接收方滑动窗口保存的有已接收的帧信息、期待的下一帧的帧号等，至于滑动窗口的具体工作原理这里就不说了。</p>
-<p>​    一 个socket有两个滑动窗口(一个sendbuf、一个recvbuf)，两个窗口的大小是通过setsockopt函数设置的，现在问题就出在这里， 通过抓包显示，设置的窗口大小没有生效，最后排查发现setsockopt函数是后来加上的，写到了listen函数的后面，这样每次accept出的 socket并没有继承得到主socket设置的窗口大小，无语啊……</p>
-<p>​    解决办法：setsockopt函数提前到listen函数之前，这样在服务器程序启动监听前recvbuf就已经有了，accept后的链接得到的就是recvbuf了，启动程序运行，抓包显示窗口已经是指定的大小了。</p>
-<p><strong>结论：</strong></p>
-<p>​    1.TCP的滑动窗口大小实际上就是socket的接收缓冲区（SO_RCVBUF）大小的字节数</p>
-<p>​    2.对于server端的socket一定要在listen之前设置缓冲区大小，因为，accept时新产生的socket会继承监听socket的缓冲区大 小。对于client端的socket一定要在connet之前设置缓冲区大小，因为connet时需要进行三次握手过程，会通知对方自己的窗口大小。在 connet之后再设置缓冲区，已经没有什么意义。</p>
-<p>​    3.由于缓冲区大小在TCP头部只有16位来表示，所以它的最大值是65536，但是对于一些情况来说需要使用更大的滑动窗口，这时候就要使用扩展的滑动窗口，如光纤高速通信网络，或者是卫星长连接网络，需要窗口尽可能的大。这时会使用扩展的32位的滑动窗口大小。</p>
-<p>​    这就是发送缓冲区、接受缓冲区、滑动窗口协议之间的关系，不知道大家明白了没有。</p>
-<p>【个人补充】socket的发送缓冲区与滑动窗口关系<br>    socket/send成功与否与滑动窗口没有任何关系，但是，存在逻辑上的先后作用关系，即<br>    socket/send向缓冲区发送数据包时，要看发送缓冲区大小（SO_SNDBUF）–&gt; tcp/send发送缓冲区中的数据包时，看滑动窗口win的值。</p>
+        <h1 id="总结TCP和UDP区别"><a href="#总结TCP和UDP区别" class="headerlink" title="总结TCP和UDP区别"></a>总结TCP和UDP区别</h1><h3 id="TCP与UDP基本区别"><a href="#TCP与UDP基本区别" class="headerlink" title="TCP与UDP基本区别"></a>TCP与UDP基本区别</h3><ol>
+<li>基于连接与无连接</li>
+<li>TCP要求系统资源较多，UDP较少</li>
+<li>UDP程序结构简单</li>
+<li>流模式(TCP)与数据报模式(UDP)</li>
+<li>TCP保证数据正确性，UDP可能丢包</li>
+<li>TCP保证数据顺序，UDP不保证</li>
+</ol>
+<h3 id="UDP应用场景："><a href="#UDP应用场景：" class="headerlink" title="UDP应用场景："></a>UDP应用场景：</h3><p>  1.面向数据报方式<br>  2.网络数据大多为短消息<br>  3.拥有大量Client<br>  4.对数据安全性无特殊要求<br>  5.网络负担非常重，但对响应速度要求高</p>
+<h3 id="具体编程时的区别"><a href="#具体编程时的区别" class="headerlink" title="具体编程时的区别"></a>具体编程时的区别</h3><p>   1.socket()的参数不同<br>   2.UDP Server不需要调用listen和accept<br>   3.UDP收发数据用sendto/recvfrom函数<br>   4.TCP：地址信息在connect/accept时确定<br>   5.UDP：在sendto/recvfrom函数中每次均 需指定地址信息<br>   6.UDP：shutdown函数无效</p>
+<h3 id="编程区别"><a href="#编程区别" class="headerlink" title="编程区别"></a>编程区别</h3><p>   通常我们在说到网络编程时默认是指TCP编程，即用前面提到的socket函数创建一个socket用于TCP通讯，函数参数我们通常填为SOCK_STREAM。即socket(PF_INET, SOCK_STREAM, 0)，这表示建立一个socket用于流式网络通讯。<br>　  SOCK_STREAM这种的特点是面向连接的，即每次收发数据之前必须通过connect建立连接，也是双向的，即任何一方都可以收发数据，协议本身提供了一些保障机制保证它是可靠的、有序的，即每个包按照发送的顺序到达接收方。 </p>
+<p>　　而SOCK_DGRAM这种是User Datagram Protocol协议的网络通讯，它是无连接的，不可靠的，因为通讯双方发送数据后不知道对方是否已经收到数据，是否正常收到数据。任何一方建立一个socket以后就可以用sendto发送数据，也可以用recvfrom接收数据。根本不关心对方是否存在，是否发送了数据。它的特点是通讯速度比较快。大家都知道TCP是要经过三次握手的，而UDP没有。 </p>
+<p>基于上述不同，UDP和TCP编程步骤也有些不同，如下：</p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP:"></a>TCP:</h3><p>TCP编程的服务器端一般步骤是：<br>　　1、创建一个socket，用函数socket()；<br>　　2、设置socket属性，用函数setsockopt(); * 可选<br>　　3、绑定IP地址、端口等信息到socket上，用函数bind();<br>　　4、开启监听，用函数listen()；<br>　　5、接收客户端上来的连接，用函数accept()；<br>　　6、收发数据，用函数send()和recv()，或者read()和write();<br>　　7、关闭网络连接；<br>　　8、关闭监听； </p>
+<h3 id="TCP编程的客户端一般步骤是："><a href="#TCP编程的客户端一般步骤是：" class="headerlink" title="TCP编程的客户端一般步骤是："></a>TCP编程的客户端一般步骤是：</h3><p>　　1、创建一个socket，用函数socket()；<br>　　2、设置socket属性，用函数setsockopt();* 可选<br>　　3、绑定IP地址、端口等信息到socket上，用函数bind();* 可选<br>　　4、设置要连接的对方的IP地址和端口等属性；<br>　　5、连接服务器，用函数connect()；<br>　　6、收发数据，用函数send()和recv()，或者read()和write();<br>　　7、关闭网络连接；</p>
+<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP:"></a>UDP:</h3><p>与之对应的UDP编程步骤要简单许多，分别如下：<br>　　UDP编程的服务器端一般步骤是：<br>　　1、创建一个socket，用函数socket()；<br>　　2、设置socket属性，用函数setsockopt();* 可选<br>　　3、绑定IP地址、端口等信息到socket上，用函数bind();<br>　　4、循环接收数据，用函数recvfrom();<br>　　5、关闭网络连接； </p>
+<p>UDP编程的客户端一般步骤是：<br>　　1、创建一个socket，用函数socket()；<br>　　2、设置socket属性，用函数setsockopt();* 可选<br>　　3、绑定IP地址、端口等信息到socket上，用函数bind();* 可选<br>　　4、设置对方的IP地址和端口等属性;<br>　　5、发送数据，用函数sendto();<br>　　6、关闭网络连接；</p>
+<p>TCP和UDP是OSI模型中的运输层中的协议。TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。</p>
+<h3 id="UDP补充："><a href="#UDP补充：" class="headerlink" title="UDP补充："></a>UDP补充：</h3><p>   UDP不提供复杂的控制机制，利用IP提供面向无连接的通信服务。并且它是将应用程序发来的数据在收到的那一刻，立刻按照原样发送到网络上的一种机制。即使是出现网络拥堵的情况下，UDP也无法进行流量控制等避免网络拥塞的行为。此外，传输途中如果出现了丢包，UDO也不负责重发。甚至当出现包的到达顺序乱掉时也没有纠正的功能。如果需要这些细节控制，那么不得不交给由采用UDO的应用程序去处理。换句话说，UDP将部分控制转移到应用程序去处理，自己却只提供作为传输层协议的最基本功能。UDP有点类似于用户说什么听什么的机制，但是需要用户充分考虑好上层协议类型并制作相应的应用程序。</p>
+<h3 id="TCP补充："><a href="#TCP补充：" class="headerlink" title="TCP补充："></a>TCP补充：</h3><p>  TCP充分实现了数据传输时各种控制功能，可以进行丢包的重发控制，还可以对次序乱掉的分包进行顺序控制。而这些在UDP中都没有。此外，TCP作为一种面向有连接的协议，只有在确认通信对端存在时才会发送数据，从而可以控制通信流量的浪费。TCP通过检验和、序列号、确认应答、重发控制、连接管理以及窗口控制等机制实现可靠性传输。</p>
+<h3 id="TCP与UDP区别总结："><a href="#TCP与UDP区别总结：" class="headerlink" title="TCP与UDP区别总结："></a>TCP与UDP区别总结：</h3><p>1、TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接<br>2、TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保   证可靠交付<br>3、TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>  UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）<br>4、每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信<br>5、TCP首部开销20字节;UDP的首部开销小，只有8个字节<br>6、TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</p>
 
       
     </div>
@@ -472,8 +465,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/27/python中TCP协议中的粘包问题/" rel="next" title="python中TCP协议中的粘包问题">
-                <i class="fa fa-chevron-left"></i> python中TCP协议中的粘包问题
+              <a href="/2019/10/02/基于UDP的服务器端和客户端/" rel="next" title="基于UDP的服务器端和客户端">
+                <i class="fa fa-chevron-left"></i> 基于UDP的服务器端和客户端
               </a>
             
           </div>
@@ -481,10 +474,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/27/Socket的粘包和分包的处理/" rel="prev" title="Socket的粘包和分包的处理">
-                Socket的粘包和分包的处理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -618,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#socket的发送和接收缓冲区"><span class="nav-number">1.</span> <span class="nav-text">socket的发送和接收缓冲区</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总结TCP和UDP区别"><span class="nav-number">1.</span> <span class="nav-text">总结TCP和UDP区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP与UDP基本区别"><span class="nav-number">1.0.1.</span> <span class="nav-text">TCP与UDP基本区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP应用场景："><span class="nav-number">1.0.2.</span> <span class="nav-text">UDP应用场景：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体编程时的区别"><span class="nav-number">1.0.3.</span> <span class="nav-text">具体编程时的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编程区别"><span class="nav-number">1.0.4.</span> <span class="nav-text">编程区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP"><span class="nav-number">1.0.5.</span> <span class="nav-text">TCP:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP编程的客户端一般步骤是："><span class="nav-number">1.0.6.</span> <span class="nav-text">TCP编程的客户端一般步骤是：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP"><span class="nav-number">1.0.7.</span> <span class="nav-text">UDP:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP补充："><span class="nav-number">1.0.8.</span> <span class="nav-text">UDP补充：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP补充："><span class="nav-number">1.0.9.</span> <span class="nav-text">TCP补充：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP与UDP区别总结："><span class="nav-number">1.0.10.</span> <span class="nav-text">TCP与UDP区别总结：</span></a></li></ol></li></ol></div>
             
 
           </div>
